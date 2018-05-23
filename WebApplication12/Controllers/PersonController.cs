@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Chatalo.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication12.Models;
+using ChatloWeb.Models;
 
-namespace WebApplication12.Controllers
+namespace ChatloWeb.Controllers
 {
     [Route("api/[controller]")]
     public class PersonController : Controller

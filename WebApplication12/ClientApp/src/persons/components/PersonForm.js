@@ -9,7 +9,6 @@ import { Toolbar } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withRouter } from "react-router-dom";
-import transitions from '@material-ui/core/styles/transitions';
 
 const styles = theme => ({
     button: {

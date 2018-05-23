@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace WebApplication12
+namespace ChatloWeb
 {
     public class Startup
     {
