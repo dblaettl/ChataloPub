@@ -52,11 +52,48 @@ namespace Chatalo.Repository
         {
             return await _Context.Persons.ToListAsync();
         }
+        public async Task<IList<Board>> GetAllBoardsAsync()
+        {
+            return await _Context.Boards.ToListAsync();
+        }
 
         public async Task<Person> GetPersonAsync(int id)
         {
             return await _Context.Persons.Where(p => p.PersonId == id).SingleAsync();
         }
 
+        public async Task<IList<BoardCategory>> GetCategoriesForBoardAsync(int boardId)
+        {
+            return await _Context.BoardCategories.Where(bc => bc.BoardId == boardId).ToListAsync();
+        }
+
+        public async Task<IList<Discussion>> GetDiscussionsForBoardCategoryAsync(int boardCategoryId)
+        {
+            return await _Context.Discussions.Where(d => d.BoardCategoryId == boardCategoryId).ToListAsync();
+        }
+
+        public async Task<IList<Post>> GetPostsForDiscussionAsync(int discussionId)
+        {
+            return await _Context.Posts.Where(p => p.DiscussionId == discussionId).ToListAsync();
+        }
+
+        public async Task<Discussion> AddDiscussion(Discussion discussion)
+        {
+            var entity = await _Context.Discussions.AddAsync(discussion);
+            await _Context.SaveChangesAsync();
+            return entity.Entity;
+        }
+
+        public async Task<Post> AddPost(Post post)
+        {
+            var entity = await _Context.Posts.AddAsync(post);
+            await _Context.SaveChangesAsync();
+            return entity.Entity;
+        }
+
+        public Task<Discussion> GetDiscussionAsync(int id)
+        {
+            return _Context.Discussions.Where(d => d.DiscussionId == id).FirstAsync();
+        }
     }
 }
