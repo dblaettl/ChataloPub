@@ -23,12 +23,11 @@ const styles = theme => ({
 
 const CategoryDetail = (props) => {
     const { classes } = props;
- 
     return (
         <div className={classes.chipDiv}>
            <Typography variant="headline">{props.category.name}</Typography>
             <Typography variant="subheading">{props.category.description}</Typography>
-            {props.category !== null && props.category.discussions !== undefined && props.category.discussions.map((item, index) => <DiscussionDetail key={index} boardId={props.boardId} categoryId={props.category.boardCategoryId} discussion={props.discussions.byHash[item]} />)}
+            {props.category !== null && props.category.discussions !== undefined && props.category.discussions.map((item, index) => <DiscussionDetail key={item} boardId={props.boardId} categoryId={props.category.boardCategoryId} discussion={props.discussions.byHash[item]} />)}
 
             <Paper className={classes.paper}>
                 <IconButton className={classes.rightButton} aria-label="Add" component={Link} to={`/forums/${props.boardId}/categories/${props.category.boardCategoryId}/discussions`} >

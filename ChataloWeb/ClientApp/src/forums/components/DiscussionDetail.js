@@ -29,7 +29,6 @@ const styles = theme => ({
 
 const DiscussionDetail = (props) => {
     const { classes } = props;
-
     return (
         <Link to={`/forums/${props.boardId}/categories/${props.categoryId}/discussions/${props.discussion.discussionId}/posts`} className={classes.link}>
             <Card className={classes.card}>

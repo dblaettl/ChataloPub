@@ -15,44 +15,23 @@ class ForumController extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        // we're getting this board for the first time
-        if (nextProps.boards !== this.props.boards) {
-            nextProps.boards.byId.forEach(boardId => {
-                let hashItem = nextProps.boards.byHash[boardId];
-                let currentHashItem = this.props.boards.byHash[boardId];
-                if (hashItem.categories === undefined || currentHashItem === undefined) {
-                    this.props.getCategoriesForBoard(boardId);
-                } else {
-                    hashItem.categories.forEach(id => {
-                        if (currentHashItem !== undefined) {
-                            let currentCategoryHash = this.props.categories.byHash[id];
-                            if (currentCategoryHash === undefined || currentCategoryHash.discussions === undefined) {
-                                this.props.getDiscussionsForCategory(id, 0, 10);
-                            }
-                        }
-                    });
-                }
-            });
-        }
-        else
-        {
-            nextProps.boards.byId.forEach(boardId => {
-                let hashItem = nextProps.boards.byHash[boardId];
-                let currentHashItem = this.props.boards.byHash[boardId];
-                if (hashItem.categories === undefined || currentHashItem === undefined) {
-                    this.props.getCategoriesForBoard(boardId);
-                } else {     
-                    hashItem.categories.forEach(id => {
-                        if (currentHashItem !== undefined) {
-                            let currentCategoryHash = this.props.categories.byHash[id];
-                            if (currentCategoryHash === undefined || currentCategoryHash.discussions === undefined) {
-                                this.props.getDiscussionsForCategory(id, 0, 10);
-                            }
-                        }
-                    });
-                }
-            });
-        }
+ 
+ 
+        nextProps.boards.byId.forEach(boardId => {
+            let nextHashItem = nextProps.boards.byHash[boardId];
+            let currentHashItem = this.props.boards.byHash[boardId];
+            if (currentHashItem === undefined || nextHashItem.categories === undefined) {
+                this.props.getCategoriesForBoard(boardId);
+            } else {
+                nextHashItem.categories.forEach(boardCategoryId => {
+                    let nextcategory = nextProps.categories.byHash[boardCategoryId];
+                    let thiscategory = this.props.categories.byHash[boardCategoryId];
+                    if (thiscategory === undefined || nextcategory.discussions === undefined) {
+                        this.props.getDiscussionsForCategory(boardCategoryId);
+                    } 
+                });
+            }
+        });
     }
 
     render() {

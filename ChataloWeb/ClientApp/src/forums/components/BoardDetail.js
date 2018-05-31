@@ -36,7 +36,7 @@ const BoardDetail = (props) => {
                 </IconButton>
             </Toolbar>
         </AppBar>
-            {props.board.categories !== undefined && props.board.categories.map((item, index) => <CategoryDetail key={index} boardId={props.board.boardId} discussions={props.discussions} category={props.categories.byHash[item]} />)}
+            {props.board.categories !== undefined && props.board.categories.map((item, index) => <CategoryDetail key={item} boardId={props.board.boardId} discussions={props.discussions} category={props.categories.byHash[item]} />)}
         </div>
     );
 };
