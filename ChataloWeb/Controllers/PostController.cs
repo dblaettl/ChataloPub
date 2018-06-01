@@ -48,7 +48,7 @@ namespace ChataloWeb.Controllers
         {
         }
 
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/Post/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

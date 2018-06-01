@@ -1,4 +1,6 @@
-﻿const requestPagedPersonsType = 'REQUEST_PAGED_PERSONS';
+﻿import { arrayToMap, updateHash } from './storeHelpers';
+
+const requestPagedPersonsType = 'REQUEST_PAGED_PERSONS';
 const receivePagedPersonsType = 'RECEIVE_PAGED_PERSONS';
 const requestPersonType = 'REQUEST_PERSON';
 const receivePersonType = 'RECEIVE_PERSON';
@@ -6,7 +8,7 @@ const addPersonType = 'ADD_PERSON';
 const editPersonType = 'EDIT_PERSON';
 const deletePersonType = 'DELETE_PERSON';
 
-const initialState = { persons: [], person: null, id: null, offset: -1, limit: 0, isLoading: false };
+const initialState = { persons: { byId: [], byHash: {} }, person: null, id: null, offset: -1, limit: 0, isLoading: false };
 
 export const actionCreators = {
     pagePersons: (offset, limit) => async (dispatch, getState) => {
@@ -64,12 +66,14 @@ export const actionCreators = {
     }
 };
 
+ 
 export const reducer = (state, action) => {
     state = state || initialState;
     switch (action.type) {
         case requestPagedPersonsType:
             return {
                 ...state,
+                persons: { byId: [], byHash: {} },
                 offset: action.offset,
                 limit: action.limit,
                 isLoading: true
@@ -79,7 +83,7 @@ export const reducer = (state, action) => {
                 ...state,
                 offset: action.offset,
                 limit: action.limit,
-                persons: action.persons,
+                persons: { byId: action.persons.map(b => b.personId), byHash: arrayToMap(action.persons, 'personId') },
                 isLoading: false
             };
         case requestPersonType:

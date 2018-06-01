@@ -39,7 +39,7 @@ const styles = theme => ({
 
 class DiscussionForm extends Component {
     componentWillMount() {
-        if (this.props.discussion !== null) {
+        if (this.props.discussion !== undefined) {
             this.setState({
                 'title': this.props.discussion.title, 'message': ''
             });
@@ -51,7 +51,7 @@ class DiscussionForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.discussion !== null) {
+        if (nextProps.discussion !== undefined) {
             this.setState({
                 'title': nextProps.discussion.title, 'message': ''
             });
@@ -63,7 +63,7 @@ class DiscussionForm extends Component {
     }
 
     handleSaveClick = event => {
-        if (this.props.discussion !== null) {
+        if (this.props.discussion !== undefined) {
            //edit
             let discussion = {
                 discussionId: this.props.discussion.discussionId,
@@ -101,7 +101,7 @@ class DiscussionForm extends Component {
                             </IconButton>
                         </Tooltip>
                     <Typography variant="title" color="inherit" className={classes.flex}>
-                        {this.props.discussion === null ? "Add" : "Edit"} Discussion
+                        {this.props.discussion === undefined ? "Add" : "Edit"} Discussion
             </Typography>
                         <Tooltip title="Save">
                                 <IconButton className={classes.button} aria-label="Save" onClick={this.handleSaveClick}  >

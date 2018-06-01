@@ -1,4 +1,6 @@
-﻿const requestBoardsType = 'REQUEST_BOARDS_TYPE';
+﻿import { arrayToMap, updateHash, itemToMap } from './storeHelpers';
+
+const requestBoardsType = 'REQUEST_BOARDS_TYPE';
 const receiveBoardsType = 'RECEIVE_BOARDS_TYPE';
 const requestCategoriesForBoardType = 'REQUEST_CATEGORIES_FOR_BOARD_TYPE';
 const receiveCategoriesForBoardType = 'RECEIVE_CATEGORIES_FOR_BOARD_TYPE';
@@ -82,28 +84,7 @@ export const actionCreators = {
     }
 };
 
-function updateHash(stateEntities, id, val) {
-    return {
-        ...stateEntities,
-        byHash: {
-            ...stateEntities.byHash,
-            [id]:  val
-        }
-    };
-}
-
-const itemToMap = (item, keyField) => {
-    let map = {};
-    map[item[keyField]] = item;
-    return map;
-};
-
-const arrayToMap = (array, keyField) =>
-    array.reduce((obj, item) => {
-        obj[item[keyField]] = item;
-        return obj;
-    }, {});
-
+ 
 export const reducer = (state, action) => {
     state = state || initialState;
     switch (action.type) {

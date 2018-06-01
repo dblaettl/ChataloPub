@@ -18,8 +18,12 @@ namespace Chatalo.Repository.Data
         [Column]
         public string Email { get; set; }
         [Column]
+        public string Password { get; set; }
+        [Column]
         public string City { get; set; }
         [Column]
         public string State { get; set; }
+        [Column]
+        public DateTime DateCreated { get; set; }
     }
 }
