@@ -12,7 +12,7 @@ const styles = theme => ({
     },
     oddDiv: {
         overflow: 'hidden',
-        padding: theme.spacing.unit,
+        padding: theme.spacing.unit
     },
     avatar: {
         float: 'left',

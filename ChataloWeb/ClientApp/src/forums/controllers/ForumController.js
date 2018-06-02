@@ -15,34 +15,22 @@ class ForumController extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
- 
- 
-        nextProps.boards.byId.forEach(boardId => {
-            let nextHashItem = nextProps.boards.byHash[boardId];
-            let currentHashItem = this.props.boards.byHash[boardId];
-            if (currentHashItem === undefined || nextHashItem.categories === undefined) {
-                this.props.getCategoriesForBoard(boardId);
-            } else {
-                nextHashItem.categories.forEach(boardCategoryId => {
-                    let nextcategory = nextProps.categories.byHash[boardCategoryId];
-                    let thiscategory = this.props.categories.byHash[boardCategoryId];
-                    if (thiscategory === undefined || nextcategory.discussions === undefined) {
-                        this.props.getDiscussionsForCategory(boardCategoryId);
-                    } 
-                });
-            }
-        });
+
     }
 
     render() {
         return (
             <div>
                 {this.props.boards !== null &&
-                    this.props.boards.byId.map((item, index) => {
-                        let hashItem = this.props.boards.byHash[item];
-                    return <BoardDetail key={item} board={hashItem} categories={this.props.categories} discussions={this.props.discussions} getCategoriesForBoard={this.getCategoriesForBoard} getDiscussionsForCategory={this.getDiscussionsForCategory} />;
-                    }
-                    )}            
+                    this.props.boards.byId.map((item, index) =>
+                    <BoardDetail
+                        key={item}
+                        board={this.props.boards.byHash[item]}
+                        categories={this.props.categories}
+                        discussions={this.props.discussions}
+                        getCategoriesForBoard={this.props.getCategoriesForBoard}
+                        getDiscussionsForCategory={this.props.getDiscussionsForCategory}
+                    />)}            
             </div>
         );
     }
