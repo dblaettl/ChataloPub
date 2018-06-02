@@ -21,12 +21,17 @@ namespace Chatalo.Repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // SQL Server doesn't store DateTimeKind so we'll need to set this when we retrieve the data back
             modelBuilder
                 .Entity<Post>()
                 .Property(e => e.DateCreated)
                 .HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
             modelBuilder
                 .Entity<Discussion>()
+                .Property(e => e.DateCreated)
+                .HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+            modelBuilder
+                .Entity<Person>()
                 .Property(e => e.DateCreated)
                 .HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
         }
