@@ -1,6 +1,4 @@
-﻿import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
-import React from 'react';
+﻿import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
@@ -26,10 +24,7 @@ const theme = createMuiTheme({
             main: green[500],
             dark: green[700]
         }
-    },
-    typography: {
-         fontSize: 24
-    }
+    } 
 });
 // Get the application-wide store instance, prepopulating with state from the server where available.
 const initialState = window.initialReduxState;

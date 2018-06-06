@@ -17,9 +17,7 @@ const styles = theme => ({
         }
     },
     link: {
-        '&:hover': {
-            textDecoration: 'none'
-        }
+        textDecoration: 'none'
     },
     floating: {
         float: 'right'

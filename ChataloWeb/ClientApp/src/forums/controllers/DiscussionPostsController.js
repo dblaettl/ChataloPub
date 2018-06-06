@@ -14,17 +14,12 @@ class DiscussionPostsController extends Component {
         let id = this.props.match.params.discussionId;
         if (id !== undefined) {
             this.props.getDiscussion(id);
-            this.props.getPostsForDiscussion(id);
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        let id = nextProps.match.params.discussionId;
-        if (id !== undefined) {
-            if (id !== this.props.discussionId) {
-                    this.props.getDiscussion(id);
-                    this.props.getPostsForDiscussion(id);
-            }
+          if (nextProps.discussionId !== this.props.discussionId) {
+              this.props.getPostsForDiscussion(nextProps.discussionId);
         }
     }
 

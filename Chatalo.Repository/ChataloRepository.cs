@@ -40,7 +40,6 @@ namespace Chatalo.Repository
             var foundPerson = await _Context.Persons.Where(p => p.PersonId == id).SingleAsync();
             foundPerson.FirstName = person.FirstName;
             foundPerson.LastName = person.LastName;
-            foundPerson.Email = person.Email;
             foundPerson.City = person.City;
             foundPerson.State = person.State;
             await _Context.SaveChangesAsync();
@@ -86,6 +85,7 @@ namespace Chatalo.Repository
 
         public async Task<Post> AddPost(Post post)
         {
+            post.DateCreated = DateTime.UtcNow;
             var entity = await _Context.Posts.AddAsync(post);
             await _Context.SaveChangesAsync();
             return entity.Entity;

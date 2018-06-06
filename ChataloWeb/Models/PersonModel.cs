@@ -14,7 +14,6 @@ namespace ChatloWeb.Models
                 PersonId = person.PersonId,
                 FirstName = person.FirstName,
                 LastName = person.LastName,
-                Email = person.Email,
                 City = person.City,
                 State = person.State
             };
@@ -26,7 +25,6 @@ namespace ChatloWeb.Models
                 PersonId = person.PersonId,
                 FirstName = person.FirstName,
                 LastName = person.LastName,
-                Email = person.Email,
                 City = person.City,
                 State = person.State
             };

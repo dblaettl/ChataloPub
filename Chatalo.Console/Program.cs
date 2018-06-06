@@ -11,7 +11,7 @@ namespace Chatalo.ConsoleApp
         {
             System.Console.WriteLine("Hello World");
             var repository = new ChataloRepository(null);
-            var pesonToAdd = new Person() { FirstName = "David", LastName = "Blaettler", City = "El Cajon", State = "California", Email = "dblaettl@yahoo.com" };
+            var pesonToAdd = new Person() { FirstName = "David", LastName = "Blaettler", City = "El Cajon", State = "California" };
             var addedPerson = repository.AddPersonAsync(pesonToAdd).Result;
             Console.WriteLine(addedPerson.PersonId);
             var persons = repository.GetAllPersonsAsync().Result;

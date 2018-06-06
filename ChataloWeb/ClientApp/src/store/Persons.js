@@ -1,4 +1,4 @@
-﻿import { arrayToMap, updateHash } from './storeHelpers';
+﻿import { arrayToMap } from './storeHelpers';
 
 const requestPagedPersonsType = 'REQUEST_PAGED_PERSONS';
 const receivePagedPersonsType = 'RECEIVE_PAGED_PERSONS';

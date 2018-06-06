@@ -1,4 +1,5 @@
 ﻿using Chatalo.Repository.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Chatalo.Repository
 {
  
 
-    public class ChataloContext : DbContext
+    public class ChataloContext : IdentityDbContext<AppUser>
     {
         public ChataloContext(DbContextOptions<ChataloContext> options) : base(options) { }
         public DbSet<Person> Persons { get; set; }
@@ -21,6 +22,10 @@ namespace Chatalo.Repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<AppUser>()
+                 .HasOne(au => au.Person).WithOne(p => p.AppUser);
+            
             // SQL Server doesn't store DateTimeKind so we'll need to set this when we retrieve the data back
             modelBuilder
                 .Entity<Post>()

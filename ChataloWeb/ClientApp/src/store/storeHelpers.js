@@ -19,3 +19,15 @@ export const itemToMap = (item, keyField) => {
     map[item[keyField]] = item;
     return map;
 };
+
+export async function handleErrors(response, options) {
+    if (!response.ok) {
+        var result = await fetch(response.url, options).then(res => {
+            if (!res.ok) throw Error(res.statusText);
+            else return res;
+        }).catch(error => console.log(error));
+        return result;
+    } else {
+        return response;
+    }
+}
