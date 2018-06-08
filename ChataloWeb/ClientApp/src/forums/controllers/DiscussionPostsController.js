@@ -13,21 +13,18 @@ class DiscussionPostsController extends Component {
     componentWillMount() {
         let id = this.props.match.params.discussionId;
         if (id !== undefined) {
-            this.props.getDiscussion(id);
+           this.props.getDiscussion(id);
         }
     }
 
     componentWillReceiveProps(nextProps) {
-          if (nextProps.discussionId !== this.props.discussionId) {
-              this.props.getPostsForDiscussion(nextProps.discussionId);
-        }
     }
 
     render() {
         const discussion = this.props.discussions.byHash[this.props.match.params.discussionId];
         return (
             <div>
-                {discussion !== undefined && <DiscussionPosts discussion={discussion} posts={this.props.posts} addPost={this.props.addPost} />}
+                {discussion !== undefined && <DiscussionPosts discussion={discussion} persons={this.props.persons} posts={this.props.posts} getPostsForDiscussion={this.props.getPostsForDiscussion} addPost={this.props.addPost} />}
             </div>
         );
     }

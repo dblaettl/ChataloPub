@@ -57,7 +57,6 @@ function PersonTable(props) {
                     <TableRow>
                         <TableCell className={classes.head}>First Name</TableCell>
                         <TableCell className={classes.head}>Last Name</TableCell>
-                        <TableCell className={classes.head}>Email</TableCell>
                         <TableCell className={classes.head}>City</TableCell>
                         <TableCell className={classes.head}>State</TableCell>
                     </TableRow>
@@ -68,7 +67,6 @@ function PersonTable(props) {
                             return <TableRow key={item} className={classes.row} >
                                 <TableCell><NavLink to={`/persons/detail/${person.personId}`}>{person.firstName}</NavLink></TableCell>
                                 <TableCell>{person.lastName}</TableCell>
-                                <TableCell>{person.email}</TableCell>
                                 <TableCell>{person.city}</TableCell>
                                 <TableCell >{person.state}</TableCell>
                             </TableRow>

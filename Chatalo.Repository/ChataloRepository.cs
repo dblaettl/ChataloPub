@@ -87,13 +87,23 @@ namespace Chatalo.Repository
         {
             post.DateCreated = DateTime.UtcNow;
             var entity = await _Context.Posts.AddAsync(post);
+            var discussion = await _Context.Discussions.Where(d => d.DiscussionId == post.DiscussionId).FirstAsync();
+            discussion.NumPosts = discussion.NumPosts + 1;
             await _Context.SaveChangesAsync();
             return entity.Entity;
         }
 
-        public Task<Discussion> GetDiscussionAsync(int id)
+        public async Task<Discussion> GetDiscussionAsync(int id)
         {
-            return _Context.Discussions.Where(d => d.DiscussionId == id).FirstAsync();
+            var discussion = await _Context.Discussions.Where(d => d.DiscussionId == id).FirstAsync();
+            discussion.NumViews = discussion.NumViews + 1;
+            await _Context.SaveChangesAsync();
+            return discussion;
+        }
+
+        public async Task<Person> GetPersonByAppUseridAsync(string appUserid)
+        {
+            return await _Context.Persons.Where(p => p.AppUserId == appUserid).FirstAsync();
         }
     }
 }

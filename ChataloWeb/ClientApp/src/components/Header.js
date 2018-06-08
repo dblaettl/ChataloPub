@@ -32,7 +32,7 @@ class Header extends Component {
         this.state = { showDialog: false };
     }
     componentWillMount() {
-         
+        this.props.attemptReLogin();
     }
 
     componentWillReceiveProps(nextProps) {

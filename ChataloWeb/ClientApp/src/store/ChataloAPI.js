@@ -7,6 +7,16 @@ export function updateTokenData(data) {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.auth_token;
 }
 
+export function assureCurrentToken() {
+    const token = window.localStorage.getItem('token');
+    if (token !== undefined) {
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+        return true;
+    } else {
+        return false;
+    }
+}
+
 axios.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
@@ -16,7 +26,7 @@ axios.interceptors.response.use(function (response) {
         const refreshToken = window.localStorage.getItem('refreshToken');
         const id = window.localStorage.getItem('id');
         if (refreshToken !== undefined && id !== undefined) {
-            return axios.post('https://localhost:44328/auth/refresh', { id, refreshToken })
+            return axios.post('https://localhost:44328/api/auth/refresh', { id, refreshToken })
                 .then(({ data }) => {
                     window.localStorage.setItem('token', data.auth_token);
                     window.localStorage.setItem('refreshToken', data.refresh_token);

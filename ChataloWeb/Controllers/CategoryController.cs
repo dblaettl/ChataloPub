@@ -37,31 +37,5 @@ namespace ChataloWeb.Controllers
             var discussions = await _Repository.GetDiscussionsForBoardCategoryAsync(id);
             return discussions.Select(d => d.ToDiscussionModel()).ToList();
         }
-
-
-        // GET: api/Category/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST: api/Category
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT: api/Category/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

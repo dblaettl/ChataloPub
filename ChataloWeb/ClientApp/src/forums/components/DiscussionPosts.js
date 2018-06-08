@@ -41,10 +41,13 @@ const styles = theme => ({
 class DiscussionPosts extends Component {
     componentWillMount() {
         this.setState({ showDialog: false, message: '' });
+        if (this.props.discussion.posts === undefined) {
+            this.props.getPostsForDiscussion(this.props.discussion.discussionId);
+        }
     }
 
     componentWillReceiveProps(nextProps) {
-
+ 
     }
 
     showDialog = event => {
@@ -71,17 +74,17 @@ class DiscussionPosts extends Component {
     };
 
     render() {
-        const { classes, posts, discussion } = this.props;
+        const { classes, posts, discussion, persons } = this.props;
         
         return (
             <Card>
                 <CardHeader title={discussion.title} />
                 <CardContent>
-                    <PostDetail message={discussion.message} date={discussion.dateCreated} index={-1} user='dblaettl' />
+                    <PostDetail message={discussion.message} date={discussion.dateCreated} index={-1} person={persons.byHash[discussion.createdByPersonId]} />
                     {discussion.posts !== undefined  
                         && discussion.posts.map((p, index) => {
                         let post = posts.byHash[p];
-                        return <PostDetail key={p} message={post.message} date={post.dateCreated} index={index} user='dblaettl' />;
+                        return <PostDetail key={p} message={post.message} date={post.dateCreated} index={index} person={persons.byHash[post.createdByPersonId]} />;
                         })
                          
                     }

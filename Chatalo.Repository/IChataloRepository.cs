@@ -9,6 +9,7 @@ namespace Chatalo.Repository
         Task<Person> GetPersonAsync(int id);
         Task<Person> AddPersonAsync(Person person);
         Task<Person> EditPersonAsync(int id, Person person);
+        Task<Person> GetPersonByAppUseridAsync(string appUserid);
         Task<IList<Person>> GetAllPersonsAsync();
         Task<bool> DeletePersonAsync(int id);
 

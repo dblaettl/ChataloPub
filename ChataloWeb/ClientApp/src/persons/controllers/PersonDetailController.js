@@ -19,12 +19,14 @@ class PersonDetailController extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        /*
         let id = nextProps.match.params.id;
         if (id !== undefined) {
             if (this.props.person === null || id !== this.props.person.id) {
                 this.props.getPerson(id);
             }
         }
+        */
     }
 
  

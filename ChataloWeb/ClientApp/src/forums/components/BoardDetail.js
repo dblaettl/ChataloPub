@@ -31,9 +31,7 @@ class BoardDetail extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.board.categories === undefined) {
-            this.props.getCategoriesForBoard(nextProps.board.boardId);
-        } 
+ 
     }
 
     render() {

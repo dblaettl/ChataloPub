@@ -19,7 +19,8 @@ namespace ChataloWeb.Models
                 Message = discussion.Message,
                 NumPosts = discussion.NumPosts,
                 NumViews = discussion.NumViews,
-                DateCreated = discussion.DateCreated
+                DateCreated = discussion.DateCreated,
+                CreatedByPersonId = discussion.CreatedByPersonId
             };
         }
 
@@ -30,7 +31,7 @@ namespace ChataloWeb.Models
                 BoardCategoryId = discussionModel.BoardCategoryId,
                 DiscussionId = discussionModel.DiscussionId,
                 Title = discussionModel.Title,
-                Message = discussionModel.Message
+                Message = discussionModel.Message,
             };
         }
     }
@@ -43,6 +44,7 @@ namespace ChataloWeb.Models
         public string Message { get; set; }
         public int NumViews { get; set; }
         public int NumPosts { get; set; }
+        public int CreatedByPersonId { get; set; }
         public DateTime DateCreated { get; set; } 
     }
 }

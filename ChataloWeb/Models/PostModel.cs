@@ -15,6 +15,7 @@ namespace ChataloWeb.Models
             {
                 PostId = post.PostId,
                 DiscussionId = post.DiscussionId,
+                CreatedByPersonId = post.CreatedByPersonId,
                 Message = post.Message,
                 DateCreated = post.DateCreated
             };
@@ -37,6 +38,7 @@ namespace ChataloWeb.Models
         public int PostId { get; set; }
         public int DiscussionId { get; set; }
         public string Message { get; set; }
+        public int CreatedByPersonId { get; set; }
         public DateTime DateCreated { get; set; } 
     }
 }

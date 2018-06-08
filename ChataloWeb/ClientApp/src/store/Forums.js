@@ -1,5 +1,5 @@
-﻿import { arrayToMap, updateHash, itemToMap, handleErrors } from './storeHelpers';
-import ChataloAPI, { updateTokenData } from './ChataloAPI';
+﻿import { arrayToMap, updateHash, itemToMap } from './storeHelpers';
+import ChataloAPI from './ChataloAPI';
 
 const requestBoardsType = 'REQUEST_BOARDS_TYPE';
 const receiveBoardsType = 'RECEIVE_BOARDS_TYPE';
@@ -9,6 +9,8 @@ const requestDiscussionsForCategoryType = 'REQUEST_DISCUSSSION_FOR_CATEGORY_TYPE
 const receiveDiscussonsForCategoryType = 'RECEIVE_DISCUSSIONS_FOR_CATEGORY_TYPE';
 const requestDiscussionType = 'REQUEST_DISCUSSION_TYPE';
 const receiveDiscussionType = 'RECEIVE_DISCUSSION_TYPE';
+const requestPersonType = 'REQUEST_PERSON_TYPE';
+const receivePersonType = 'RECEIVE_PERSON_TYPE';
 const requestPostsForDiscussionType = 'REQUEST_POSTS_FOR_DISCUSSION_TYPE';
 const receivePostsForDiscussionType = 'RECEIVE_POSTS_FOR_DISCUSSION_TYPE';
 const addDiscussionType = 'ADD_DISCUSSION_TYPE';
@@ -19,6 +21,7 @@ const initialState = {
     categories: { byId: [], byHash: {} },
     discussions: { byId: [], byHash: {} },
     posts: { byId: [], byHash: {} },
+    persons: { byId: [], byHash: {} },
     numLoading: 0,
     discussionId: 0
 };
@@ -35,6 +38,10 @@ export const actionCreators = {
         ChataloAPI.post(`api/post`, post )
             .then(res => {
                 const returnedPost = res.data;
+                const personsByHash = getState().forums.persons.byHash;
+                if (personsByHash[returnedPost.createdByPersonId] === undefined) {
+                    dispatch(actionCreators.getPerson(returnedPost.createdByPersonId));
+                }
                 dispatch({ type: addPostType, returnedPost });
             });     
     },
@@ -46,15 +53,26 @@ export const actionCreators = {
                 dispatch({ type: receiveBoardsType, boards });
             });
     },
+    getPerson: (id) => async (dispatch, getState) => {
+        dispatch({ type: requestPersonType, personId: id });
+        ChataloAPI.get(`api/person/${id}`)
+            .then(res => {
+                const person = res.data;
+                dispatch({ type: receivePersonType, person });
+            });
+    },
     getDiscussion: (id) => async (dispatch, getState) => {
-        if (getState().forums.discussionId !== id) {  // TODO: Check if this is necessary
+
             dispatch({ type: requestDiscussionType, discussionId: id });
             ChataloAPI.get(`api/discussion/${id}`)
                 .then(res => {
                     const discussion = res.data;
+                    const personsByHash = getState().forums.persons.byHash;
+                    if (personsByHash[discussion.createdByPersonId] === undefined) {
+                        dispatch(actionCreators.getPerson(discussion.createdByPersonId));
+                    }
                     dispatch({ type: receiveDiscussionType, discussion });
                 });
-        }
     },
     getCategoriesForBoard: (boardId) => async (dispatch, getState) => {
         dispatch({ type: requestCategoriesForBoardType, boardId: boardId });
@@ -69,19 +87,19 @@ export const actionCreators = {
         ChataloAPI.get(`api/discussion/${discussionId}/posts`)
             .then(res => {
                 const posts = res.data;
+                const personsByHash = getState().forums.persons.byHash;
+                let idsToAdd = posts.filter(p => personsByHash[p.createdByPersonId] === undefined).map(p => p.createdByPersonId);
+                idsToAdd.forEach(id => dispatch(actionCreators.getPerson(id)));
                 dispatch({ type: receivePostsForDiscussionType, discussionId: discussionId, posts: posts });
             });
     },
     getDiscussionsForCategory: (categoryId, offset, limit) => async (dispatch, getState) => {
-        let currentDiscussions = getState().forums.categories.byHash[categoryId].discussions;
-        if (currentDiscussions === undefined) {  // TODO: Check if this is necessary
-            dispatch({ type: requestDiscussionsForCategoryType, categoryId: categoryId });
-            ChataloAPI.get(`api/category/${categoryId}/discussions`)
-                .then(res => {
-                    const discussions = res.data;
-                    dispatch({ type: receiveDiscussonsForCategoryType, categoryId: categoryId, discussions: discussions });
-                });      
-        }
+        dispatch({ type: requestDiscussionsForCategoryType, categoryId: categoryId });
+        ChataloAPI.get(`api/category/${categoryId}/discussions`)
+            .then(res => {
+                const discussions = res.data;
+                dispatch({ type: receiveDiscussonsForCategoryType, categoryId: categoryId, discussions: discussions });
+            });
     }
 };
 
@@ -182,6 +200,15 @@ export const reducer = (state, action) => {
                 ...state,
                 discussions: updateHash(state.discussions, action.discussion.discussionId, { ...state.discussions.byHash[action.discussion.discussionId], ...action.discussion }),
                 numLoading: state.numLoading--
+            };
+
+        case requestPersonType:
+            return state;
+
+        case receivePersonType:
+            return {
+                ...state,
+                persons: updateHash(state.persons, action.person.personId, { ...state.persons.byHash[action.person.personId], ...action.person })
             };
         default:
             return state;

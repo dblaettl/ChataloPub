@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Chatalo.Repository;
 using Chatalo.Repository.Data;
 using ChataloWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,9 +25,10 @@ namespace ChataloWeb.Controllers
 
         // GET: api/Discussion/5
         [HttpGet("{id}", Name = "GetDiscussion")]
-        public async Task<Discussion> Get(int id)
+        public async Task<DiscussionModel> Get(int id)
         {
-            return await _Repository.GetDiscussionAsync(id);
+            var discussion = await _Repository.GetDiscussionAsync(id);
+            return discussion.ToDiscussionModel();
         }
 
         // GET: api/Discussion/5
@@ -39,31 +41,16 @@ namespace ChataloWeb.Controllers
 
         // POST: api/Discussion
         [HttpPost]
-        public async Task<DiscussionModel> Add([FromBody]DiscussionModel discussion)
+        [Authorize]
+        public async Task<DiscussionModel> Add([FromBody]DiscussionModel model)
         {
-             var addedDiscussion = await _Repository.AddDiscussion(discussion.ToDiscussion());
+            var appUserId = this.User.Claims.First(cl => cl.Type == Helpers.Constants.Strings.JwtClaimIdentifiers.Id).Value;
+            var person = await _Repository.GetPersonByAppUseridAsync(appUserId);
+            var discussion = model.ToDiscussion();
+            discussion.DateCreated = DateTime.UtcNow;
+            discussion.CreatedByPersonId = person.PersonId;
+             var addedDiscussion = await _Repository.AddDiscussion(discussion);
             return addedDiscussion.ToDiscussionModel();
-        }
-
-        // PUT: api/Discussion/5
-        [HttpPut("{id}")]
-        public Discussion Edit(int id, [FromBody]Discussion discussion)
-        {
-            return discussion;
-        }
-
-        // PUT: api/Discussion/5
-        [HttpPut("{id}/addpost")]
-        public Post AddPost(int id, [FromBody]Post post)
-        {
-            return post;
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public bool Delete(int id)
-        {
-            return true;
         }
     }
 }

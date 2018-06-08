@@ -28,9 +28,7 @@ class CategoryDetail extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.category.discussions === undefined) {
-            this.props.getDiscussionsForCategory(nextProps.category.boardCategoryId);
-        }
+
     }
 
     render() {

@@ -9,6 +9,8 @@ import registerServiceWorker from './registerServiceWorker';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import orange from '@material-ui/core/colors/orange';
 import green from '@material-ui/core/colors/green';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 // Create browser history to use in the Redux store
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const history = createBrowserHistory({ basename: baseUrl });
@@ -33,9 +35,10 @@ const store = configureStore(history, initialState);
 const rootElement = document.getElementById('root');
 
 ReactDOM.render(
-  <Provider store={store}>
-        <ConnectedRouter history={history}>
+    <Provider store={store}>       
+        <ConnectedRouter history={history}>        
             <MuiThemeProvider theme={theme}>
+                <CssBaseline />
                 <App />
             </MuiThemeProvider>
     </ConnectedRouter>

@@ -15,7 +15,8 @@ namespace ChatloWeb.Models
                 FirstName = person.FirstName,
                 LastName = person.LastName,
                 City = person.City,
-                State = person.State
+                State = person.State,
+                DateCreated = person.DateCreated
             };
         }
         public static Person ToPerson(this PersonModel person)
@@ -40,5 +41,6 @@ namespace ChatloWeb.Models
         public string Email { get; set; }
         public string City { get; set; }
         public string State { get; set; }
+        public DateTime DateCreated { get; set; }
     }
 }

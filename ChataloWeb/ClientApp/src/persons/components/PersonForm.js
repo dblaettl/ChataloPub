@@ -41,17 +41,17 @@ const styles = theme => ({
 class PersonForm extends Component {
     componentWillMount() {
         if (this.props.person !== null) {
-            this.setState({ 'personId': this.props.person.personId, 'firstName': this.props.person.firstName, 'lastName': this.props.person.lastName, 'email': this.props.person.email, 'city': this.props.person.city, 'state': this.props.person.state, 'editMode': false  });
+            this.setState({ 'personId': this.props.person.personId, 'firstName': this.props.person.firstName, 'lastName': this.props.person.lastName,  'city': this.props.person.city, 'state': this.props.person.state, 'editMode': false  });
         } else {
-            this.setState({ 'personId': 0, 'firstName': '', 'lastName': '', 'email': '', 'city': '', 'state': '', 'editMode': true });
+            this.setState({ 'personId': 0, 'firstName': '', 'lastName': '', 'city': '', 'state': '', 'editMode': true });
         }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.person !== null) {
-            this.setState({ 'personId': nextProps.person.personId, 'firstName': nextProps.person.firstName, 'lastName': nextProps.person.lastName, 'email': nextProps.person.email, 'city': nextProps.person.city, 'state': nextProps.person.state, 'editMode': false });
+            this.setState({ 'personId': nextProps.person.personId, 'firstName': nextProps.person.firstName, 'lastName': nextProps.person.lastName, 'city': nextProps.person.city, 'state': nextProps.person.state, 'editMode': false });
         } else {
-            this.setState({ 'personId': 0, 'firstName': '', 'lastName': '', 'email': '', 'city': '', 'state': '', 'editMode': false });
+            this.setState({ 'personId': 0, 'firstName': '', 'lastName': '', 'city': '', 'state': '', 'editMode': false });
         }
     }
 
@@ -72,7 +72,6 @@ class PersonForm extends Component {
                 personId: this.state['personId'],
                 firstName: this.state['firstName'],
                 lastName: this.state['lastName'],
-                email: this.state['email'],
                 city: this.state['city'],
                 state: this.state['state']
             };
@@ -82,7 +81,6 @@ class PersonForm extends Component {
             let person = {
                 firstName: this.state['firstName'],
                 lastName: this.state['lastName'],
-                email: this.state['email'],
                 city: this.state['city'],
                 state: this.state['state']
             };
@@ -152,15 +150,7 @@ class PersonForm extends Component {
                     onChange={this.handleChange('lastName')}
                     margin="normal"
                 />
-                <TextField
-                    id="email"
-                    label="Email"
-                    className={classes.textField}
-                    value={this.state.email}
-                    onChange={this.handleChange('email')}
-                    disabled={this.state['editMode'] === false}
-                    margin="normal"
-                />
+
                 <TextField
                     id="city"
                     label="City"

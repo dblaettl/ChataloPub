@@ -1,4 +1,4 @@
-﻿import ChataloAPI, { updateTokenData } from './ChataloAPI';
+﻿import ChataloAPI, { updateTokenData, assureCurrentToken } from './ChataloAPI';
 const requestLoginType = 'REQUEST_LOGIN';
 const receiveLoginType = 'RECEIVE_LOGIN';
 const requestUserType = 'REQUEST_USER';
@@ -9,7 +9,28 @@ const logoutType = 'LOGOUT';
 
 const initialState = { user: null, token: null, isLoggedIn: false, isLoading: false };
 
+ 
 export const actionCreators = {
+    attemptReLogin: () => async (dispatch, getState) => {
+        const state = getState().account;
+        if (!state.isLoggedIn && !state.isLoading) {
+            const found = assureCurrentToken();
+            if (found) {
+                dispatch(actionCreators.getUser());
+            }
+        }
+    }, 
+    getUser: () => async (dispatch, getState) => {
+        dispatch({ type: requestUserType });
+        ChataloAPI.get(`api/accounts/user`)
+            .then(res => {
+                const user = res.data;
+                dispatch({ type: receiveUserType, user });
+            });
+    },
+    logout: () => async (dispatch, getState) => {
+        dispatch({ type: logoutType });
+    },
     login: (email, password) => async (dispatch, getState) => {
         dispatch({ type: requestLoginType });
         ChataloAPI.post(`api/auth/login`, { email, password })
@@ -17,12 +38,7 @@ export const actionCreators = {
                 const token = res.data;
                 updateTokenData(token);
                 dispatch({ type: receiveLoginType });
-                dispatch({ type: requestUserType });
-                ChataloAPI.get(`api/accounts/user`)
-                    .then(res => {
-                        const user = res.data;
-                        dispatch({ type: receiveUserType, user });
-                    });
+                dispatch(actionCreators.getUser());
             });
     },
     register: (user) => async (dispatch, getState) => {
@@ -32,12 +48,7 @@ export const actionCreators = {
                 const token = res.data;
                 updateTokenData(token);
                 dispatch({ type: receiveRegistrationType });
-                dispatch({ type: requestUserType });
-                ChataloAPI.get(`api/accounts/user`)
-                    .then(res => {
-                        const createdUser = res.data;
-                        dispatch({ type: receiveUserType, user: createdUser });
-                    });
+                dispatch(actionCreators.getUser());
             });
     } 
 };
@@ -80,6 +91,7 @@ export const reducer = (state, action) => {
             return {
                 ...state,
                 user: action.user,
+                isLoggedIn: true,
                 isLoading: false
             };
         default:
