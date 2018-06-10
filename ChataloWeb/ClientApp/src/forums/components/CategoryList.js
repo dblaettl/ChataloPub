@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AppBar from '@material-ui/core/AppBar';
 import { Toolbar } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import CategoryDetail from './CategoryDetail';
+import DiscussionList from './DiscussionList';
 const styles = theme => ({
     button: {
         margin: theme.spacing.unit
@@ -23,7 +23,7 @@ const styles = theme => ({
 });
 
 
-class BoardDetail extends Component {
+class CategoryList extends Component {
     componentWillMount() {
         if (this.props.board.categories === undefined) {
             this.props.getCategoriesForBoard(this.props.board.boardId);
@@ -41,17 +41,28 @@ class BoardDetail extends Component {
                 <AppBar position='static' color='default'>
                     <Toolbar>
                         <Typography variant="title" color="inherit" className={classes.flex}>{this.props.board.name}</Typography>
-                        <IconButton className={classes.button} aria-label="Add" component={NavLink} to={`/forums/1/categories`} >
+                        <IconButton className={classes.button} aria-label="Add" component={NavLink} to={`/forums/${this.props.board.boardId}/categories/add`} >
                             <Add />
                         </IconButton>
                     </Toolbar>
                 </AppBar>
-                {this.props.board.categories !== undefined && this.props.board.categories.map((item, index) => <CategoryDetail key={item} boardId={this.props.board.boardId} getDiscussionsForCategory={this.props.getDiscussionsForCategory} discussions={this.props.discussions} category={this.props.categories.byHash[item]} />)}
+                {this.props.board.categories !== undefined
+                    && this.props.board.categories.map((item, index) =>
+                    <DiscussionList
+                            key={item}
+                            boardId={this.props.board.boardId}
+                            getDiscussionsForCategory={this.props.getDiscussionsForCategory}
+                            discussions={this.props.discussions}
+                            persons={this.props.persons}
+                            category={this.props.categories.byHash[item]}
+                        />
+                    )
+                }
             </div>
         );
     }
 }
 
 
-BoardDetail.displayName = 'BoardDetail';
-export default withStyles(styles)(BoardDetail);
+CategoryList.displayName = 'CategoryList';
+export default withStyles(styles)(CategoryList);

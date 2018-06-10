@@ -3,13 +3,13 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { actionCreators } from '../../store/Forums';
 import CategoryList from '../components/CategoryList';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import LoadingIndicator from '../components/LoadingIndicator';
 /*
  * Controllers exist to connect the Higher order components with the redux data store.
  * No display code should ever be here
  */
 
-class ForumController extends Component {
+class BoardController extends Component {
     componentWillMount() {
         this.props.getBoards();
     }
@@ -22,7 +22,7 @@ class ForumController extends Component {
         return (
             <div>
                 {this.props.numLoading > 0
-                    ? <div style={{ height: 294, width: '100%', alignItems: 'center' }}><CircularProgress style={{ alignItems: 'center' }} size={50} thickness={7} /></div>
+                    ? <LoadingIndicator/>
                     : this.props.boards.byId.map((item, index) =>
                         <CategoryList
                             key={item}
@@ -38,8 +38,8 @@ class ForumController extends Component {
     }
 }
  
-ForumController.displayName = 'ForumController';
+BoardController.displayName = 'BoardController';
 export default connect(
     state => state.forums,
     dispatch => bindActionCreators(actionCreators, dispatch)
-)(ForumController);
+)(BoardController);

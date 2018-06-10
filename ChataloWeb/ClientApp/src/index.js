@@ -8,7 +8,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import orange from '@material-ui/core/colors/orange';
-import green from '@material-ui/core/colors/green';
+import indigo from '@material-ui/core/colors/indigo';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 // Create browser history to use in the Redux store
@@ -22,9 +22,9 @@ const theme = createMuiTheme({
             dark: orange[900]
         },
         secondary: {
-            light: green[100],
-            main: green[500],
-            dark: green[700]
+            light: indigo[100],
+            main: indigo[500],
+            dark: indigo[700]
         }
     } 
 });

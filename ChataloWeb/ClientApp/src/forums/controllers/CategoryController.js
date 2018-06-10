@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router';
 import { connect } from 'react-redux';
 import { actionCreators } from '../../store/Forums';
 import DiscussionFormController from './DiscussionFormController';
-import DiscussionPostsController from './DiscussionPostsController';
+import DiscussionPageController from './DiscussionPageController';
 /*
  * Controllers exist to connect the Higher order components with the redux data store.
  * No display code should ever be here
@@ -23,7 +23,7 @@ class CategoryController extends Component {
         return (
             <Switch>
                 <Route exact path='/forums/:boardId/categories/:categoryId/discussions' component={DiscussionFormController} />
-                <Route path='/forums/:boardId/categories/:categoryId/discussions/:discussionId/posts' component={DiscussionPostsController} />
+                <Route path='/forums/:boardId/categories/:categoryId/discussions/:discussionId/posts' component={DiscussionPageController} />
             </Switch>
         );
     }

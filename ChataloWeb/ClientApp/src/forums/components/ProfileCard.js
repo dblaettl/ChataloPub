@@ -3,17 +3,28 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Moment from 'react-moment';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+
 
 const styles = theme => ({
     card: {
         borderRadius: '10px',
-        textAlign: 'center'
+        textAlign: 'center',
+        width: '120px',
+        justifyContent: 'center',
+        padding: '5px',
+        color: theme.palette.secondary.dark,
+        borderColor: theme.palette.secondary.main,
+        borderWidth: '2px',
+        backgroundColor: 'white',
+        borderStyle: 'solid'
     },
-    avatar: {
-        marginLeft: 25, /* fake centering for now */
-        margin: theme.spacing.unit
+    text: {
+        color: theme.palette.secondary.dark
+    },
+    avatar: {      
+        marginLeft: 32,
+        margin: theme.spacing.unit,
+        backgroundColor: theme.palette.secondary.main
     }
 });
 
@@ -22,22 +33,11 @@ const ProfileCard = (props) => {
     const { classes } = props;
 
     return (
-        <Card className={classes.card}>
-            {props.person !== undefined
-                ? <CardContent>
-                    <Avatar className={classes.avatar}>{props.person.firstName.charAt(0).toUpperCase() + props.person.lastName.charAt(0).toUpperCase()}</Avatar>
-                    <Typography variant='body2'>
-                        {props.person.firstName} {props.person.lastName}
-                    </Typography>
-                    <Typography variant='body2'>
-                        <Moment format='MMM D, YYYY'>{props.person.dateCreated}</Moment>
-                    </Typography>
-                </CardContent>
-                : <CardContent>
-                    <Avatar className={classes.avatar}>?</Avatar>
-                </CardContent>
-            }
-        </Card>
+        <div className={classes.card}>
+            {props.person !== undefined && <Typography variant='body2'>{props.person.firstName} {props.person.lastName}</Typography>}
+            {props.person !== undefined && <div style={{ width: '100%', justifyContent: 'center' }}><Avatar className={classes.avatar}>{props.person.firstName.charAt(0).toUpperCase() + props.person.lastName.charAt(0).toUpperCase()}</Avatar></div>}
+            {props.person !== undefined && <Typography variant='body2' className={classes.text}><Moment format='MMM D, YYYY'>{props.person.dateCreated}</Moment></Typography>}
+        </div>
     );
 };
 ProfileCard.displayName = 'ProfileCard';

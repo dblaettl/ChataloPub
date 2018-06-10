@@ -1,33 +1,15 @@
 ﻿import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import PostDetail from './PostDetail';
-import Dialog from '@material-ui/core/Dialog';
-import TextField from '@material-ui/core/TextField';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
+import { Button, Dialog, DialogContent, DialogTitle, DialogActions, TextField } from '@material-ui/core';
 import Add from '@material-ui/icons/Add';
-import { DialogContent } from '@material-ui/core';
-import { DialogActions } from '@material-ui/core';
 
 const styles = theme => ({
-    chipDiv: {
-        padding: 6
-    },
-    button: {
-        float: 'right' 
-    },
-    actionPanel: {
-        overflow: 'hidden'
+    container: {
+        padding: theme.spacing.unit
     },
     floating: {
         float: 'right',
-        marginBottom: theme.spacing.unit
-    },
-    container: {
-        padding: theme.spacing.unit
+        bottom: theme.spacing.unit * 3
     },
     textField: {
         marginLeft: theme.spacing.unit,
@@ -38,16 +20,13 @@ const styles = theme => ({
 
 
 
-class DiscussionPosts extends Component {
+class PostDialog extends Component {
     componentWillMount() {
         this.setState({ showDialog: false, message: '' });
-        if (this.props.discussion.posts === undefined) {
-            this.props.getPostsForDiscussion(this.props.discussion.discussionId);
-        }
     }
 
     componentWillReceiveProps(nextProps) {
- 
+
     }
 
     showDialog = event => {
@@ -66,7 +45,7 @@ class DiscussionPosts extends Component {
 
     handlePost = event => {
         var post = {
-            discussionId: this.props.discussion.discussionId,
+            discussionId: this.props.discussionId,
             message: this.state.message
         };
         this.props.addPost(post);
@@ -74,24 +53,12 @@ class DiscussionPosts extends Component {
     };
 
     render() {
-        const { classes, posts, discussion, persons } = this.props;
-        
+        const { classes } = this.props;
         return (
-            <Card>
-                <CardHeader title={discussion.title} />
-                <CardContent>
-                    <PostDetail message={discussion.message} date={discussion.dateCreated} index={-1} person={persons.byHash[discussion.createdByPersonId]} />
-                    {discussion.posts !== undefined  
-                        && discussion.posts.map((p, index) => {
-                        let post = posts.byHash[p];
-                        return <PostDetail key={p} message={post.message} date={post.dateCreated} index={index} person={persons.byHash[post.createdByPersonId]} />;
-                        })
-                         
-                    }
-                    <Button variant="fab" mini color="primary" aria-label="add" className={classes.floating} onClick={this.showDialog}>
-                        <Add />
-                    </Button>
-                </CardContent>
+            <div>
+            <Button variant="fab" mini color="primary" aria-label="add" className={classes.floating} onClick={this.showDialog}>
+                <Add />
+            </Button>
                 <Dialog open={this.state.showDialog} onClose={this.hideDialog}>
                     <DialogTitle style={{ width: 500 }}>
                         Add Post
@@ -116,10 +83,10 @@ class DiscussionPosts extends Component {
                         <Button aria-label="post" onClick={this.handlePost}>Post</Button>
                     </DialogActions>
                 </Dialog>
-            </Card>
+                </div>
         );
     }
 }
 
-DiscussionPosts.displayName = 'DiscussionPosts';
-export default withStyles(styles)(DiscussionPosts);
+PostDialog.displayName = 'PostDialog';
+export default withStyles(styles)(PostDialog);

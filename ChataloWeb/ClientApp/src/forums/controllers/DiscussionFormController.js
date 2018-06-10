@@ -18,13 +18,7 @@ class DiscussionFormController extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        /*
-        let id = nextProps.match.params.discussionId;
-        if (id !== undefined) {
-            if (this.props.discussion === null || id !== this.props.discussion.discussionId) {
-                this.props.getDiscussion(id);
-            }
-        */
+
     }
 
     render() {

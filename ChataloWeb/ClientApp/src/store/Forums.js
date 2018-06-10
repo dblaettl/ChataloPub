@@ -98,6 +98,9 @@ export const actionCreators = {
         ChataloAPI.get(`api/category/${categoryId}/discussions`)
             .then(res => {
                 const discussions = res.data;
+                const personsByHash = getState().forums.persons.byHash;
+                let idsToAdd = discussions.filter(d => personsByHash[d.createdByPersonId] === undefined).map(d => d.createdByPersonId);
+                idsToAdd.forEach(id => dispatch(actionCreators.getPerson(id)));
                 dispatch({ type: receiveDiscussonsForCategoryType, categoryId: categoryId, discussions: discussions });
             });
     }

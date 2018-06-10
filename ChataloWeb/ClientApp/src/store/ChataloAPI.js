@@ -17,7 +17,13 @@ export function assureCurrentToken() {
     }
 }
 
-axios.interceptors.response.use(function (response) {
+const instance = axios.create({
+    baseURL: 'https://localhost:44328/',
+    timeout: 10000,
+    params: {}
+});
+
+instance.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
     const originalRequest = error.config;
@@ -40,6 +46,4 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(error);
 });
 
-export default axios.create({
-   // baseURL: 'https://localhost:44328/'
-});
+export default instance;

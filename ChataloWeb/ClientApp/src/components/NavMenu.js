@@ -20,10 +20,17 @@ const styles = theme => ({
         backgroundColor: theme.palette.primary.light,
         '&:focus': {
             outline: 0,
-            textDecoration: 'none'
+            textDecoration: 'none' 
+  
+        },
+        '&:hover': {
+            backgroundColor: theme.palette.primary.main
         }
     },
-    unselected: {
+    unselected: {    
+        '&:hover': {
+            backgroundColor: theme.palette.primary.main
+        }
     },
     toolbar: theme.mixins.toolbar
 });

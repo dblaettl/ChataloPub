@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Chatalo.Repository;
+using ChataloWeb.Helpers;
 using ChataloWeb.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -28,8 +29,7 @@ namespace ChataloWeb.Controllers
         [HttpPost]
         public async Task<PostModel> Add([FromBody]PostModel model)
         {
-            var appUserId = this.User.Claims.First(cl => cl.Type == Helpers.Constants.Strings.JwtClaimIdentifiers.Id).Value;
-            var person = await _Repository.GetPersonByAppUseridAsync(appUserId);
+            var person = await _Repository.GetPersonForClaimsPrincipalAsync(this.User);
             var post = model.ToPost();
             post.DateCreated = DateTime.UtcNow;
             post.CreatedByPersonId = person.PersonId;
