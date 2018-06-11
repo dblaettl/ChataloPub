@@ -1,4 +1,6 @@
 ﻿using Chatalo.Repository.Data;
+using ChataloWeb.Models.Validators;
+using FluentValidation.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +21,19 @@ namespace ChataloWeb.Models
                 Description = category.Description
             };
         }
+
+        public static BoardCategory ToBoardCategory(this BoardCategoryModel model)
+        {
+            return new BoardCategory()
+            {
+                BoardCategoryId = model.BoardCategoryId,
+                BoardId = model.BoardId,
+                Name = model.Name,
+                Description = model.Description
+            };
+        }
     }
+    [Validator(typeof(BoardCategoryModelValidator))]
     public class BoardCategoryModel
     {
         public int BoardCategoryId { get; set; }

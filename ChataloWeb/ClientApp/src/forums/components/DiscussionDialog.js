@@ -9,7 +9,7 @@ const styles = theme => ({
     },
     floating: {
         float: 'right',
-        top: theme.spacing.unit * 1
+        top: theme.spacing.unit
     },
     textField: {
         marginLeft: theme.spacing.unit,
@@ -20,9 +20,9 @@ const styles = theme => ({
 
 
 
-class PostDialog extends Component {
+class DiscussionDialog extends Component {
     componentWillMount() {
-        this.setState({ showDialog: false, message: '' });
+        this.setState({ showDialog: false, title: '', message: '' });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -30,7 +30,7 @@ class PostDialog extends Component {
     }
 
     showDialog = event => {
-        this.setState({ showDialog: true, message: '' });
+        this.setState({ showDialog: true, title: '', message: '' });
     };
 
     hideDialog = event => {
@@ -43,12 +43,13 @@ class PostDialog extends Component {
         });
     };
 
-    handlePost = event => {
-        var post = {
-            discussionId: this.props.discussionId,
+    handleAdd = event => {
+        var discussion = {
+            boardCategoryId: this.props.categoryId,
+            title: this.state.title,
             message: this.state.message
         };
-        this.props.addPost(post);
+        this.props.addDiscussion(discussion);
         this.setState({ showDialog: false });
     };
 
@@ -61,11 +62,19 @@ class PostDialog extends Component {
             </Button>
                 <Dialog open={this.state.showDialog} onClose={this.hideDialog}>
                     <DialogTitle style={{ width: 500 }}>
-                        Add Post
+                        Add Category
                     </DialogTitle>
                     <DialogContent>
                         <form className={classes.container} noValidate autoComplete="off">
                             <div>
+                                <TextField
+                                    id="title"
+                                    label="Title"
+                                    className={classes.textField}
+                                    value={this.state.title}
+                                    onChange={this.handleChange('title')}
+                                    margin="normal"
+                                />
                                 <TextField
                                     id="message"
                                     label="Message"
@@ -80,7 +89,7 @@ class PostDialog extends Component {
                         </form>
                     </DialogContent>
                     <DialogActions>
-                        <Button aria-label="post" onClick={this.handlePost}>Post</Button>
+                        <Button aria-label="add" onClick={this.handleAdd}>Add Discussion</Button>
                     </DialogActions>
                 </Dialog>
                 </div>
@@ -88,5 +97,5 @@ class PostDialog extends Component {
     }
 }
 
-PostDialog.displayName = 'PostDialog';
-export default withStyles(styles)(PostDialog);
+DiscussionDialog.displayName = 'DiscussionDialog';
+export default withStyles(styles)(DiscussionDialog);

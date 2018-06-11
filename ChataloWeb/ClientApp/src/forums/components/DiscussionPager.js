@@ -24,7 +24,7 @@ const DiscussionPager = (props) => {
             <IconButton className={classes.rightButton}
                 aria-label="Add"
                 component={Link}
-                to={`/forums/${props.boardId}/categories/${props.boardCategoryId}/discussions`}
+                to={`/forums/${props.boardId}/categories/${props.boardCategoryId}/adddiscussion`}
             >
                 <Add />
             </IconButton>

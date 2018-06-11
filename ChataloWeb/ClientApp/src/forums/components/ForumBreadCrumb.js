@@ -55,12 +55,13 @@ const styles = theme => ({
         '& ul li:last-child a': {
             borderBottomRightRadius: 10,
             borderTopRightRadius: 10,
-            paddingRight: 20
+            paddingRight: 20,
+            pointerEvents: 'none'
         },
         '& ul li:last-child a:after': {
             display: 'none'
         },
-        '& ul li a:hover': {
+        '& ul li:not(:last-child) a:hover': {
             background: theme.palette.primary.main
         },
         '& ul li a:hover:after': {
@@ -76,8 +77,10 @@ const DiscussionBreadCrumb = (props) => {
     return (
         <div className={classes.breadcrumb}> 
             <ul>
-            {props.board !== undefined && props.board !== null && <li><Link to='/forums' className={classes.link} >{props.board.name}</Link></li>}
-                {props.category !== undefined && props.category !== null && <li><Link to='/forums' className={classes.link}>{props.category.name}</Link></li>}     
+                <li><Link to='/forums' className={classes.link} >Top</Link></li>
+                {props.board !== undefined && props.board !== null && <li><Link to={`/forums/${props.board.boardId}`} className={classes.link} >{props.board.name}</Link></li>}
+                {props.category !== undefined && props.category !== null && <li><Link to={`/forums/${props.board.boardId}/categories/${props.category.boardCategoryId}`} className={classes.link}>{props.category.name}</Link></li>}     
+                {props.discussion !== undefined && props.discussion !== null && <li><a href='never'>Discussion</a></li>}     
             </ul>
         </div>
     );

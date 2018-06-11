@@ -9,7 +9,7 @@ const styles = theme => ({
     },
     floating: {
         float: 'right',
-        top: theme.spacing.unit * 1
+        top: theme.spacing.unit
     },
     textField: {
         marginLeft: theme.spacing.unit,
@@ -20,9 +20,9 @@ const styles = theme => ({
 
 
 
-class PostDialog extends Component {
+class BoardDialog extends Component {
     componentWillMount() {
-        this.setState({ showDialog: false, message: '' });
+        this.setState({ showDialog: false, name: '', description: '' });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -30,7 +30,7 @@ class PostDialog extends Component {
     }
 
     showDialog = event => {
-        this.setState({ showDialog: true, message: '' });
+        this.setState({ showDialog: true, name: '', description: '' });
     };
 
     hideDialog = event => {
@@ -43,12 +43,12 @@ class PostDialog extends Component {
         });
     };
 
-    handlePost = event => {
-        var post = {
-            discussionId: this.props.discussionId,
-            message: this.state.message
+    handleAdd = event => {
+        var board = {
+            name: this.state.name,
+            description: this.state.description
         };
-        this.props.addPost(post);
+        this.props.addBoard(board);
         this.setState({ showDialog: false });
     };
 
@@ -61,26 +61,32 @@ class PostDialog extends Component {
             </Button>
                 <Dialog open={this.state.showDialog} onClose={this.hideDialog}>
                     <DialogTitle style={{ width: 500 }}>
-                        Add Post
+                        Add Board
                     </DialogTitle>
                     <DialogContent>
                         <form className={classes.container} noValidate autoComplete="off">
                             <div>
                                 <TextField
-                                    id="message"
-                                    label="Message"
-                                    multiline
-                                    rows={4}
+                                    id="name"
+                                    label="Name"
                                     className={classes.textField}
-                                    value={this.state.message}
-                                    onChange={this.handleChange('message')}
+                                    value={this.state.name}
+                                    onChange={this.handleChange('name')}
+                                    margin="normal"
+                                />
+                                <TextField
+                                    id="description"
+                                    label="Description"
+                                    className={classes.textField}
+                                    value={this.state.description}
+                                    onChange={this.handleChange('description')}
                                     margin="normal"
                                 />
                             </div>
                         </form>
                     </DialogContent>
                     <DialogActions>
-                        <Button aria-label="post" onClick={this.handlePost}>Post</Button>
+                        <Button aria-label="add" onClick={this.handleAdd}>Add Board</Button>
                     </DialogActions>
                 </Dialog>
                 </div>
@@ -88,5 +94,5 @@ class PostDialog extends Component {
     }
 }
 
-PostDialog.displayName = 'PostDialog';
-export default withStyles(styles)(PostDialog);
+BoardDialog.displayName = 'BoardDialog';
+export default withStyles(styles)(BoardDialog);

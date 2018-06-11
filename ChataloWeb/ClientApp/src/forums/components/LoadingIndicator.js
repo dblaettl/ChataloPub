@@ -14,12 +14,14 @@ const styles = theme => ({
 });
 
 
-const ProfileCard = (props) => {
+const LoadingIndicator = (props) => {
     const { classes } = props;
 
     return (
-        <div className={classes.progressContainer}><CircularProgress className={classes.circularProgress} size={50} thickness={7} /></div>
+        <div>
+            {props.numLoading > 0 && <div className={classes.progressContainer}><CircularProgress className={classes.circularProgress} size={50} thickness={7} /></div>}
+        </div>
     );
 };
-ProfileCard.displayName = 'ProfileCard';
-export default withStyles(styles)(ProfileCard);
+LoadingIndicator.displayName = 'LoadingIndicator';
+export default withStyles(styles)(LoadingIndicator);

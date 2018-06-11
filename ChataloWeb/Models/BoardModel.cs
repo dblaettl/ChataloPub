@@ -18,6 +18,16 @@ namespace ChataloWeb.Models
                 Description = board.Description
             };
         }
+
+        public static Board ToBoard(this BoardModel model)
+        {
+            return new Board()
+            {
+                BoardId = model.BoardId,
+                Name = model.Name,
+                Description = model.Description
+            };
+        }
     }
     public class BoardModel
     {

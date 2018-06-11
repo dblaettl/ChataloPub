@@ -3,10 +3,10 @@ import { withStyles } from '@material-ui/core/styles';
 import { RemoveRedEye, Message } from '@material-ui/icons';
 import Card from '@material-ui/core/Card';
 import { Link } from 'react-router-dom';
-import Avatar from '@material-ui/core/Avatar';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
+import PersonAvatar from './PersonAvatar';
 
 const styles = theme => ({
     card: {
@@ -24,10 +24,6 @@ const styles = theme => ({
         display: 'flex',
         justifyContent: 'center'
     },
-    avatar: {
-        marginTop: theme.spacing.unit * 2,
-        margin: theme.spacing.unit
-    },
     badge: {
         margin: theme.spacing.unit
     },
@@ -42,24 +38,13 @@ const styles = theme => ({
     }
 });
 
-
-const PersonAvatar = (props) => {
-    return (
-        <div>
-            {props.person !== undefined &&
-                <Avatar className={props.classes.avatar}>{props.person.firstName.charAt(0).toUpperCase() + props.person.lastName.charAt(0).toUpperCase()}</Avatar>
-            }
-        </div>
-        );
-};
-PersonAvatar.displayName = 'PersonAvatar';
 const DiscussionListItem = (props) => {
     const { classes } = props;
     return (
         <Link to={`/forums/${props.boardId}/categories/${props.categoryId}/discussions/${props.discussion.discussionId}/posts`} className={classes.link}>
             <Card className={classes.card}>
                 <CardContent className={classes.content}>
-                    <PersonAvatar classes={props.classes} person={props.persons.byHash[props.discussion.createdByPersonId]} />
+                    <PersonAvatar person={props.persons.byHash[props.discussion.createdByPersonId]} />
                     <div className={classes.text} >
                         <Tooltip classes={{ tooltip: classes.tooltip }} title={props.discussion.message}>
                     <Typography variant="headline" style={{ textDecoration: 'none', marginTop: 12 }}>{props.discussion.title}</Typography>

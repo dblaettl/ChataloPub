@@ -14,7 +14,12 @@ const receivePersonType = 'RECEIVE_PERSON_TYPE';
 const requestPostsForDiscussionType = 'REQUEST_POSTS_FOR_DISCUSSION_TYPE';
 const receivePostsForDiscussionType = 'RECEIVE_POSTS_FOR_DISCUSSION_TYPE';
 const addDiscussionType = 'ADD_DISCUSSION_TYPE';
+const addCategoryType = 'ADD_CATEGORY_TYPE';
 const addPostType = 'ADD_POST_TYPE';
+const addBoardType = 'ADD_BOARD_TYPE';
+const clearErrorDataType = 'CLEAR_ERROR_DATA';
+const updateErrorDataType = 'UPDATE_ERROR_DATA';
+const showDialogType = 'SHOW_DIALOG';
 
 const initialState = {
     boards: { byId: [], byHash: {} },
@@ -23,6 +28,8 @@ const initialState = {
     posts: { byId: [], byHash: {} },
     persons: { byId: [], byHash: {} },
     numLoading: 0,
+    showDialog: false,
+    errorData: null,
     discussionId: 0
 };
 
@@ -33,6 +40,29 @@ export const actionCreators = {
                 const returnedDiscussion = res.data;
                 dispatch({ type: addDiscussionType, returnedDiscussion });
             });       
+    },
+    setShowDialog: (showDialog) => async (dispatch, getState) => {
+        dispatch({ type: showDialogType, showDialog });
+    },
+    addCategory: (category) => async (dispatch, getState) => {
+        dispatch({ type: clearErrorDataType });
+        ChataloAPI.post(`api/category`, category)
+            .then(
+                response => {
+                    const returnedCategory = response.data;
+                    dispatch({ type: addCategoryType, returnedCategory });
+                },
+                error => {
+                    dispatch({ type: updateErrorDataType, errorData: error.response.data });
+                }
+            );
+    },
+    addBoard: (board) => async (dispatch, getState) => {
+        ChataloAPI.post(`api/board`, board)
+            .then(res => {
+                const returnedBoard = res.data;
+                dispatch({ type: addBoardType, returnedBoard });
+            });
     },
     addPost: (post) => async (dispatch, getState) => {
         ChataloAPI.post(`api/post`, post )
@@ -85,13 +115,18 @@ export const actionCreators = {
     getPostsForDiscussion: (discussionId) => async (dispatch, getState) => {
         dispatch({ type: requestPostsForDiscussionType, discussionId: discussionId });
         ChataloAPI.get(`api/discussion/${discussionId}/posts`)
-            .then(res => {
-                const posts = res.data;
-                const personsByHash = getState().forums.persons.byHash;
-                let idsToAdd = posts.filter(p => personsByHash[p.createdByPersonId] === undefined).map(p => p.createdByPersonId);
-                idsToAdd.forEach(id => dispatch(actionCreators.getPerson(id)));
-                dispatch({ type: receivePostsForDiscussionType, discussionId: discussionId, posts: posts });
-            });
+            .then(
+                response => {
+                    const posts = response.data;
+                    const personsByHash = getState().forums.persons.byHash;
+                    let idsToAdd = posts.filter(p => personsByHash[p.createdByPersonId] === undefined).map(p => p.createdByPersonId);
+                    idsToAdd.forEach(id => dispatch(actionCreators.getPerson(id)));
+                    dispatch({ type: receivePostsForDiscussionType, discussionId: discussionId, posts: posts });
+                },
+                error => {
+                    let foo = error;
+                }
+            );
     },
     getDiscussionsForCategory: (categoryId, offset, limit) => async (dispatch, getState) => {
         dispatch({ type: requestDiscussionsForCategoryType, categoryId: categoryId });
@@ -180,15 +215,55 @@ export const reducer = (state, action) => {
         case addDiscussionType:
             return {
                 ...state,
-                discussion: action.returnedDiscussion
+                categories: updateHash(
+                    state.categories,
+                    action.returnedDiscussion.boardCategoryId,
+                    {
+                        ...state.categories.byHash[action.returnedDiscussion.boardCategoryId],
+                        discussions: state.categories.byHash[action.returnedDiscussion.boardCategoryId].discussions.concat(action.returnedDiscussion.discussionId)
+                    }),
+                discussions: {
+                    ...state.discussions,
+                    byHash: { ...state.discussions.byHash, ...itemToMap(action.returnedDiscussion, 'discussionId') }
+                }
+            };
+
+        case addCategoryType:
+            return {
+                ...state,
+                boards: updateHash(
+                    state.boards,
+                    action.returnedCategory.boardId,
+                    {
+                        ...state.boards.byHash[action.returnedCategory.boardId],
+                        categories: state.boards.byHash[action.returnedCategory.boardId].categories.concat(action.returnedCategory.boardCategoryId)
+                    }),
+                categories: {
+                    ...state.categories,
+                    byHash: { ...state.categories.byHash, ...itemToMap(action.returnedCategory, 'boardCategoryId') }
+                },
+                numLoading: state.numLoading--,
+                showDialog: false
+            };
+
+        case addBoardType:
+            return {
+                ...state,
+                boards: {
+                    ...state.boards,
+                    byId: state.boards.byId.concat(action.returnedBoard.boardId),
+                    byHash: {
+                        ...state.boards.byHash,
+                        ...itemToMap(action.returnedBoard, 'boardId')
+                    }
+                }
             };
 
         case addPostType:
             return {
                 ...state,
                 discussions: updateHash(state.discussions, action.returnedPost.discussionId, { ...state.discussions.byHash[action.returnedPost.discussionId], posts: state.discussions.byHash[action.returnedPost.discussionId].posts.concat(action.returnedPost.postId) }),
-                posts: { ...state.posts, byHash: { ...state.posts.byHash, ...itemToMap(action.returnedPost, 'postId') } },
-                numLoading: state.numLoading--
+                posts: { ...state.posts, byHash: { ...state.posts.byHash, ...itemToMap(action.returnedPost, 'postId') } }
             };
 
         case requestDiscussionType:
@@ -212,6 +287,23 @@ export const reducer = (state, action) => {
             return {
                 ...state,
                 persons: updateHash(state.persons, action.person.personId, { ...state.persons.byHash[action.person.personId], ...action.person })
+            };
+        case clearErrorDataType:
+            return {
+                ...state,         
+                numLoading: state.numLoading++
+            };
+        case updateErrorDataType:
+            return {
+                ...state,
+                errorData: action.errorData,
+                numLoading: state.numLoading--
+            };
+        case showDialogType:
+            return {
+                ...state,
+                errorData: null,
+                showDialog: action.showDialog
             };
         default:
             return state;

@@ -14,7 +14,9 @@ namespace Chatalo.Repository
         Task<bool> DeletePersonAsync(int id);
 
         Task<IList<Board>> GetAllBoardsAsync();
+        Task<Board> AddBoardAsync(Board board);
         Task<IList<BoardCategory>> GetCategoriesForBoardAsync(int boardId);
+        Task<BoardCategory> AddBoardCategoryAsync(BoardCategory category);
         Task<IList<Discussion>> GetDiscussionsForBoardCategoryAsync(int boardCategoryId);
         Task<Discussion> AddDiscussion(Discussion discussion);
         Task<Discussion> GetDiscussionAsync(int id);

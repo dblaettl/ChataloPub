@@ -1,14 +1,10 @@
 ﻿import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import DiscussionListItem from './DiscussionListItem';
 import DiscussionPager from './DiscussionPager';
-
+import ForumBreadCrumb from './ForumBreadCrumb';
+import DiscussionDialog from './DiscussionDialog';
 const styles = theme => ({
-
-    category: {
-        padding: 6
-    }
 });
 
 class DiscussionList extends Component {
@@ -23,18 +19,17 @@ class DiscussionList extends Component {
     }
 
     render() {
-        const { classes } = this.props;
         return (
-            <div className={classes.category}>
-                <Typography variant="headline">{this.props.category.name}</Typography>
-                <Typography variant="subheading">{this.props.category.description}</Typography>
+            <div>
+                <DiscussionDialog categoryId={this.props.category.boardCategoryId} addDiscussion={this.props.addDiscussion} />
+                <ForumBreadCrumb board={this.props.board} category={this.props.category} />
                 {this.props.category !== null
                     && this.props.category.discussions !== undefined
                     && this.props.category.discussions.map((item, index) =>
-                    <DiscussionListItem key={item} boardId={this.props.boardId} persons={this.props.persons} categoryId={this.props.category.boardCategoryId} discussion={this.props.discussions.byHash[item]} />
+                    <DiscussionListItem key={item} boardId={this.props.board.boardId} persons={this.props.persons} categoryId={this.props.category.boardCategoryId} discussion={this.props.discussions.byHash[item]} />
                     )
                 }
-                <DiscussionPager boardId={this.props.boardId} boardCategoryId={this.props.category.boardCategoryId} />
+               
             </div>
         );
     }

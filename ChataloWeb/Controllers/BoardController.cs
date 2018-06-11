@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Chatalo.Repository;
 using Chatalo.Repository.Data;
 using ChataloWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,6 +37,16 @@ namespace ChataloWeb.Controllers
         {
             var categories = await _Repository.GetCategoriesForBoardAsync(id);
             return categories.Select(p => p.ToBoardCategoryModel()).ToList();
+        }
+
+        // POST: api/Category
+        [HttpPost]
+        [Authorize]
+        public async Task<BoardModel> Add([FromBody]BoardModel model)
+        {
+            var board = model.ToBoard();
+            var addedBoard = await _Repository.AddBoardAsync(board);
+            return addedBoard.ToBoardModel();
         }
     }
 }

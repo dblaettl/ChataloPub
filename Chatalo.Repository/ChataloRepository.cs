@@ -105,5 +105,21 @@ namespace Chatalo.Repository
         {
             return await _Context.Persons.Where(p => p.AppUserId == appUserid).FirstAsync();
         }
+
+        public async Task<BoardCategory> AddBoardCategoryAsync(BoardCategory category)
+        {
+            category.DateCreated = DateTime.UtcNow;
+            var entity = await _Context.BoardCategories.AddAsync(category);
+            await _Context.SaveChangesAsync();
+            return entity.Entity;
+        }
+
+        public async Task<Board> AddBoardAsync(Board board)
+        {
+            board.DateCreated = DateTime.UtcNow;
+            var entity = await _Context.Boards.AddAsync(board);
+            await _Context.SaveChangesAsync();
+            return entity.Entity;
+        }
     }
 }

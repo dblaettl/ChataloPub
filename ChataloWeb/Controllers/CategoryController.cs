@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Chatalo.Repository;
 using Chatalo.Repository.Data;
+using ChataloWeb.Helpers;
 using ChataloWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,6 +38,21 @@ namespace ChataloWeb.Controllers
         {
             var discussions = await _Repository.GetDiscussionsForBoardCategoryAsync(id);
             return discussions.Select(d => d.ToDiscussionModel()).ToList();
+        }
+
+        // POST: api/Category
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Add([FromBody]BoardCategoryModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("Summary", "Failed adding category");
+                return BadRequest(ModelState);
+            }
+            var category = model.ToBoardCategory();
+            var addedCategory = await _Repository.AddBoardCategoryAsync(category);
+            return new OkObjectResult(addedCategory.ToBoardCategoryModel());
         }
     }
 }

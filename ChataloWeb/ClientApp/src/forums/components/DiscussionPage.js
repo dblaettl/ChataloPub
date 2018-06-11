@@ -1,8 +1,8 @@
 ﻿import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Paper, Typography, Card, CardHeader, CardContent } from '@material-ui/core';
+import { Typography, Card, CardContent } from '@material-ui/core';
 import PostListItem from './PostListItem';
-import DiscussionBreadCrumb from './DiscussionBreadCrumb';
+import ForumBreadCrumb from './ForumBreadCrumb';
 import PostDialog from './PostDialog';
 import ProfileCard from './ProfileCard';
 import Moment from 'react-moment';
@@ -20,7 +20,7 @@ const styles = theme => ({
     text: {
         position: 'relative',
         padding: theme.spacing.unit * 2
-    },
+    }
 });
 
 class DiscussionPage extends Component {
@@ -39,7 +39,8 @@ class DiscussionPage extends Component {
         const { classes, posts, discussion, persons, categories, boards, categoryId, boardId, addPost } = this.props;    
         return (
             <div>
-                <DiscussionBreadCrumb board={boards.byHash[boardId]} category={categories.byHash[categoryId]} />
+                <PostDialog addPost={addPost} discussionId={discussion.discussionId} />
+                <ForumBreadCrumb board={boards.byHash[boardId]} category={categories.byHash[categoryId]} discussion={discussion} />
                 <Card>
                     <CardContent>
                         <div className={classes.discussionDiv}>
@@ -57,10 +58,9 @@ class DiscussionPage extends Component {
                             return <PostListItem key={p} message={post.message} date={post.dateCreated} index={index} person={persons.byHash[post.createdByPersonId]} />;
                             })
                         }
-                        <PostDialog addPost={addPost} discussionId={discussion.discussionId} />
+                        
                     </CardContent>
                 </Card>
-              
             </div>
         );
     }
