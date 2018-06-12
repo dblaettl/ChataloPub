@@ -25,7 +25,7 @@ namespace ChataloWeb.Controllers
         }
 
         // GET: api/Discussion/5
-        [HttpGet("{id}", Name = "GetDiscussion")]
+        [HttpGet("{id}", Name = "GetDiscussionById")]
         public async Task<DiscussionModel> Get(int id)
         {
             var discussion = await _Repository.GetDiscussionAsync(id);
@@ -33,7 +33,7 @@ namespace ChataloWeb.Controllers
         }
 
         // GET: api/Discussion/5
-        [HttpGet("{id}/posts", Name = "GetPosts")]
+        [HttpGet("{id}/posts", Name = "GetPostsByDiscussionId")]
         public async Task<IEnumerable<PostModel>> GetPosts(int id)
         {
             var posts = await _Repository.GetPostsForDiscussionAsync(id);
@@ -41,16 +41,21 @@ namespace ChataloWeb.Controllers
         }
 
         // POST: api/Discussion
-        [HttpPost]
+        [HttpPost(Name = "AddDiscussion")]
         [Authorize]
-        public async Task<DiscussionModel> Add([FromBody]DiscussionModel model)
+        public async Task<IActionResult> Add([FromBody]DiscussionModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("Summary", "Failed adding discussion");
+                return BadRequest(ModelState);
+            }
             var person = await _Repository.GetPersonForClaimsPrincipalAsync(this.User);
             var discussion = model.ToDiscussion();
             discussion.DateCreated = DateTime.UtcNow;
             discussion.CreatedByPersonId = person.PersonId;
-             var addedDiscussion = await _Repository.AddDiscussion(discussion);
-            return addedDiscussion.ToDiscussionModel();
+             var addedDiscussion = await _Repository.AddDiscussionAsync(discussion);
+            return new OkObjectResult(addedDiscussion.ToDiscussionModel());
         }
     }
 }

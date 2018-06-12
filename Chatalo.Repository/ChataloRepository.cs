@@ -23,18 +23,6 @@ namespace Chatalo.Repository
             return entity.Entity;
         }
 
-        public async Task<bool> DeletePersonAsync(int id)
-        {
-            var foundPerson = await _Context.Persons.Where(p => p.PersonId == id).SingleOrDefaultAsync();
-            if (foundPerson != null)
-            {
-                _Context.Persons.Remove(foundPerson);
-                await _Context.SaveChangesAsync();
-                return true;
-            }
-            return false;
-        }
-
         public async Task<Person> EditPersonAsync(int id, Person person)
         {
             var foundPerson = await _Context.Persons.Where(p => p.PersonId == id).SingleAsync();
@@ -76,19 +64,20 @@ namespace Chatalo.Repository
             return await _Context.Posts.Where(p => p.DiscussionId == discussionId).ToListAsync();
         }
 
-        public async Task<Discussion> AddDiscussion(Discussion discussion)
+        public async Task<Discussion> AddDiscussionAsync(Discussion discussion)
         {
             var entity = await _Context.Discussions.AddAsync(discussion);
             await _Context.SaveChangesAsync();
             return entity.Entity;
         }
 
-        public async Task<Post> AddPost(Post post)
+        public async Task<Post> AddPostAsync(Post post)
         {
-            post.DateCreated = DateTime.UtcNow;
+            post.DateCreated = DateTime.UtcNow; 
+            var discussionTask = _Context.Discussions.Where(d => d.DiscussionId == post.DiscussionId).FirstAsync();
             var entity = await _Context.Posts.AddAsync(post);
-            var discussion = await _Context.Discussions.Where(d => d.DiscussionId == post.DiscussionId).FirstAsync();
-            discussion.NumPosts = discussion.NumPosts + 1;
+            var discussionResult = discussionTask.Result;
+            discussionResult.NumPosts = discussionResult.NumPosts + 1;
             await _Context.SaveChangesAsync();
             return entity.Entity;
         }

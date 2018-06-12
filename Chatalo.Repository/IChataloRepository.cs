@@ -11,16 +11,15 @@ namespace Chatalo.Repository
         Task<Person> EditPersonAsync(int id, Person person);
         Task<Person> GetPersonByAppUseridAsync(string appUserid);
         Task<IList<Person>> GetAllPersonsAsync();
-        Task<bool> DeletePersonAsync(int id);
 
         Task<IList<Board>> GetAllBoardsAsync();
         Task<Board> AddBoardAsync(Board board);
         Task<IList<BoardCategory>> GetCategoriesForBoardAsync(int boardId);
         Task<BoardCategory> AddBoardCategoryAsync(BoardCategory category);
         Task<IList<Discussion>> GetDiscussionsForBoardCategoryAsync(int boardCategoryId);
-        Task<Discussion> AddDiscussion(Discussion discussion);
+        Task<Discussion> AddDiscussionAsync(Discussion discussion);
         Task<Discussion> GetDiscussionAsync(int id);
-        Task<Post> AddPost(Post post);
+        Task<Post> AddPostAsync(Post post);
         Task<IList<Post>> GetPostsForDiscussionAsync(int discussionId);
     
 

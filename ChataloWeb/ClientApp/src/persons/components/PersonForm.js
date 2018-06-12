@@ -1,7 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { Edit, Delete, Save, ViewList } from '@material-ui/icons';
+import { Edit, Save, ViewList } from '@material-ui/icons';
 import IconButton from '@material-ui/core/IconButton';
 import { NavLink } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
@@ -59,11 +59,6 @@ class PersonForm extends Component {
         this.setState({ 'editMode': true });
     };
 
-    handleDeleteClick = event => {
-        this.props.deletePerson(this.state['personId']);
-        this.setState({ 'editMode': false });
-        this.props.history.push("/persons");
-    };
 
     handleSaveClick = event => {
         if (this.props.person !== null) {
@@ -120,14 +115,6 @@ class PersonForm extends Component {
                                 </IconButton>
                             </Tooltip>
                         }
-                        {this.props.person !== null &&
-                            <Tooltip title="Delete">
-                                <IconButton className={classes.button} aria-label="Delete" onClick={this.handleDeleteClick} >
-                                    <Delete />
-                            </IconButton>
-                            </Tooltip>
-                        }
-  
                 </Toolbar>
             </AppBar>
             <form className={classes.container} noValidate autoComplete="off">

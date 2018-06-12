@@ -27,14 +27,19 @@ namespace ChataloWeb.Controllers
         // POST: api/Post
         [Authorize]
         [HttpPost]
-        public async Task<PostModel> Add([FromBody]PostModel model)
+        public async Task<IActionResult> Add([FromBody]PostModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("Summary", "Failed adding post");
+                return BadRequest(ModelState);
+            }
             var person = await _Repository.GetPersonForClaimsPrincipalAsync(this.User);
             var post = model.ToPost();
             post.DateCreated = DateTime.UtcNow;
             post.CreatedByPersonId = person.PersonId;
-            var addedPost = await _Repository.AddPost(post);
-            return addedPost.ToPostModel();
+            var addedPost = await _Repository.AddPostAsync(post);
+            return new OkObjectResult(addedPost.ToPostModel());
         }
     }
 }

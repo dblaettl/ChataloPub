@@ -63,19 +63,5 @@ namespace ChatloWeb.Controllers
                 return BadRequest();
             }
         }
-
-        // POST: User/Delete/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
-        {
-            try
-            {
-                return Ok(await (_Repository.DeletePersonAsync(id)));
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
     }
 }

@@ -48,14 +48,6 @@ export const actionCreators = {
         const returnedPerson = await response.json();
         dispatch({ type: editPersonType, returnedPerson });
     },
-    deletePerson: (id) => async (dispatch, getState) => {
-        const url = `api/person/${id}`;
-        const response = await fetch(url, {
-            method: 'DELETE'
-        });
-        const result = await response.json();
-        dispatch({ type: deletePersonType, result });
-    },
     getPerson: (id) => async (dispatch, getState) => {
         if (id === getState().persons.id) return;
         dispatch({ type: requestPersonType, id });

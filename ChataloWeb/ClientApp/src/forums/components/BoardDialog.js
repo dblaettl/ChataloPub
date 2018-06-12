@@ -1,6 +1,5 @@
 ﻿import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { TextField, Typography } from '@material-ui/core';
 import FormDialog from '../../components/FormDialog';
 import ErrorSummary from '../../components/ErrorSummary';
 import FormDialogTextField from '../../components/FormDialogTextField';
