@@ -18,7 +18,7 @@ class ForumIndex extends Component {
 
     renderBoardList = () => {
         return (
-            <BoardList boards={this.props.boards} addBoard={this.props.addBoard} />
+            <BoardList boards={this.props.boards} setShowDialog={this.props.setShowDialog} showDialog={this.props.showDialog} errorData={this.props.errorData} addBoard={this.props.addBoard} />
         );
     }
 

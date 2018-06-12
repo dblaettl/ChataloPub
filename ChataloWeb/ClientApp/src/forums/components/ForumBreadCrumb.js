@@ -1,6 +1,10 @@
 ﻿import React from 'react';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import { bindActionCreators } from 'redux';
+import { actionCreators } from '../../store/Forums';
 import { Link } from 'react-router-dom';
+
 const styles = theme => ({
     breadcrumb: {
         marginLeft: -40,
@@ -73,17 +77,23 @@ const styles = theme => ({
 
 const DiscussionBreadCrumb = (props) => {
     const { classes } = props;
-
+    const board = props.boards.byHash[props.boardId];
+    const category = props.categories.byHash[props.categoryId];
+    const discussion = props.discussions.byHash[props.discussionId];
     return (
         <div className={classes.breadcrumb}> 
             <ul>
                 <li><Link to='/forums' className={classes.link} >Top</Link></li>
-                {props.board !== undefined && props.board !== null && <li><Link to={`/forums/${props.board.boardId}`} className={classes.link} >{props.board.name}</Link></li>}
-                {props.category !== undefined && props.category !== null && <li><Link to={`/forums/${props.board.boardId}/categories/${props.category.boardCategoryId}`} className={classes.link}>{props.category.name}</Link></li>}     
-                {props.discussion !== undefined && props.discussion !== null && <li><a href='never'>Discussion</a></li>}     
+                {board !== undefined && <li><Link to={`/forums/${board.boardId}`} className={classes.link} >{board.name}</Link></li>}
+                {category !== undefined && <li><Link to={`/forums/${category.boardId}/categories/${category.boardCategoryId}`} className={classes.link}>{category.name}</Link></li>}     
+                {discussion !== undefined && <li><a href='never'>Discussion</a></li>}     
             </ul>
         </div>
     );
 };
 DiscussionBreadCrumb.displayName = 'DiscussionBreadCrumb';
-export default withStyles(styles)(DiscussionBreadCrumb);
+
+export default connect(
+    state => state.forums,
+    dispatch => bindActionCreators(actionCreators, dispatch)
+)(withStyles(styles)(DiscussionBreadCrumb));

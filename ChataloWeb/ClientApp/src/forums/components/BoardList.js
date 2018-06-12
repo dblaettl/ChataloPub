@@ -21,7 +21,12 @@ class CategoryList extends Component {
     render() {
         return (
             <div>
-                <BoardDialog addBoard={this.props.addBoard} />
+                <BoardDialog
+                    addBoard={this.props.addBoard}
+                    showDialog={this.props.showDialog}
+                    setShowDialog={this.props.setShowDialog}
+                    errorData={this.props.errorData}
+                />
                 <ForumBreadCrumb />
                 {this.props.boards.byId.map((item, index) => <BoardListItem key={item} board={this.props.boards.byHash[item]} />)}
             </div>

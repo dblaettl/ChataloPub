@@ -36,11 +36,11 @@ class DiscussionPage extends Component {
     }
 
     render() {
-        const { classes, posts, discussion, persons, categories, boards, categoryId, boardId, addPost } = this.props;    
+        const { classes, posts, discussion, persons, boardId, addPost } = this.props;    
         return (
             <div>
                 <PostDialog addPost={addPost} discussionId={discussion.discussionId} />
-                <ForumBreadCrumb board={boards.byHash[boardId]} category={categories.byHash[categoryId]} discussion={discussion} />
+                <ForumBreadCrumb boardId={boardId} categoryId={discussion.boardCategoryId} discussionId={discussion.discussionId} />
                 <Card>
                     <CardContent>
                         <div className={classes.discussionDiv}>

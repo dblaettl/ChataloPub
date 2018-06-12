@@ -41,10 +41,10 @@ const styles = theme => ({
 const DiscussionListItem = (props) => {
     const { classes } = props;
     return (
-        <Link to={`/forums/${props.boardId}/categories/${props.categoryId}/discussions/${props.discussion.discussionId}/posts`} className={classes.link}>
+        <Link to={`/forums/${props.category.boardId}/categories/${props.category.boardCategoryId}/discussions/${props.discussion.discussionId}/posts`} className={classes.link}>
             <Card className={classes.card}>
                 <CardContent className={classes.content}>
-                    <PersonAvatar person={props.persons.byHash[props.discussion.createdByPersonId]} />
+                    <PersonAvatar person={props.person} />
                     <div className={classes.text} >
                         <Tooltip classes={{ tooltip: classes.tooltip }} title={props.discussion.message}>
                     <Typography variant="headline" style={{ textDecoration: 'none', marginTop: 12 }}>{props.discussion.title}</Typography>

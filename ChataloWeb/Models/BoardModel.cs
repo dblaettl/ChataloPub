@@ -1,4 +1,6 @@
 ﻿using Chatalo.Repository.Data;
+using ChataloWeb.Models.Validators;
+using FluentValidation.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +31,8 @@ namespace ChataloWeb.Models
             };
         }
     }
+
+    [Validator(typeof(BoardModelValidator))]
     public class BoardModel
     {
         public int BoardId { get; set; }

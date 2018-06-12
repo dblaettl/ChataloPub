@@ -1,41 +1,26 @@
 ﻿import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Button, Dialog, DialogContent, DialogTitle, DialogActions, TextField } from '@material-ui/core';
-import Add from '@material-ui/icons/Add';
+import { TextField, Typography } from '@material-ui/core';
+import FormDialog from '../../components/FormDialog';
+import ErrorSummary from '../../components/ErrorSummary';
+import FormDialogTextField from '../../components/FormDialogTextField';
 
 const styles = theme => ({
     container: {
         padding: theme.spacing.unit
-    },
-    floating: {
-        float: 'right',
-        top: theme.spacing.unit
-    },
-    textField: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
-        width: '100%'
     }
 });
 
-
-
 class BoardDialog extends Component {
     componentWillMount() {
-        this.setState({ showDialog: false, name: '', description: '' });
+        this.setState({ name: '', description: '' });
     }
 
     componentWillReceiveProps(nextProps) {
-
+        if (nextProps.showDialog !== this.props.showDialog) {
+            this.setState({ name: '', description: '' });
+        }
     }
-
-    showDialog = event => {
-        this.setState({ showDialog: true, name: '', description: '' });
-    };
-
-    hideDialog = event => {
-        this.setState({ showDialog: false });
-    };
 
     handleChange = name => event => {
         this.setState({
@@ -43,53 +28,24 @@ class BoardDialog extends Component {
         });
     };
 
-    handleAdd = event => {
+    addAction = event => {
         var board = {
             name: this.state.name,
             description: this.state.description
         };
         this.props.addBoard(board);
-        this.setState({ showDialog: false });
     };
 
     render() {
         const { classes } = this.props;
         return (
-            <div>
-            <Button variant="fab" mini color="primary" aria-label="add" className={classes.floating} onClick={this.showDialog}>
-                <Add />
-            </Button>
-                <Dialog open={this.state.showDialog} onClose={this.hideDialog}>
-                    <DialogTitle style={{ width: 500 }}>
-                        Add Board
-                    </DialogTitle>
-                    <DialogContent>
-                        <form className={classes.container} noValidate autoComplete="off">
-                            <div>
-                                <TextField
-                                    id="name"
-                                    label="Name"
-                                    className={classes.textField}
-                                    value={this.state.name}
-                                    onChange={this.handleChange('name')}
-                                    margin="normal"
-                                />
-                                <TextField
-                                    id="description"
-                                    label="Description"
-                                    className={classes.textField}
-                                    value={this.state.description}
-                                    onChange={this.handleChange('description')}
-                                    margin="normal"
-                                />
-                            </div>
-                        </form>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button aria-label="add" onClick={this.handleAdd}>Add Board</Button>
-                    </DialogActions>
-                </Dialog>
-                </div>
+            <FormDialog addAction={this.addAction} title='Add Board' addButtonText='Add Board' showDialog={this.props.showDialog} setShowDialog={this.props.setShowDialog} >
+                <ErrorSummary errorData={this.props.errorData} />
+                <form className={classes.container} noValidate autoComplete="off">
+                    <FormDialogTextField name="name" label="Name" value={this.state.name} errorData={this.props.errorData} onChange={this.handleChange} />
+                    <FormDialogTextField name="description" label="Description" value={this.state.description} errorData={this.props.errorData} onChange={this.handleChange} />
+                </form>
+            </FormDialog>
         );
     }
 }

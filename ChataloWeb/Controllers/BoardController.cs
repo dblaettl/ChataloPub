@@ -42,11 +42,16 @@ namespace ChataloWeb.Controllers
         // POST: api/Category
         [HttpPost]
         [Authorize]
-        public async Task<BoardModel> Add([FromBody]BoardModel model)
+        public async Task<IActionResult> Add([FromBody]BoardModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("Summary", "Failed adding board");
+                return BadRequest(ModelState);
+            }
             var board = model.ToBoard();
             var addedBoard = await _Repository.AddBoardAsync(board);
-            return addedBoard.ToBoardModel();
+            return new OkObjectResult(addedBoard.ToBoardModel());
         }
     }
 }

@@ -4,7 +4,6 @@ import { Route, Switch } from 'react-router';
 import { connect } from 'react-redux';
 import { actionCreators } from '../../store/Forums';
 import DiscussionRouter from './DiscussionRouter';
-import DiscussionForm from '../components/DiscussionForm';
 import DiscussionList from '../components/DiscussionList';
 
 /*
@@ -27,24 +26,21 @@ class CategoryRouter extends Component {
      
     }
 
-    renderDiscussionForm = () => {
-        return <DiscussionForm categoryId={this.props.match.params.categoryId} addDiscussion={this.props.addDiscussion} />;
-    }
-
     renderDiscussionList = () => {
         const category = this.props.categories.byHash[this.props.match.params.categoryId];
-        const board = this.props.boards.byHash[this.props.match.params.boardId];
         return (
             <div>
                 {category !== undefined &&
-                    <DiscussionList
-                        board={board}
-                        category={category}
-                        persons={this.props.persons}
-                        discussions={this.props.discussions}
-                        addDiscussion={this.props.addDiscussion}
-                        getDiscussionsForCategory={this.props.getDiscussionsForCategory}
-                    />
+                <DiscussionList
+                    showDialog={this.props.showDialog}
+                    setShowDialog={this.props.setShowDialog}
+                    errorData={this.props.errorData}
+                    category={category}
+                    persons={this.props.persons}
+                    discussions={this.props.discussions}
+                    addDiscussion={this.props.addDiscussion}
+                    getDiscussionsForCategory={this.props.getDiscussionsForCategory}
+                />
                 }
             </div>
         );

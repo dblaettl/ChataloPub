@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux';
 import { Route, Switch } from 'react-router';
 import { connect } from 'react-redux';
 import { actionCreators } from '../../store/Forums';
-import DiscussionForm from '../components/DiscussionForm';
 import DiscussionPage from '../components/DiscussionPage';
 /*
  * Routers exist to connect the Higher order components with the redux data store.
@@ -24,12 +23,9 @@ class DiscussionRouter extends Component {
 
     renderDiscussionForm = () => {
         return (
-            <DiscussionForm
-                discussion={this.props.discussions.byHash[this.props.match.params.discussionId]}
-                categoryId={this.props.match.params.categoryId}
-                addDiscussion={this.props.addDiscussion}
-                editDiscussion={this.props.editDiscussion}
-            />
+            <div>
+                BOO
+            </div>
         );
     }
 
@@ -39,10 +35,8 @@ class DiscussionRouter extends Component {
             <div>
                 {discussion !== undefined &&
                     <DiscussionPage
-                        boards={this.props.boards}
                         boardId={this.props.match.params.boardId}
                         categoryId={this.props.match.params.categoryId}
-                        categories={this.props.categories}
                         discussion={discussion}
                         persons={this.props.persons}
                         posts={this.props.posts}

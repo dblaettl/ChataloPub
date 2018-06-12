@@ -1,23 +1,12 @@
 ﻿import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Button, Dialog, DialogContent, DialogTitle, DialogActions, TextField, Typography } from '@material-ui/core';
+import { Button, Dialog, DialogContent, DialogTitle, DialogActions } from '@material-ui/core';
 import Add from '@material-ui/icons/Add';
 
 const styles = theme => ({
-    container: {
-        padding: theme.spacing.unit
-    },
-    error: {
-        color: 'red'
-    },
     floating: {
         float: 'right',
         top: theme.spacing.unit
-    },
-    textField: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
-        width: '100%'
     }
 });
 
@@ -52,10 +41,7 @@ class FormDialog extends Component {
                         {this.props.title}
                     </DialogTitle>
                     <DialogContent>
-                        {this.props.errorData !== null && this.props.errorData.Summary !== undefined && <Typography className={classes.error}>{this.props.errorData.Summary}</Typography>}
-                        <form className={classes.container} noValidate autoComplete="off">
-                            {children}
-                        </form>
+                        {this.props.children}
                     </DialogContent>
                     <DialogActions>
                         <Button aria-label="cancel" onClick={this.handleHideDialog}>Cancel</Button>

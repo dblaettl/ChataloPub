@@ -1,9 +1,7 @@
 ﻿import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import { Add } from '@material-ui/icons';
+import { Paper, IconButton } from '@material-ui/core';
 import { ArrowBack, ArrowForward } from '@material-ui/icons';
-import IconButton from '@material-ui/core/IconButton';
 import { Link } from 'react-router-dom';
 
 const styles = theme => ({
@@ -21,12 +19,13 @@ const DiscussionPager = (props) => {
 
     return (
         <Paper className={classes.paper}>
-            <IconButton className={classes.rightButton}
-                aria-label="Add"
+            <IconButton
+                aria-label="Next"
                 component={Link}
-                to={`/forums/${props.boardId}/categories/${props.boardCategoryId}/adddiscussion`}
+                className={classes.rightButton}
+                to={`/forums/${props.boardId}/categories/${props.boardCategoryId}/page`}
             >
-                <Add />
+                <ArrowForward />
             </IconButton>
             <IconButton
                 aria-label="Prev"
@@ -34,13 +33,6 @@ const DiscussionPager = (props) => {
                 to={`/forums/${props.boardId}/categories/${props.boardCategoryId}/page`}
             >
                 <ArrowBack />
-            </IconButton>
-            <IconButton
-                aria-label="Next"
-                component={Link}
-                to={`/forums/${props.boardId}/categories/${props.boardCategoryId}/page`}
-            >
-                <ArrowForward />
             </IconButton>
         </Paper>
     );

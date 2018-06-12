@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import CategoryListItem from './CategoryListItem';
 import ForumBreadCrumb from './ForumBreadCrumb';
 import CategoryDialog from './CategoryDialog';
+
 const styles = theme => ({
 
 });
@@ -29,7 +30,7 @@ class CategoryList extends Component {
                     setShowDialog={this.props.setShowDialog}
                     errorData={this.props.errorData}
                 />
-                <ForumBreadCrumb board={this.props.board} />
+                <ForumBreadCrumb boardId={this.props.board.boardId} />
                 {this.props.board.categories !== undefined
                     && this.props.board.categories.map((item, index) =>
                     <CategoryListItem

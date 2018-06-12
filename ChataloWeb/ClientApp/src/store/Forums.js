@@ -19,7 +19,7 @@ const addPostType = 'ADD_POST_TYPE';
 const addBoardType = 'ADD_BOARD_TYPE';
 const clearErrorDataType = 'CLEAR_ERROR_DATA';
 const updateErrorDataType = 'UPDATE_ERROR_DATA';
-const showDialogType = 'SHOW_DIALOG';
+const setShowDialogType = 'SET_SHOW_DIALOG';
 
 const initialState = {
     boards: { byId: [], byHash: {} },
@@ -29,8 +29,7 @@ const initialState = {
     persons: { byId: [], byHash: {} },
     numLoading: 0,
     showDialog: false,
-    errorData: null,
-    discussionId: 0
+    errorData: null
 };
 
 export const actionCreators = {
@@ -42,7 +41,7 @@ export const actionCreators = {
             });       
     },
     setShowDialog: (showDialog) => async (dispatch, getState) => {
-        dispatch({ type: showDialogType, showDialog });
+        dispatch({ type: setShowDialogType, showDialog });
     },
     addCategory: (category) => async (dispatch, getState) => {
         dispatch({ type: clearErrorDataType });
@@ -58,11 +57,17 @@ export const actionCreators = {
             );
     },
     addBoard: (board) => async (dispatch, getState) => {
+        dispatch({ type: clearErrorDataType });
         ChataloAPI.post(`api/board`, board)
-            .then(res => {
-                const returnedBoard = res.data;
+            .then(
+            response => {
+                const returnedBoard = response.data;
                 dispatch({ type: addBoardType, returnedBoard });
-            });
+            },
+            error => {
+                dispatch({ type: updateErrorDataType, errorData: error.response.data });
+            }
+        );
     },
     addPost: (post) => async (dispatch, getState) => {
         ChataloAPI.post(`api/post`, post )
@@ -124,7 +129,7 @@ export const actionCreators = {
                     dispatch({ type: receivePostsForDiscussionType, discussionId: discussionId, posts: posts });
                 },
                 error => {
-                    let foo = error;
+                    
                 }
             );
     },
@@ -256,7 +261,9 @@ export const reducer = (state, action) => {
                         ...state.boards.byHash,
                         ...itemToMap(action.returnedBoard, 'boardId')
                     }
-                }
+                },
+                numLoading: state.numLoading--,
+                showDialog: false
             };
 
         case addPostType:
@@ -269,7 +276,6 @@ export const reducer = (state, action) => {
         case requestDiscussionType:
             return {
                 ...state,
-                discussionId: action.discussionId,
                 numLoading: state.numLoading++
             };
 
@@ -299,7 +305,7 @@ export const reducer = (state, action) => {
                 errorData: action.errorData,
                 numLoading: state.numLoading--
             };
-        case showDialogType:
+        case setShowDialogType:
             return {
                 ...state,
                 errorData: null,
