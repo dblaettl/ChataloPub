@@ -33,16 +33,21 @@ const initialState = {
 };
 
 export const actionCreators = {
+
     addDiscussion: (discussion) => async (dispatch, getState) => {
-        ChataloAPI.post(`api/discussion`,  discussion )
-            .then(res => {
-                const returnedDiscussion = res.data;
-                dispatch({ type: addDiscussionType, returnedDiscussion });
-            });       
+        dispatch({ type: clearErrorDataType });
+        ChataloAPI.post(`api/discussion`, discussion)
+            .then(
+                response => {
+                    const returnedDiscussion = response.data;
+                    dispatch({ type: addDiscussionType, returnedDiscussion });
+                },
+                error => {
+                    dispatch({ type: updateErrorDataType, errorData: error.response.data });
+                }
+            );       
     },
-    setShowDialog: (showDialog) => async (dispatch, getState) => {
-        dispatch({ type: setShowDialogType, showDialog });
-    },
+
     addCategory: (category) => async (dispatch, getState) => {
         dispatch({ type: clearErrorDataType });
         ChataloAPI.post(`api/category`, category)
@@ -56,6 +61,7 @@ export const actionCreators = {
                 }
             );
     },
+
     addBoard: (board) => async (dispatch, getState) => {
         dispatch({ type: clearErrorDataType });
         ChataloAPI.post(`api/board`, board)
@@ -69,7 +75,9 @@ export const actionCreators = {
             }
         );
     },
+
     addPost: (post) => async (dispatch, getState) => {
+        dispatch({ type: clearErrorDataType });
         ChataloAPI.post(`api/post`, post )
             .then(res => {
                 const returnedPost = res.data;
@@ -80,6 +88,11 @@ export const actionCreators = {
                 dispatch({ type: addPostType, returnedPost });
             });     
     },
+
+    setShowDialog: (showDialog) => async (dispatch, getState) => {
+        dispatch({ type: setShowDialogType, showDialog });
+    },
+
     getBoards: () => async (dispatch, getState) => {
         dispatch({ type: requestBoardsType });
         ChataloAPI.get(`api/board`)
@@ -154,7 +167,6 @@ export const reducer = (state, action) => {
         case requestBoardsType:
             return {
                 ...state,
-                boards: { byId: [], byHash: {} },
                 numLoading: state.numLoading++
             };
 
@@ -168,7 +180,6 @@ export const reducer = (state, action) => {
         case requestCategoriesForBoardType:
             return {
                 ...state,
-                boards: updateHash(state.boards, action.boardId, { ...state.boards.byHash[action.boardId], categories: [] }),
                 numLoading: state.numLoading++
             };
 
@@ -186,7 +197,6 @@ export const reducer = (state, action) => {
         case requestDiscussionsForCategoryType:
             return {
                 ...state,
-                categories: updateHash(state.categories, action.categoryId, { ...state.categories.byHash[action.categoryId], discussions: [] }),
                 numLoading: state.numLoading++
             };
 
@@ -203,7 +213,6 @@ export const reducer = (state, action) => {
         case requestPostsForDiscussionType:
             return {
                 ...state,
-                discussions: updateHash(state.discussions, action.discussionId, { ...state.discussions.byHash[action.discussionId], posts: [] }),
                 numLoading: state.numLoading++
             };
 
@@ -230,7 +239,9 @@ export const reducer = (state, action) => {
                 discussions: {
                     ...state.discussions,
                     byHash: { ...state.discussions.byHash, ...itemToMap(action.returnedDiscussion, 'discussionId') }
-                }
+                },
+                numLoading: state.numLoading--,
+                showDialog: false
             };
 
         case addCategoryType:
@@ -270,7 +281,9 @@ export const reducer = (state, action) => {
             return {
                 ...state,
                 discussions: updateHash(state.discussions, action.returnedPost.discussionId, { ...state.discussions.byHash[action.returnedPost.discussionId], posts: state.discussions.byHash[action.returnedPost.discussionId].posts.concat(action.returnedPost.postId) }),
-                posts: { ...state.posts, byHash: { ...state.posts.byHash, ...itemToMap(action.returnedPost, 'postId') } }
+                posts: { ...state.posts, byHash: { ...state.posts.byHash, ...itemToMap(action.returnedPost, 'postId') } },
+                numLoading: state.numLoading--,
+                showDialog: false
             };
 
         case requestDiscussionType:
@@ -294,6 +307,7 @@ export const reducer = (state, action) => {
                 ...state,
                 persons: updateHash(state.persons, action.person.personId, { ...state.persons.byHash[action.person.personId], ...action.person })
             };
+
         case clearErrorDataType:
             return {
                 ...state,         

@@ -6,7 +6,7 @@ import Add from '@material-ui/icons/Add';
 const styles = theme => ({
     floating: {
         float: 'right',
-        top: theme.spacing.unit
+        top: theme.spacing.unit * 2
     }
 });
 

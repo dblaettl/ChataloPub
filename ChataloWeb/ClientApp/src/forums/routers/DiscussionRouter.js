@@ -34,15 +34,18 @@ class DiscussionRouter extends Component {
         return(
             <div>
                 {discussion !== undefined &&
-                    <DiscussionPage
-                        boardId={this.props.match.params.boardId}
-                        categoryId={this.props.match.params.categoryId}
-                        discussion={discussion}
-                        persons={this.props.persons}
-                        posts={this.props.posts}
-                        getPostsForDiscussion={this.props.getPostsForDiscussion}
-                        addPost={this.props.addPost}
-                    />
+                <DiscussionPage
+                    boardId={this.props.match.params.boardId}
+                    categoryId={this.props.match.params.categoryId}
+                    discussion={discussion}
+                    persons={this.props.persons}
+                    posts={this.props.posts}
+                    getPostsForDiscussion={this.props.getPostsForDiscussion}
+                    addPost={this.props.addPost}
+                    showDialog={this.props.showDialog}
+                    errorData={this.props.errorData}
+                    setShowDialog={this.props.setShowDialog}
+                />
                 }
            </div >
         );

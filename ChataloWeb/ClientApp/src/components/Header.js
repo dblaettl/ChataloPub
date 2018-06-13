@@ -1,14 +1,14 @@
 ﻿import React, { Component } from 'react';
-import AppBar from '@material-ui/core/AppBar';
+import { AppBar, IconButton, Toolbar, Button, Typography, Menu, MenuItem } from '@material-ui/core';
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import Toolbar from '@material-ui/core/Toolbar';
 import { bindActionCreators } from 'redux';
-import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
 import { actionCreators } from '../store/Account';
 import LoginOrRegisterForm from './LoginOrRegisterForm';
+import MenuIcon from '@material-ui/icons/Menu';
+
 
 const styles = theme => ({
     appBar: {
@@ -29,7 +29,7 @@ class Header extends Component {
 
     constructor(props) {
         super(props); 
-        this.state = { showDialog: false };
+        this.state = { showDialog: false, anchorEl: null };
     }
     componentWillMount() {
         this.props.attemptReLogin();
@@ -42,19 +42,43 @@ class Header extends Component {
 
     }
 
-    handleClose = event => {
+    handleCloseLogin = event => {
         this.setState({ showDialog: false });
     };
 
-    handleMenu = event => {
+    showMenu = event => {
+        this.setState({ anchorEl: event.currentTarget });
+    };
+
+    hideMenu = event => {
+        this.setState({ anchorEl: null });
+    }
+
+    handleLogin = event => {
         this.setState({ showDialog: true });
     };
 
     render() {
         const { classes } = this.props;
+        const { anchorEl } = this.state;
         return (
             <AppBar position="absolute" className={classes.appBar}>
+
                 <Toolbar>
+                    {isWidthDown('xs', this.props.width) &&
+                        <IconButton aria-owns={anchorEl ? 'simple-menu' : null} color="inherit" aria-label="Menu" aria-haspopup="true" onClick={this.showMenu}>
+                            <MenuIcon />
+                        </IconButton>
+                    }
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={this.handleClose}
+                    >
+                        <MenuItem component={Link} to={'/persons'} onClick={this.hideMenu}>People</MenuItem>
+                        <MenuItem component={Link} to={'/forums'} onClick={this.hideMenu}>Forums</MenuItem>
+                    </Menu>
                     <Typography component={Link} to="/" variant="title" color="inherit" noWrap className={classes.title}>
                         Chatalo
                     </Typography>
@@ -62,11 +86,11 @@ class Header extends Component {
                         Welcome {this.props.user.firstName}!
                     </Typography>}
                     {this.props.isLoggedIn
-                        ? <Button color="inherit" onClick={this.handleMenu}>Logout</Button>
-                        : <Button color="inherit" onClick={this.handleMenu}>Login</Button>
+                        ? <Button color="inherit" onClick={this.handleLogin}>Logout</Button>
+                        : <Button color="inherit" onClick={this.handleLogin}>Login</Button>
                     }
                 </Toolbar>
-                <LoginOrRegisterForm showDialog={this.state.showDialog} handleClose={this.handleClose} login={this.props.login} register={this.props.register} />
+                <LoginOrRegisterForm showDialog={this.state.showDialog} handleClose={this.handleCloseLogin} login={this.props.login} register={this.props.register} />
             </AppBar>
         );
     }
@@ -78,4 +102,4 @@ Header.displayName = 'Header';
 export default connect(
     state => state.account,
     dispatch => bindActionCreators(actionCreators, dispatch)
-)(withStyles(styles)(Header));
+)(withWidth()(withStyles(styles)(Header)));

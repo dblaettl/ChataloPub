@@ -1,41 +1,26 @@
 ﻿import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Button, Dialog, DialogContent, DialogTitle, DialogActions, TextField } from '@material-ui/core';
-import Add from '@material-ui/icons/Add';
+import FormDialog from '../../components/FormDialog';
+import ErrorSummary from '../../components/ErrorSummary';
+import FormDialogTextField from '../../components/FormDialogTextField';
+import FormDialogTextAreaField from '../../components/FormDialogTextAreaField';
 
 const styles = theme => ({
     container: {
         padding: theme.spacing.unit
-    },
-    floating: {
-        float: 'right',
-        top: theme.spacing.unit * 1
-    },
-    textField: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
-        width: '100%'
     }
 });
 
-
-
 class PostDialog extends Component {
     componentWillMount() {
-        this.setState({ showDialog: false, message: '' });
+        this.setState({ message: '' });
     }
 
     componentWillReceiveProps(nextProps) {
-
+        if (nextProps.showDialog !== this.props.showDialog) {
+            this.setState({ message: '' });
+        }
     }
-
-    showDialog = event => {
-        this.setState({ showDialog: true, message: '' });
-    };
-
-    hideDialog = event => {
-        this.setState({ showDialog: false });
-    };
 
     handleChange = name => event => {
         this.setState({
@@ -55,35 +40,14 @@ class PostDialog extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <div>
-            <Button variant="fab" mini color="primary" aria-label="add" className={classes.floating} onClick={this.showDialog}>
-                <Add />
-            </Button>
-                <Dialog open={this.state.showDialog} onClose={this.hideDialog}>
-                    <DialogTitle style={{ width: 500 }}>
-                        Add Post
-                    </DialogTitle>
-                    <DialogContent>
-                        <form className={classes.container} noValidate autoComplete="off">
-                            <div>
-                                <TextField
-                                    id="message"
-                                    label="Message"
-                                    multiline
-                                    rows={4}
-                                    className={classes.textField}
-                                    value={this.state.message}
-                                    onChange={this.handleChange('message')}
-                                    margin="normal"
-                                />
-                            </div>
-                        </form>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button aria-label="post" onClick={this.handlePost}>Post</Button>
-                    </DialogActions>
-                </Dialog>
+            <FormDialog addAction={this.handlePost} title='Add Post' addButtonText='Add Post' showDialog={this.props.showDialog} setShowDialog={this.props.setShowDialog} >
+                <div>
+                    <ErrorSummary errorData={this.props.errorData} />
+                    <form className={classes.container} noValidate autoComplete="off">
+                        <FormDialogTextAreaField name="message" label="Message" cols={4} value={this.state.message} errorData={this.props.errorData} onChange={this.handleChange} />
+                    </form>
                 </div>
+            </FormDialog>
         );
     }
 }

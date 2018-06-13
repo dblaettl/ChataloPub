@@ -2,7 +2,7 @@ import React from 'react';
 import Header from './Header';
 import NavMenu from './NavMenu';
 import { withStyles } from '@material-ui/core/styles';
-
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 
 const styles = theme => ({
     root: {
@@ -21,10 +21,11 @@ const styles = theme => ({
     toolbar: theme.mixins.toolbar
 });
 
+ 
 const Lay = props => 
     <div className={props.classes.root}>
         <Header />
-        <NavMenu />
+        {isWidthUp('sm', props.width) && <NavMenu />}
         <main className={props.classes.content}>
             <div className={props.classes.toolbar} />
             {props.children}  
@@ -32,4 +33,4 @@ const Lay = props =>
     </div>;
 
 Lay.displayName = 'Layout';
-export default withStyles(styles)(Lay);
+export default withWidth()(withStyles(styles)(Lay));
