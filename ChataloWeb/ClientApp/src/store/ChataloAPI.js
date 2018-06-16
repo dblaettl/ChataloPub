@@ -1,4 +1,5 @@
 ﻿import axios from 'axios';
+import { configuredStore } from './configureStore';
 
 export function updateTokenData(data) {
     window.localStorage.setItem('token', data.auth_token);
@@ -41,6 +42,11 @@ instance.interceptors.response.use(function (response) {
                     return axios(originalRequest);
                 });
         }
+    } else if (error.response.status === 400) {
+        // bad request data will attempt to go back to the form
+        configuredStore.dispatch({ type: 'UPDATE_ERROR_DATA', errorData: error.response.data });
+    } else {
+        // otherwise we'll put the error in the global page and log to console
     }
 
     return Promise.reject(error);

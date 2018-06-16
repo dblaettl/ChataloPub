@@ -17,7 +17,6 @@ const addDiscussionType = 'ADD_DISCUSSION_TYPE';
 const addCategoryType = 'ADD_CATEGORY_TYPE';
 const addPostType = 'ADD_POST_TYPE';
 const addBoardType = 'ADD_BOARD_TYPE';
-const clearErrorDataType = 'CLEAR_ERROR_DATA';
 const updateErrorDataType = 'UPDATE_ERROR_DATA';
 const setShowDialogType = 'SET_SHOW_DIALOG';
 
@@ -35,49 +34,36 @@ const initialState = {
 export const actionCreators = {
 
     addDiscussion: (discussion) => async (dispatch, getState) => {
-        dispatch({ type: clearErrorDataType });
         ChataloAPI.post(`api/discussion`, discussion)
             .then(
                 response => {
                     const returnedDiscussion = response.data;
                     dispatch({ type: addDiscussionType, returnedDiscussion });
-                },
-                error => {
-                    dispatch({ type: updateErrorDataType, errorData: error.response.data });
                 }
             );       
     },
 
     addCategory: (category) => async (dispatch, getState) => {
-        dispatch({ type: clearErrorDataType });
         ChataloAPI.post(`api/category`, category)
             .then(
                 response => {
                     const returnedCategory = response.data;
                     dispatch({ type: addCategoryType, returnedCategory });
-                },
-                error => {
-                    dispatch({ type: updateErrorDataType, errorData: error.response.data });
                 }
             );
     },
 
     addBoard: (board) => async (dispatch, getState) => {
-        dispatch({ type: clearErrorDataType });
         ChataloAPI.post(`api/board`, board)
             .then(
             response => {
                 const returnedBoard = response.data;
                 dispatch({ type: addBoardType, returnedBoard });
-            },
-            error => {
-                dispatch({ type: updateErrorDataType, errorData: error.response.data });
             }
         );
     },
 
     addPost: (post) => async (dispatch, getState) => {
-        dispatch({ type: clearErrorDataType });
         ChataloAPI.post(`api/post`, post )
             .then(res => {
                 const returnedPost = res.data;
@@ -308,17 +294,12 @@ export const reducer = (state, action) => {
                 persons: updateHash(state.persons, action.person.personId, { ...state.persons.byHash[action.person.personId], ...action.person })
             };
 
-        case clearErrorDataType:
-            return {
-                ...state,         
-                numLoading: state.numLoading++
-            };
         case updateErrorDataType:
             return {
                 ...state,
-                errorData: action.errorData,
-                numLoading: state.numLoading--
+                errorData: action.errorData
             };
+
         case setShowDialogType:
             return {
                 ...state,
