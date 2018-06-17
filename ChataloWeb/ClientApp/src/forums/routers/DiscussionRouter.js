@@ -42,9 +42,6 @@ class DiscussionRouter extends Component {
                     posts={this.props.posts}
                     getPostsForDiscussion={this.props.getPostsForDiscussion}
                     addPost={this.props.addPost}
-                    showDialog={this.props.showDialog}
-                    errorData={this.props.errorData}
-                    setShowDialog={this.props.setShowDialog}
                 />
                 }
            </div >

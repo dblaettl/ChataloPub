@@ -2,8 +2,8 @@
 import { withStyles } from '@material-ui/core/styles';
 import FormDialog from '../../components/FormDialog';
 import ErrorSummary from '../../components/ErrorSummary';
-import FormDialogTextField from '../../components/FormDialogTextField';
 import FormDialogTextAreaField from '../../components/FormDialogTextAreaField';
+import DialogFormContext from '../../components/DialogFormContext';
 
 const styles = theme => ({
     container: {
@@ -40,14 +40,17 @@ class PostDialog extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <FormDialog addAction={this.handlePost} title='Add Post' addButtonText='Add Post' showDialog={this.props.showDialog} setShowDialog={this.props.setShowDialog} >
-                <div>
-                    <ErrorSummary errorData={this.props.errorData} />
-                    <form className={classes.container} noValidate autoComplete="off">
-                        <FormDialogTextAreaField name="message" label="Message" cols={4} value={this.state.message} errorData={this.props.errorData} onChange={this.handleChange} />
-                    </form>
-                </div>
-            </FormDialog>
+            <DialogFormContext.Consumer>
+                {context => <FormDialog addAction={this.handlePost} title='Add Post' addButtonText='Add Post' showDialog={context.showDialog} setShowDialog={context.setShowDialog} >
+                    <div>
+                        <ErrorSummary errorData={context.errorData} />
+                        <form className={classes.container} noValidate autoComplete="off">
+                            <FormDialogTextAreaField name="message" label="Message" cols={4} value={this.state.message} errorData={context.errorData} onChange={this.handleChange} />
+                        </form>
+                    </div>
+                </FormDialog>
+                }
+            </DialogFormContext.Consumer>
         );
     }
 }

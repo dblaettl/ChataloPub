@@ -26,9 +26,6 @@ class CategoryList extends Component {
                 <CategoryDialog
                     addCategory={this.props.addCategory}
                     boardId={this.props.board.boardId}
-                    showDialog={this.props.showDialog}
-                    setShowDialog={this.props.setShowDialog}
-                    errorData={this.props.errorData}
                 />
                 <ForumBreadCrumb boardId={this.props.board.boardId} />
                 {this.props.board.categories !== undefined

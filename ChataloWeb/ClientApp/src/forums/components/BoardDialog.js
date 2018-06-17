@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import FormDialog from '../../components/FormDialog';
 import ErrorSummary from '../../components/ErrorSummary';
 import FormDialogTextField from '../../components/FormDialogTextField';
+import DialogFormContext from '../../components/DialogFormContext';
 
 const styles = theme => ({
     container: {
@@ -38,13 +39,16 @@ class BoardDialog extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <FormDialog addAction={this.addAction} title='Add Board' addButtonText='Add Board' showDialog={this.props.showDialog} setShowDialog={this.props.setShowDialog} >
-                <ErrorSummary errorData={this.props.errorData} />
-                <form className={classes.container} noValidate autoComplete="off">
-                    <FormDialogTextField name="name" label="Name" value={this.state.name} errorData={this.props.errorData} onChange={this.handleChange} />
-                    <FormDialogTextField name="description" label="Description" value={this.state.description} errorData={this.props.errorData} onChange={this.handleChange} />
-                </form>
-            </FormDialog>
+            <DialogFormContext.Consumer>
+                {context => <FormDialog addAction={this.addAction} title='Add Board' addButtonText='Add Board' showDialog={context.showDialog} setShowDialog={context.setShowDialog} >
+                        <ErrorSummary errorData={context.errorData} />
+                        <form className={classes.container} noValidate autoComplete="off">
+                            <FormDialogTextField name="name" label="Name" value={this.state.name} errorData={context.errorData} onChange={this.handleChange} />
+                            <FormDialogTextField name="description" label="Description" value={this.state.description} errorData={context.errorData} onChange={this.handleChange} />
+                        </form>
+                    </FormDialog>
+                }
+          </DialogFormContext.Consumer>
         );
     }
 }

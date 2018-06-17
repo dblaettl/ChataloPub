@@ -30,9 +30,6 @@ class BoardRouter extends Component {
                     board={board}
                     getCategoriesForBoard={this.props.getCategoriesForBoard}
                     addCategory={this.props.addCategory}
-                    showDialog={this.props.showDialog}
-                    setShowDialog={this.props.setShowDialog}
-                    errorData={this.props.errorData}
                 /> 
                 }
             </div>

@@ -32,9 +32,6 @@ class CategoryRouter extends Component {
             <div>
                 {category !== undefined &&
                 <DiscussionList
-                    showDialog={this.props.showDialog}
-                    setShowDialog={this.props.setShowDialog}
-                    errorData={this.props.errorData}
                     category={category}
                     persons={this.props.persons}
                     discussions={this.props.discussions}

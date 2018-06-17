@@ -5,6 +5,7 @@ import Card from '@material-ui/core/Card';
 import { Link } from 'react-router-dom';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import ItemBadge from '../../components/ItemBadge';
 import Tooltip from '@material-ui/core/Tooltip';
 import PersonAvatar from './PersonAvatar';
 
@@ -25,7 +26,8 @@ const styles = theme => ({
         justifyContent: 'center'
     },
     badge: {
-        margin: theme.spacing.unit
+        margin: theme.spacing.unit,
+        textAlign: 'center'
     },
     link: {
         textDecoration: 'none'
@@ -47,21 +49,11 @@ const DiscussionListItem = (props) => {
                     {props.person !== undefined && <PersonAvatar person={props.person} />}
                     <div className={classes.text} >
                         <Tooltip classes={{ tooltip: classes.tooltip }} title={props.discussion.message}>
-                    <Typography variant="headline" style={{ textDecoration: 'none', marginTop: 12 }}>{props.discussion.title}</Typography>
-                     </Tooltip>    
+                            <Typography variant="headline" style={{ textDecoration: 'none', marginTop: 12 }}>{props.discussion.title}</Typography>
+                        </Tooltip>    
                     </div>
-                    <div className={classes.badge}>
-                    <RemoveRedEye />
-                    <Typography variant="subheading" style={{ textAlign: 'center' }} color="textSecondary">
-                        {props.discussion.numViews}
-                    </Typography>
-                    </div>
-                    <div className={classes.badge}>
-                    <Message />
-                    <Typography variant="subheading" style={{ textAlign: 'center' }} color="textSecondary">
-                        {props.discussion.numPosts}
-                    </Typography>
-                    </div>
+                    <ItemBadge icon={<RemoveRedEye />} text={props.discussion.numViews} />
+                    <ItemBadge icon={<Message />} text={props.discussion.numPosts} />
         </CardContent>
             </Card>
         </Link>

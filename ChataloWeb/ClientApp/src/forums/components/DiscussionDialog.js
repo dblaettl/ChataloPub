@@ -4,6 +4,7 @@ import FormDialog from '../../components/FormDialog';
 import ErrorSummary from '../../components/ErrorSummary';
 import FormDialogTextField from '../../components/FormDialogTextField';
 import FormDialogTextAreaField from '../../components/FormDialogTextAreaField';
+import DialogFormContext from '../../components/DialogFormContext';
 
 const styles = theme => ({
     container: {
@@ -40,15 +41,18 @@ class DiscussionDialog extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <FormDialog addAction={this.handleAdd} title='Add Discusssion' addButtonText='Add Discusssion' showDialog={this.props.showDialog} setShowDialog={this.props.setShowDialog} >
-                <div>
-                    <ErrorSummary errorData={this.props.errorData} />
-                    <form className={classes.container} noValidate autoComplete="off">
-                        <FormDialogTextField name="title" label="Title" value={this.state.title} errorData={this.props.errorData} onChange={this.handleChange} />
-                        <FormDialogTextAreaField name="message" label="Message" cols={4} value={this.state.message} errorData={this.props.errorData} onChange={this.handleChange} />
-                    </form>
-                </div>
-            </FormDialog>
+            <DialogFormContext.Consumer>
+                {context => <FormDialog addAction={this.handleAdd} title='Add Discusssion' addButtonText='Add Discusssion' showDialog={context.showDialog} setShowDialog={context.setShowDialog} >
+                        <div>
+                            <ErrorSummary errorData={context.errorData} />
+                            <form className={classes.container} noValidate autoComplete="off">
+                            <FormDialogTextField name="title" label="Title" value={this.state.title} errorData={context.errorData} onChange={this.handleChange} />
+                            <FormDialogTextAreaField name="message" label="Message" cols={4} value={this.state.message} errorData={context.errorData} onChange={this.handleChange} />
+                            </form>
+                        </div>
+                    </FormDialog>
+                }
+           </DialogFormContext.Consumer>
         );
     }
 }

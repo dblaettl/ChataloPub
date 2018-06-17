@@ -39,6 +39,7 @@ ReactDOM.render(
         <ConnectedRouter history={history}>        
             <MuiThemeProvider theme={theme}>
                 <CssBaseline />
+
                 <App />
             </MuiThemeProvider>
     </ConnectedRouter>

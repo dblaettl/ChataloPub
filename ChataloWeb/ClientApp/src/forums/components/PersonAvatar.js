@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
+import withWidth from '@material-ui/core/withWidth';
 import Avatar from '@material-ui/core/Avatar';
 
 const styles = theme => ({

@@ -20,7 +20,7 @@ class DiscussionList extends Component {
     render() {
         return (
             <div>
-                <DiscussionDialog categoryId={this.props.category.boardCategoryId} showDialog={this.props.showDialog} setShowDialog={this.props.setShowDialog} errorData={this.props.errorData} addDiscussion={this.props.addDiscussion} />
+                <DiscussionDialog categoryId={this.props.category.boardCategoryId} addDiscussion={this.props.addDiscussion} />
                 <ForumBreadCrumb boardId={this.props.category.boardId} categoryId={this.props.category.boardCategoryId} />
                 {this.props.category.discussions !== undefined
                     && this.props.category.discussions.map((item, index) => {

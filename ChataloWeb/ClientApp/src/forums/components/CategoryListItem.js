@@ -6,16 +6,10 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
-    card: {
-       
+    card: {     
         '&:hover': {
             backgroundColor: theme.palette.secondary.light
         }
-    },
-    text: {
-        textDecoration: 'none',
-        flex: 1,
-        margin: theme.spacing.unit
     },
     content: {
  

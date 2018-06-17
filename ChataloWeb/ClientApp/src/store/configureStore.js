@@ -1,6 +1,6 @@
 ﻿import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import { routerReducer, routerMiddleware } from 'react-router-redux';
+import { routerMiddleware, connectRouter } from 'connected-react-router';
 import * as Persons from './Persons';
 import * as Forums from './Forums';
 import * as Account from './Account';
@@ -8,11 +8,11 @@ import * as Account from './Account';
 export var configuredStore;
 
 export default function configureStore(history, initialState) {
-    const reducers = {
+    const reducers = combineReducers({
         persons: Persons.reducer,
         forums: Forums.reducer,
         account: Account.reducer
-    };
+    });
 
     const middleware = [
         thunk,
@@ -26,13 +26,8 @@ export default function configureStore(history, initialState) {
         enhancers.push(window.devToolsExtension());
     }
 
-    const rootReducer = combineReducers({
-        ...reducers,
-        routing: routerReducer
-    });
-
     configuredStore = createStore(
-        rootReducer,
+        connectRouter(history)(reducers),
         initialState,
         compose(applyMiddleware(...middleware), ...enhancers)
     );

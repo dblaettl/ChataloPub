@@ -82,9 +82,10 @@ class Header extends Component {
                     <Typography component={Link} to="/" variant="title" color="inherit" noWrap className={classes.title}>
                         Chatalo
                     </Typography>
-                    {this.props.user !== null && <Typography>
-                        Welcome {this.props.user.firstName}!
-                    </Typography>}
+                    {this.props.user !== null &&
+                        <Typography color="inherit">
+                        {this.props.user.firstName} {this.props.user.lastName}
+                        </Typography>}
                     {this.props.isLoggedIn
                         ? <Button color="inherit" onClick={this.handleLogin}>Logout</Button>
                         : <Button color="inherit" onClick={this.handleLogin}>Login</Button>
