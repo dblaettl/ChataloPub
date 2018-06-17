@@ -8,6 +8,10 @@
     };
 };
 
+export const undefinedIds = (array, itemHash) => {
+    return new Set(array.filter(d => itemHash[d] === undefined));
+};
+
 export const arrayToMap = (array, keyField) =>
     array.reduce((obj, item) => {
         obj[item[keyField]] = item;

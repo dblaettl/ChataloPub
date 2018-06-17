@@ -17,11 +17,6 @@ class ForumIndex extends Component {
 
     }
 
-    renderBoardList = () => {
-        return (
-            <BoardList boards={this.props.boards} addBoard={this.props.addBoard} />
-        );
-    }
 
     render() {
         const providerValue = { 
@@ -30,14 +25,14 @@ class ForumIndex extends Component {
             errorData: this.props.errorData
         };
         return (
-            <DialogFormContext.Provider value={providerValue}>
-            <div>
+            <DialogFormContext.Provider value={providerValue}>       
                 <LoadingIndicator numLoading={this.props.numLoading} />
                 <Switch>
-                    <Route exact path='/forums' render={this.renderBoardList} />
+                    <Route exact path='/forums' render={() =>
+                        <BoardList boards={this.props.boards} addBoard={this.props.addBoard} />}
+                    />
                     <Route path='/forums/:boardId' component={BoardRouter} />
-                </Switch>
-                </div>
+                </Switch>              
             </DialogFormContext.Provider>
         );
     }

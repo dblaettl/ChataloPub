@@ -6,7 +6,7 @@ const styles = theme => ({
     badge: {
         margin: theme.spacing.unit,
         textAlign: 'center'
-    },
+    }
 });
 
 const ItemBadge = (props) => {

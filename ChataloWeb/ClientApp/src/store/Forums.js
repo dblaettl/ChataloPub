@@ -1,4 +1,4 @@
-﻿import { arrayToMap, updateHash, itemToMap } from './storeHelpers';
+﻿import { arrayToMap, updateHash, itemToMap, undefinedIds } from './storeHelpers';
 import ChataloAPI from './ChataloAPI';
 
 const requestBoardsType = 'REQUEST_BOARDS_TYPE';
@@ -122,13 +122,9 @@ export const actionCreators = {
             .then(
                 response => {
                     const posts = response.data;
-                    const personsByHash = getState().forums.persons.byHash;
-                    let idsToAdd = posts.filter(p => personsByHash[p.createdByPersonId] === undefined).map(p => p.createdByPersonId);
+                    let idsToAdd = undefinedIds(posts.map(p => p.createdByPersonId), getState().forums.persons.byHash);
                     idsToAdd.forEach(id => dispatch(actionCreators.getPerson(id)));
                     dispatch({ type: receivePostsForDiscussionType, discussionId: discussionId, posts: posts });
-                },
-                error => {
-                    
                 }
             );
     },
@@ -137,8 +133,7 @@ export const actionCreators = {
         ChataloAPI.get(`api/category/${categoryId}/discussions`)
             .then(res => {
                 const discussions = res.data;
-                const personsByHash = getState().forums.persons.byHash;
-                let idsToAdd = discussions.filter(d => personsByHash[d.createdByPersonId] === undefined).map(d => d.createdByPersonId);
+                let idsToAdd = undefinedIds(discussions.map(d => d.createdByPersonId), getState().forums.persons.byHash);
                 idsToAdd.forEach(id => dispatch(actionCreators.getPerson(id)));
                 dispatch({ type: receiveDiscussonsForCategoryType, categoryId: categoryId, discussions: discussions });
             });

@@ -32,7 +32,7 @@ const styles = theme => ({
             backgroundColor: theme.palette.primary.main
         }
     },
-    toolbar: theme.mixins.toolbar
+    toolbar: theme.mixins.toolbar // this gives the proper toolbar vertical distance
 });
 
 const Nav = (props ) =>

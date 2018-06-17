@@ -21,8 +21,7 @@ const styles = theme => ({
     title: {
         textDecoration: 'none',
         flex: 1
-    },
-    toolbar: theme.mixins.toolbar
+    }
 });
 
 class Header extends Component {
