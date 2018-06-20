@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Button, Dialog, DialogContent, DialogTitle, DialogActions } from '@material-ui/core';
+import ErrorSummary from './ErrorSummary';
 import Add from '@material-ui/icons/Add';
 
 const styles = theme => ({
@@ -41,6 +42,7 @@ class FormDialog extends Component {
                         {this.props.title}
                     </DialogTitle>
                     <DialogContent>
+                        <ErrorSummary errorData={this.props.errorData} />
                         {this.props.children}
                     </DialogContent>
                     <DialogActions>

@@ -1,7 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import FormDialog from '../../components/FormDialog';
-import ErrorSummary from '../../components/ErrorSummary';
 import FormDialogTextAreaField from '../../components/FormDialogTextAreaField';
 import DialogFormContext from '../../components/DialogFormContext';
 
@@ -41,9 +40,8 @@ class PostDialog extends Component {
         const { classes } = this.props;
         return (
             <DialogFormContext.Consumer>
-                {context => <FormDialog addAction={this.handlePost} title='Add Post' addButtonText='Add Post' showDialog={context.showDialog} setShowDialog={context.setShowDialog} >
+                {context => <FormDialog addAction={this.handlePost} errorData={context.errorData} title='Add Post' addButtonText='Add Post' showDialog={context.showDialog} setShowDialog={context.setShowDialog} >
                     <div>
-                        <ErrorSummary errorData={context.errorData} />
                         <form className={classes.container} noValidate autoComplete="off">
                             <FormDialogTextAreaField name="message" label="Message" cols={4} value={this.state.message} errorData={context.errorData} onChange={this.handleChange} />
                         </form>

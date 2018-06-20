@@ -1,4 +1,6 @@
 ﻿using Chatalo.Repository.Data;
+using ChataloWeb.Models.Validators;
+using FluentValidation.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +38,7 @@ namespace ChataloWeb.Models
         }
     }
 
+    [Validator(typeof(DiscussionModelValidatior))]
     public class DiscussionModel
     {
         public int DiscussionId { get; set; }
