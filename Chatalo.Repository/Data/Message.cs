@@ -13,10 +13,13 @@ namespace Chatalo.Repository.Data
         [Column]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MessageId { get; set; }
+        [Column]
         public int PersonId { get; set; }
         [ForeignKey("PersonId")]
         public virtual Person Person { get; set; }
+        [Column]
         public string Text { get; set; }
+        [Column]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
     }

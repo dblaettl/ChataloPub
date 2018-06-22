@@ -98,7 +98,6 @@ namespace Chatalo.Repository
 
         public async Task<BoardCategory> AddBoardCategoryAsync(BoardCategory category)
         {
-            category.DateCreated = DateTime.UtcNow;
             var entity = await _Context.BoardCategories.AddAsync(category);
             await _Context.SaveChangesAsync();
             return entity.Entity;
@@ -106,7 +105,6 @@ namespace Chatalo.Repository
 
         public async Task<Board> AddBoardAsync(Board board)
         {
-            board.DateCreated = DateTime.UtcNow;
             var entity = await _Context.Boards.AddAsync(board);
             await _Context.SaveChangesAsync();
             return entity.Entity;

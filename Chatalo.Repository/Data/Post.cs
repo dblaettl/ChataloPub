@@ -24,6 +24,7 @@ namespace Chatalo.Repository.Data
         public int CreatedByPersonId { get; set; }
         [ForeignKey("CreatedByPersonId")]
         public virtual Person CreatedBy { get; set; }
+        [Column]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
     }

@@ -52,7 +52,6 @@ namespace ChataloWeb.Controllers
             }
             var person = await _Repository.GetPersonForClaimsPrincipalAsync(this.User);
             var discussion = model.ToDiscussion();
-           // discussion.DateCreated = DateTime.UtcNow;
             discussion.CreatedByPersonId = person.PersonId;
              var addedDiscussion = await _Repository.AddDiscussionAsync(discussion);
             return new OkObjectResult(addedDiscussion.ToDiscussionModel());

@@ -4,14 +4,16 @@ using Chatalo.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ChataloWeb.Migrations
 {
     [DbContext(typeof(ChataloContext))]
-    partial class ChataloContextModelSnapshot : ModelSnapshot
+    [Migration("20180622134346_DataDefaults")]
+    partial class DataDefaults
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

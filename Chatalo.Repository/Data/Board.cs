@@ -16,9 +16,10 @@ namespace Chatalo.Repository.Data
         [Column]
         public string Name { get; set; }
         [Column]
-        public string Description { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string Description { get; set; }       
         public virtual ICollection<BoardCategory> BoardCategories { get; set; }
+        [Column]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
     }
 }

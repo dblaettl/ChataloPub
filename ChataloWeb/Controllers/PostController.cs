@@ -36,7 +36,6 @@ namespace ChataloWeb.Controllers
             }
             var person = await _Repository.GetPersonForClaimsPrincipalAsync(this.User);
             var post = model.ToPost();
-            post.DateCreated = DateTime.UtcNow;
             post.CreatedByPersonId = person.PersonId;
             var addedPost = await _Repository.AddPostAsync(post);
             return new OkObjectResult(addedPost.ToPostModel());

@@ -22,6 +22,7 @@ namespace Chatalo.Repository.Data
         public string Name { get; set; }
         [Column]
         public string Description { get; set; }
+        [Column]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
     }
