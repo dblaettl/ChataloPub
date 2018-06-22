@@ -44,6 +44,7 @@ namespace ChataloWeb.Controllers
         [Authorize]
         public async Task<IActionResult> Add([FromBody]BoardModel model)
         {
+            var user = this.User;
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("Summary", "Failed adding board");

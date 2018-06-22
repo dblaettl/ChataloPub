@@ -16,7 +16,7 @@ class PersonPageController extends Component {
         // This method runs when the component is first added to the page
         const offset = parseInt(this.props.match.params.offset, 10) || 0;
         const limit = parseInt(this.props.match.params.limit, 10) || 0;
-        this.props.pagePersons(offset,limit);
+        this.props.pagePersons(offset, limit);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -25,6 +25,8 @@ class PersonPageController extends Component {
         const limit = parseInt(nextProps.match.params.limit, 10) || 0;
         this.props.pagePersons(offset, limit);
     }
+
+
 
     render() {
         return (

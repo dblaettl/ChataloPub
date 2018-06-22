@@ -8,7 +8,7 @@ const styles = theme => ({
 
 class DiscussionList extends Component {
     componentWillMount() {
-        if (this.props.category.discussions === undefined) {
+        if (!this.props.category.discussions) {
             this.props.getDiscussionsForCategory(this.props.category.boardCategoryId);
         }
     }
@@ -22,11 +22,11 @@ class DiscussionList extends Component {
             <div>
                 <DiscussionDialog categoryId={this.props.category.boardCategoryId} addDiscussion={this.props.addDiscussion} />
                 <ForumBreadCrumb boardId={this.props.category.boardId} categoryId={this.props.category.boardCategoryId} />
-                {this.props.category.discussions !== undefined
+                {this.props.category.discussions
                     && this.props.category.discussions.map((item, index) => {
                         const discussion = this.props.discussions.byHash[item];
                         let person;
-                        if (discussion !== undefined) {
+                        if (discussion) {
                             person = this.props.persons.byHash[discussion.createdByPersonId];
                         }
                         return <DiscussionListItem key={item} category={this.props.category} person={person} discussion={this.props.discussions.byHash[item]} />;

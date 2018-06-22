@@ -12,27 +12,20 @@ import PersonForm from '../components/PersonForm';
 class PersonDetailController extends Component {
     componentWillMount() {
         let id = this.props.match.params.id;
-        if (id !== undefined) {
+        if (id) {
             this.props.getPerson(id);
         }
 
     }
 
     componentWillReceiveProps(nextProps) {
-        /*
-        let id = nextProps.match.params.id;
-        if (id !== undefined) {
-            if (this.props.person === null || id !== this.props.person.id) {
-                this.props.getPerson(id);
-            }
-        }
-        */
+ 
     }
 
  
 
     render() {
-        return <PersonForm person={this.props.match.params.id !== undefined ? this.props.person : null} addPerson={this.props.addPerson} editPerson={this.props.editPerson} deletePerson={this.props.deletePerson} />;
+        return <PersonForm person={this.props.match.params.id ? this.props.person : null} addPerson={this.props.addPerson} editPerson={this.props.editPerson} deletePerson={this.props.deletePerson} />;
     }
 }
 

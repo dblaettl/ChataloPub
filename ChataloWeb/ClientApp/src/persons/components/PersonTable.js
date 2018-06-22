@@ -64,12 +64,14 @@ function PersonTable(props) {
                 <TableBody>
                         {props.persons.byId.map((item, index) => {
                             const person = props.persons.byHash[item];
-                            return <TableRow key={item} className={classes.row} >
-                                <TableCell><NavLink to={`/persons/detail/${person.personId}`}>{person.firstName}</NavLink></TableCell>
-                                <TableCell>{person.lastName}</TableCell>
-                                <TableCell>{person.city}</TableCell>
-                                <TableCell >{person.state}</TableCell>
-                            </TableRow>
+                            return (
+                                <TableRow key={item} className={classes.row} >
+                                    <TableCell><NavLink to={`/persons/detail/${person.personId}`}>{person.firstName}</NavLink></TableCell>
+                                    <TableCell>{person.lastName}</TableCell>
+                                    <TableCell>{person.city}</TableCell>
+                                    <TableCell >{person.state}</TableCell>
+                                </TableRow>
+                            );
                         }
                     )}
                 </TableBody>

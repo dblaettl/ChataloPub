@@ -84,9 +84,9 @@ const DiscussionBreadCrumb = (props) => {
         <div className={classes.breadcrumb}> 
             <ul>
                 <li><Link to='/forums' className={classes.link} >Top</Link></li>
-                {board !== undefined && <li><Link to={`/forums/${board.boardId}`} className={classes.link} >{board.name}</Link></li>}
-                {category !== undefined && <li><Link to={`/forums/${category.boardId}/categories/${category.boardCategoryId}`} className={classes.link}>{category.name}</Link></li>}     
-                {discussion !== undefined && <li><a href='never'>Discussion</a></li>}     
+                {board && <li><Link to={`/forums/${board.boardId}`} className={classes.link} >{board.name}</Link></li>}
+                {category && <li><Link to={`/forums/${category.boardId}/categories/${category.boardCategoryId}`} className={classes.link}>{category.name}</Link></li>}     
+                {discussion && <li><a href='never'>Discussion</a></li>}     
             </ul>
         </div>
     );

@@ -12,7 +12,7 @@ const ErrorSummary = (props) => {
 
     return (
         <div>
-            {props.errorData !== null && props.errorData.Summary !== undefined && <Typography className={classes.error}>{props.errorData.Summary}</Typography>}
+            {props.errorData  && props.errorData.Summary && <Typography className={classes.error}>{props.errorData.Summary}</Typography>}
         </div>
     );
 };

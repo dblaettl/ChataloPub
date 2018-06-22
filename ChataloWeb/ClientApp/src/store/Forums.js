@@ -17,8 +17,8 @@ const addDiscussionType = 'ADD_DISCUSSION_TYPE';
 const addCategoryType = 'ADD_CATEGORY_TYPE';
 const addPostType = 'ADD_POST_TYPE';
 const addBoardType = 'ADD_BOARD_TYPE';
-const updateErrorDataType = 'UPDATE_ERROR_DATA';
-const setShowDialogType = 'SET_SHOW_DIALOG';
+const updateErrorDataType = 'UPDATE_ERROR_DATA_TYPE';
+const setShowDialogType = 'SET_SHOW_DIALOG_TYPE';
 
 const initialState = {
     boards: { byId: [], byHash: {} },
@@ -68,7 +68,7 @@ export const actionCreators = {
             .then(res => {
                 const returnedPost = res.data;
                 const personsByHash = getState().forums.persons.byHash;
-                if (personsByHash[returnedPost.createdByPersonId] === undefined) {
+                if (!personsByHash[returnedPost.createdByPersonId]) {
                     dispatch(actionCreators.getPerson(returnedPost.createdByPersonId));
                 }
                 dispatch({ type: addPostType, returnedPost });
@@ -102,7 +102,7 @@ export const actionCreators = {
                 .then(res => {
                     const discussion = res.data;
                     const personsByHash = getState().forums.persons.byHash;
-                    if (personsByHash[discussion.createdByPersonId] === undefined) {
+                    if (!personsByHash[discussion.createdByPersonId]) {
                         dispatch(actionCreators.getPerson(discussion.createdByPersonId));
                     }
                     dispatch({ type: receiveDiscussionType, discussion });

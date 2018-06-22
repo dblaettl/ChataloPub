@@ -19,6 +19,7 @@ namespace Chatalo.Repository
         public DbSet<BoardCategory> BoardCategories { get; set; }
         public DbSet<Discussion> Discussions { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,6 +38,10 @@ namespace Chatalo.Repository
                 .HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
             modelBuilder
                 .Entity<Person>()
+                .Property(e => e.DateCreated)
+                .HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+            modelBuilder
+                .Entity<Message>()
                 .Property(e => e.DateCreated)
                 .HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
         }

@@ -12,7 +12,7 @@ import DiscussionPage from '../components/DiscussionPage';
 class DiscussionRouter extends Component {
     componentWillMount() {
         let id = this.props.match.params.discussionId;
-        if (id !== undefined) {
+        if (id) {
             this.props.getDiscussion(id);
         }
     }
@@ -33,7 +33,7 @@ class DiscussionRouter extends Component {
         const discussion = this.props.discussions.byHash[this.props.match.params.discussionId];
         return(
             <div>
-                {discussion !== undefined &&
+                {discussion &&
                 <DiscussionPage
                     boardId={this.props.match.params.boardId}
                     categoryId={this.props.match.params.categoryId}

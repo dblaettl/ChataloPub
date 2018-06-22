@@ -26,7 +26,7 @@ const styles = theme => ({
 class DiscussionPage extends Component {
     componentWillMount() {
         this.setState({ showDialog: false, message: '' });
-        if (this.props.discussion.posts === undefined) {
+        if (!this.props.discussion.posts) {
             this.props.getPostsForDiscussion(this.props.discussion.discussionId);
         }
     }
@@ -52,7 +52,7 @@ class DiscussionPage extends Component {
                             </div>
                         </div>
  
-                        {discussion.posts !== undefined
+                        {discussion.posts
                             && discussion.posts.map((p, index) => {
                                 let post = posts.byHash[p];
                             return <PostListItem key={p} message={post.message} date={post.dateCreated} index={index} person={persons.byHash[post.createdByPersonId]} />;

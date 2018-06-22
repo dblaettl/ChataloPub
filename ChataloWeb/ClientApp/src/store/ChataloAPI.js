@@ -10,7 +10,7 @@ export function updateTokenData(data) {
 
 export function assureCurrentToken() {
     const token = window.localStorage.getItem('token');
-    if (token !== undefined) {
+    if (token) {
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
         return true;
     } else {
@@ -32,7 +32,7 @@ instance.interceptors.response.use(function (response) {
         originalRequest._retry = true;
         const refreshToken = window.localStorage.getItem('refreshToken');
         const id = window.localStorage.getItem('id');
-        if (refreshToken !== undefined && id !== undefined) {
+        if (refreshToken && id) {
             return axios.post('https://localhost:44328/api/auth/refresh', { id, refreshToken })
                 .then(({ data }) => {
                     window.localStorage.setItem('token', data.auth_token);
@@ -44,7 +44,7 @@ instance.interceptors.response.use(function (response) {
         }
     } else if (error.response.status === 400) {
         // bad request data will attempt to go back to the form
-        configuredStore.dispatch({ type: 'UPDATE_ERROR_DATA', errorData: error.response.data });
+        configuredStore.dispatch({ type: 'UPDATE_ERROR_DATA_TYPE', errorData: error.response.data });
     } else {
         // otherwise we'll put the error in the global page and log to console
     }

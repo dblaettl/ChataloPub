@@ -16,12 +16,18 @@ const ForumIndex = Loadable({
     loading: Loading,
 });
 
+const ChatIndex = Loadable({
+    loader: () => import('./chat'),
+    loading: Loading,
+});
+
 const Lay = () =>
     <Layout>
         <Switch>
             <Route exact path='/' component={Home} />
             <Route path='/persons' component={PersonIndex} />
             <Route path='/forums' component={ForumIndex} />
+            <Route path='/chat' component={ChatIndex} />
         </Switch>
     </Layout>;
 Lay.displayName = 'Layout';

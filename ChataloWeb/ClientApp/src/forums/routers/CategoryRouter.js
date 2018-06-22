@@ -15,10 +15,8 @@ class CategoryRouter extends Component {
     componentWillMount() {
         let categoryId = this.props.match.params.categoryId;
         let boardId = this.props.match.params.boardId;
-        if (categoryId !== undefined) {
-            if (this.props.categories.byHash[categoryId] === undefined) {
-                this.props.getCategoriesForBoard(boardId);
-            }
+        if (categoryId && this.props.categories.byHash[categoryId]) {
+            this.props.getCategoriesForBoard(boardId);
         }
     }
 
@@ -30,7 +28,7 @@ class CategoryRouter extends Component {
         const category = this.props.categories.byHash[this.props.match.params.categoryId];
         return (
             <div>
-                {category !== undefined &&
+                {category &&
                 <DiscussionList
                     category={category}
                     persons={this.props.persons}

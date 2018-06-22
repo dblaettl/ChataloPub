@@ -9,7 +9,7 @@
 };
 
 export const undefinedIds = (array, itemHash) => {
-    return new Set(array.filter(d => itemHash[d] === undefined));
+    return new Set(array.filter(d => !itemHash[d]));
 };
 
 export const arrayToMap = (array, keyField) =>

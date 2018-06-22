@@ -2,6 +2,7 @@ using Chatalo.Repository;
 using Chatalo.Repository.Data;
 using ChataloWeb.Auth;
 using ChataloWeb.Helpers;
+using ChataloWeb.Hubs;
 using ChataloWeb.Models;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ChatloWeb
 {
@@ -78,6 +80,23 @@ namespace ChatloWeb
                 configureOptions.ClaimsIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
                 configureOptions.TokenValidationParameters = tokenValidationParameters;
                 configureOptions.SaveToken = true;
+                configureOptions.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["token"];
+
+                        if (!string.IsNullOrEmpty(accessToken))
+                        {
+                            
+                          //  if (context.HttpContext.WebSockets.IsWebSocketRequest || context.Request.Headers["Accept"] == "text/event-stream")
+                          //  {
+                                context.Token = context.Request.Query["token"];
+                          //  }
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
             // api user claim policy
@@ -113,6 +132,7 @@ namespace ChatloWeb
             {
                 configuration.RootPath = "ClientApp/build";
             });
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -132,7 +152,10 @@ namespace ChatloWeb
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseSpaStaticFiles();
-
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/hubs/chat");
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

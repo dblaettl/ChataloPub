@@ -42,9 +42,9 @@ const ProfileCard = (props) => {
 
     return (
         <div className={classes.card}>
-            {props.person !== undefined && isWidthUp('sm', props.width) && <Typography variant='body2'>{props.person.firstName} {props.person.lastName}</Typography>}
-            {props.person !== undefined && <div style={{ width: '100%', justifyContent: 'center' }}><Avatar className={classes.avatar}>{props.person.firstName.charAt(0).toUpperCase() + props.person.lastName.charAt(0).toUpperCase()}</Avatar></div>}
-            {props.person !== undefined && isWidthUp('sm', props.width) && <Typography variant='body2' className={classes.text}><Moment format='MMM D, YYYY'>{props.person.dateCreated}</Moment></Typography>}
+            {props.person && isWidthUp('sm', props.width) && <Typography variant='body2'>{props.person.firstName} {props.person.lastName}</Typography>}
+            {props.person && <div style={{ width: '100%', justifyContent: 'center' }}><Avatar className={classes.avatar}>{props.person.firstName.charAt(0).toUpperCase() + props.person.lastName.charAt(0).toUpperCase()}</Avatar></div>}
+            {props.person && isWidthUp('sm', props.width) && <Typography variant='body2' className={classes.text}><Moment format='MMM D, YYYY'>{props.person.dateCreated}</Moment></Typography>}
         </div>
     );
 };

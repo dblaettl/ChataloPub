@@ -52,6 +52,12 @@ const Nav = (props ) =>
                     </ListItemIcon>
                     <ListItemText primary="Forums" />
                 </ListItem>
+                <ListItem component={Link} to={'/chat'} classes={{ root: props.location.pathname.startsWith("/chat") ? props.classes.selected : props.classes.unselected }} button dense>
+                    <ListItemIcon>
+                        <Forum />
+                    </ListItemIcon>
+                    <ListItemText primary="Chat" />
+                </ListItem>
             </div>
         </List>
     </Drawer>;

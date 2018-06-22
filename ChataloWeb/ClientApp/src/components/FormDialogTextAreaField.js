@@ -10,7 +10,7 @@ const styles = theme => ({
 });
 
 const getErrorText = (errorData, name) => {
-    if (errorData !== null && errorData[name] !== undefined) {
+    if (errorData !== null && errorData[name]) {
         return errorData[name];
     } else {
         return null;

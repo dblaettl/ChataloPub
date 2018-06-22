@@ -46,7 +46,7 @@ const DiscussionListItem = (props) => {
         <Link to={`/forums/${props.category.boardId}/categories/${props.category.boardCategoryId}/discussions/${props.discussion.discussionId}/posts`} className={classes.link}>
             <Card className={classes.card}>
                 <CardContent className={classes.content}>
-                    {props.person !== undefined && <PersonAvatar person={props.person} />}
+                    {props.person && <PersonAvatar person={props.person} />}
                     <div className={classes.text} >
                         <Tooltip classes={{ tooltip: classes.tooltip }} title={props.discussion.message}>
                             <Typography variant="headline" style={{ textDecoration: 'none', marginTop: 12 }}>{props.discussion.title}</Typography>

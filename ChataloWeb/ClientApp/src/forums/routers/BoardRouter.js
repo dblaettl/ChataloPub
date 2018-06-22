@@ -24,7 +24,7 @@ class BoardRouter extends Component {
         const board = this.props.boards.byHash[this.props.match.params.boardId];
         return (
             <div>
-                {board !== undefined &&
+                {board &&
                 <CategoryList
                     categories={this.props.categories}
                     board={board}

@@ -39,6 +39,7 @@ export const actionCreators = {
                 updateTokenData(token);
                 dispatch({ type: receiveLoginType });
                 dispatch(actionCreators.getUser());
+                dispatch({ type: "SIGNALR_CONNECT" });
             });
     },
     register: (user) => async (dispatch, getState) => {
