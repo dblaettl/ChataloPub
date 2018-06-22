@@ -69,6 +69,15 @@ namespace ChataloWeb.Controllers
             var result = await _userManager.CreateAsync(userIdentity, model.Password);
             if (result.Succeeded)
             {
+                var person = new Person()
+                {
+                    AppUserId  = userIdentity.Id,
+                    City = model.City,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    State = model.State
+                };
+                await _ChataloRepository.AddPersonAsync(person);
                 string refreshToken = Guid.NewGuid().ToString();
                 await _userManager.SetAuthenticationTokenAsync(userIdentity, "RefreshTokenProvider", "RefreshToken", refreshToken);
                 var identity = _jwtFactory.GenerateClaimsIdentity(userIdentity.Email, userIdentity.Id, refreshToken);

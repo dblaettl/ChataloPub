@@ -13,6 +13,7 @@ namespace Chatalo.Repository
 
         public ChataloRepository(ChataloContext context)
         {
+            context.Database.Migrate();
             _Context = context;
         }
 
@@ -107,6 +108,13 @@ namespace Chatalo.Repository
         {
             board.DateCreated = DateTime.UtcNow;
             var entity = await _Context.Boards.AddAsync(board);
+            await _Context.SaveChangesAsync();
+            return entity.Entity;
+        }
+
+        public async Task<Message> AddMessageAsync(Message message)
+        {
+            var entity = await _Context.Messages.AddAsync(message);
             await _Context.SaveChangesAsync();
             return entity.Entity;
         }

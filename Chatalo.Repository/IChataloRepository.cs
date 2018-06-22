@@ -21,6 +21,8 @@ namespace Chatalo.Repository
         Task<Discussion> GetDiscussionAsync(int id);
         Task<Post> AddPostAsync(Post post);
         Task<IList<Post>> GetPostsForDiscussionAsync(int discussionId);
+
+        Task<Message> AddMessageAsync(Message message);
     
 
     }

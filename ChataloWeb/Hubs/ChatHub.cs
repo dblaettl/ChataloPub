@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Chatalo.Repository;
+using Chatalo.Repository.Data;
+using ChataloWeb.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -11,28 +14,33 @@ namespace ChataloWeb.Hubs
     [AllowAnonymous]
     public class ChatHub : Hub
     {
-        public override async Task OnDisconnectedAsync(Exception exception)
+        private IChataloRepository _ChataloRepository;
+        public ChatHub(IChataloRepository chataloRepository)
         {
-            await Clients.All.SendAsync("UserLeft", "Left the channel");
-            await base.OnDisconnectedAsync(exception);
+            _ChataloRepository = chataloRepository;
         }
 
+
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task SendMessage(string message)
+        public async Task SendMessage(string text)
         {
-            await Clients.All.SendAsync("ReceiveMessage", message);
+            var person = await _ChataloRepository.GetPersonForClaimsPrincipalAsync(Context.User);
+            var message = new Message() { PersonId = person.PersonId, Text = text };
+            await Clients.All.SendAsync("ReceiveMessage", new { personId = person.PersonId, message = text });
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task EnteredChannel()
         {
-            await Clients.All.SendAsync("UserJoined", "Entered the channel");
+            var person = await _ChataloRepository.GetPersonForClaimsPrincipalAsync(Context.User);
+            await Clients.All.SendAsync("UserJoined", new { personId = person.PersonId });
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task LeftChannel()
         {
-            await Clients.All.SendAsync("UserLeft", "Left the channel");
+            var person = await _ChataloRepository.GetPersonForClaimsPrincipalAsync(Context.User);
+            await Clients.All.SendAsync("UserLeft", new { personId = person.PersonId });
         }
     }
 }

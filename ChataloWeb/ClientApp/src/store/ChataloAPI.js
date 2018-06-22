@@ -19,7 +19,6 @@ export function assureCurrentToken() {
 }
 
 const instance = axios.create({
-    baseURL: 'https://localhost:44328/',
     timeout: 10000,
     params: {}
 });
@@ -33,7 +32,7 @@ instance.interceptors.response.use(function (response) {
         const refreshToken = window.localStorage.getItem('refreshToken');
         const id = window.localStorage.getItem('id');
         if (refreshToken && id) {
-            return axios.post('https://localhost:44328/api/auth/refresh', { id, refreshToken })
+            return axios.post('/api/auth/refresh', { id, refreshToken })
                 .then(({ data }) => {
                     window.localStorage.setItem('token', data.auth_token);
                     window.localStorage.setItem('refreshToken', data.refresh_token);
