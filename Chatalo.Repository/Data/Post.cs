@@ -19,6 +19,7 @@ namespace Chatalo.Repository.Data
         [ForeignKey("DiscussionId")]
         public virtual Discussion Discussion { get; set; }
         [Column]
+        [MaxLength(4000)]
         public string Message { get; set; }
         [Column]
         public int CreatedByPersonId { get; set; }

@@ -1,5 +1,6 @@
 ﻿import ChataloAPI from './ChataloAPI';
 
+export const receiveMessagesType = "RECEIVE_MESSAGES_TYPE";
 export const receiveChatMessageType = "RECEIVE_CHAT_MESSAGE_TYPE";
 export const userJoinedType = "USER_JOINED_TYPE";
 export const userLeftType = "USER_LEFT_TYPE";
@@ -13,13 +14,20 @@ const initialState = {
 
 export const actionCreators = {
 
-    sendMessage: (message) => async (dispatch, getState) => {
-        dispatch({ type: "SIGNALR_SEND_MESSAGE" });
+    sendMessage: (text) => async (dispatch, getState) => {
+        dispatch({ type: "SIGNALR_SEND_MESSAGE", text: text });
     },
-    joinChat: (message) => async (dispatch, getState) => {
+    getMessages: () => async (dispatch, getState) => {
+        ChataloAPI.get(`api/message`)
+            .then(res => {
+                const messages = res.data;
+                dispatch({ type: receiveMessagesType, messages });
+            });
+    },
+    joinChat: () => async (dispatch, getState) => {
         dispatch({ type: "SIGNALR_USER_JOINED" });
     },
-    leaveChat: (message) => async (dispatch, getState) => {
+    leaveChat: () => async (dispatch, getState) => {
         dispatch({ type: "SIGNALR_USER_LEFT" });
     }
 };
@@ -28,7 +36,11 @@ export const actionCreators = {
 export const reducer = (state, action) => {
     state = state || initialState;
     switch (action.type) {
-
+        case receiveMessagesType:
+            return {
+                ...state,
+                messages: action.messages
+            };
         case receiveChatMessageType:
             return {
                 ...state,
@@ -37,12 +49,20 @@ export const reducer = (state, action) => {
         case userJoinedType:
             return {
                 ...state,
-                messages: state.messages.concat(action.message)
+                persons: {
+                    byId: [...state.persons.byId, action.person.personId],
+                    byHash: { ...state.persons.byHash, [action.person.personId]: action.person }
+                }
             };
         case userLeftType:
+            const prunedIds = state.persons.byId.filter(item => { return item !== action.personId; });
+            delete state.persons.byHash[action.personId];
             return {
                 ...state,
-                messages: state.messages.concat(action.message)
+                persons: {
+                    byId: prunedIds,
+                    byHash: state.persons.byHash
+                }
             };
         default:
             return state;

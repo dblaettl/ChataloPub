@@ -44,6 +44,7 @@ namespace Chatalo.Repository
                 .Entity<Message>()
                 .Property(e => e.DateCreated)
                 .HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+           
         }
     }
 }

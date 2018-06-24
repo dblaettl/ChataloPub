@@ -13,15 +13,26 @@ import DiscussionList from '../components/DiscussionList';
 
 class CategoryRouter extends Component {
     componentWillMount() {
+        
         let categoryId = this.props.match.params.categoryId;
         let boardId = this.props.match.params.boardId;
-        if (categoryId && this.props.categories.byHash[categoryId]) {
-            this.props.getCategoriesForBoard(boardId);
+        if (categoryId) {
+            let category = this.props.categories.byHash[categoryId];
+            if (category === undefined) {
+                this.props.getCategoriesForBoard(boardId);
+            } else if (category.discussions === undefined) {
+                this.props.getDiscussionsForCategory(categoryId);
+            }
         }
     }
 
     componentWillReceiveProps(nextProps) {
-     
+        let categoryId = this.props.match.params.categoryId;
+        let nextCategory = nextProps.categories.byHash[categoryId];
+        if (nextCategory !== undefined && nextCategory.discussions === undefined && nextProps.numLoading === 0)
+        {
+            this.props.getDiscussionsForCategory(categoryId);
+        }
     }
 
     renderDiscussionList = () => {

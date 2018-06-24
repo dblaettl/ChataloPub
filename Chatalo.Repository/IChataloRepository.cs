@@ -23,7 +23,6 @@ namespace Chatalo.Repository
         Task<IList<Post>> GetPostsForDiscussionAsync(int discussionId);
 
         Task<Message> AddMessageAsync(Message message);
-    
-
+        Task<IList<Message>> GetRecentMessagesAsync();
     }
 }

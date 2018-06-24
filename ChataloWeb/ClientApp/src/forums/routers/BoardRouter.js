@@ -12,7 +12,10 @@ import CategoryRouter from './CategoryRouter';
 
 class BoardRouter extends Component {
     componentWillMount() {
-
+        let id = this.props.match.params.boardId;
+        if (id) {
+            this.props.getCategoriesForBoard(id);
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -28,7 +31,6 @@ class BoardRouter extends Component {
                 <CategoryList
                     categories={this.props.categories}
                     board={board}
-                    getCategoriesForBoard={this.props.getCategoriesForBoard}
                     addCategory={this.props.addCategory}
                 /> 
                 }

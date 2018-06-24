@@ -18,6 +18,7 @@ namespace Chatalo.Repository.Data
         [ForeignKey("PersonId")]
         public virtual Person Person { get; set; }
         [Column]
+        [MaxLength(4000)]
         public string Text { get; set; }
         [Column]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

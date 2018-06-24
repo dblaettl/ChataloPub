@@ -19,6 +19,7 @@ namespace Chatalo.Repository.Data
         [ForeignKey("BoardId")]
         public virtual Board Board { get; set; }
         [Column]
+        [MaxLength(500)]
         public string Name { get; set; }
         [Column]
         public string Description { get; set; }

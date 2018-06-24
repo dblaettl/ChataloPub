@@ -1,5 +1,4 @@
 ﻿import React, { Component } from 'react';
-import { Route, Switch } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { actionCreators } from '../store/Chat';
@@ -8,6 +7,7 @@ import ChatBoard from './components/ChatBoard';
 
 class ChatIndex extends Component {
     componentWillMount() {
+        this.props.getMessages();
         this.props.joinChat();
     }
 
@@ -23,7 +23,7 @@ class ChatIndex extends Component {
         return (
              <div>
                 <LoadingIndicator numLoading={this.props.numLoading} />
-                <ChatBoard messages={this.props.messages} />
+                <ChatBoard messages={this.props.messages} persons={this.props.persons} sendMessage={this.props.sendMessage} />
              </div>  
         );
     }

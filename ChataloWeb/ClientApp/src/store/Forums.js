@@ -148,20 +148,20 @@ export const reducer = (state, action) => {
         case requestBoardsType:
             return {
                 ...state,
-                numLoading: state.numLoading++
+                numLoading: ++state.numLoading
             };
 
         case receiveBoardsType:
             return {
                 ...state,
                 boards: { byId: action.boards.map(b => b.boardId), byHash: arrayToMap(action.boards, 'boardId') },
-                numLoading: state.numLoading--
+                numLoading: --state.numLoading
             };
 
         case requestCategoriesForBoardType:
             return {
                 ...state,
-                numLoading: state.numLoading++
+                numLoading: ++state.numLoading
             };
 
         case receiveCategoriesForBoardType:
@@ -172,13 +172,13 @@ export const reducer = (state, action) => {
                     ...state.categories,
                     byHash: { ...state.categories.byHash, ...arrayToMap(action.categories, 'boardCategoryId') }
                 },
-                numLoading: state.numLoading--
+                numLoading: --state.numLoading
             };
 
         case requestDiscussionsForCategoryType:
             return {
                 ...state,
-                numLoading: state.numLoading++
+                numLoading: ++state.numLoading
             };
 
         case receiveDiscussonsForCategoryType:
@@ -188,13 +188,13 @@ export const reducer = (state, action) => {
                 discussions: {
                     ...state.discussions, byHash: { ...state.discussions.byHash, ...arrayToMap(action.discussions, 'discussionId') }
                 },
-                numLoading: state.numLoading--
+                numLoading: --state.numLoading
             };
 
         case requestPostsForDiscussionType:
             return {
                 ...state,
-                numLoading: state.numLoading++
+                numLoading: ++state.numLoading
             };
 
         case receivePostsForDiscussionType:
@@ -204,7 +204,7 @@ export const reducer = (state, action) => {
                 posts: {
                     ...state.posts, byHash: { ...state.posts.byHash, ...arrayToMap(action.posts, 'postId') }
                 },
-                numLoading: state.numLoading--
+                numLoading: --state.numLoading
             };
 
         case addDiscussionType:
@@ -221,7 +221,7 @@ export const reducer = (state, action) => {
                     ...state.discussions,
                     byHash: { ...state.discussions.byHash, ...itemToMap(action.returnedDiscussion, 'discussionId') }
                 },
-                numLoading: state.numLoading--,
+                numLoading: --state.numLoading,
                 showDialog: false
             };
 
@@ -239,7 +239,7 @@ export const reducer = (state, action) => {
                     ...state.categories,
                     byHash: { ...state.categories.byHash, ...itemToMap(action.returnedCategory, 'boardCategoryId') }
                 },
-                numLoading: state.numLoading--,
+                numLoading: --state.numLoading,
                 showDialog: false
             };
 
@@ -254,7 +254,7 @@ export const reducer = (state, action) => {
                         ...itemToMap(action.returnedBoard, 'boardId')
                     }
                 },
-                numLoading: state.numLoading--,
+                numLoading: --state.numLoading,
                 showDialog: false
             };
 
@@ -263,21 +263,21 @@ export const reducer = (state, action) => {
                 ...state,
                 discussions: updateHash(state.discussions, action.returnedPost.discussionId, { ...state.discussions.byHash[action.returnedPost.discussionId], posts: state.discussions.byHash[action.returnedPost.discussionId].posts.concat(action.returnedPost.postId) }),
                 posts: { ...state.posts, byHash: { ...state.posts.byHash, ...itemToMap(action.returnedPost, 'postId') } },
-                numLoading: state.numLoading--,
+                numLoading: --state.numLoading,
                 showDialog: false
             };
 
         case requestDiscussionType:
             return {
                 ...state,
-                numLoading: state.numLoading++
+                numLoading: ++state.numLoading
             };
 
         case receiveDiscussionType:
             return {
                 ...state,
                 discussions: updateHash(state.discussions, action.discussion.discussionId, { ...state.discussions.byHash[action.discussion.discussionId], ...action.discussion }),
-                numLoading: state.numLoading--
+                numLoading: --state.numLoading
             };
 
         case requestPersonType:

@@ -19,6 +19,7 @@ namespace Chatalo.Repository.Data
         [ForeignKey("BoardCategoryId")]
         public virtual BoardCategory BoardCategory { get; set; }
         [Column]
+        [MaxLength(500)]
         public string Title { get; set; }
         [Column]
         public string Message { get; set; }

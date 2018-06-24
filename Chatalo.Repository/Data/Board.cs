@@ -14,6 +14,7 @@ namespace Chatalo.Repository.Data
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BoardId { get; set; }
         [Column]
+        [MaxLength(500)]
         public string Name { get; set; }
         [Column]
         public string Description { get; set; }       

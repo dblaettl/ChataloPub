@@ -9,10 +9,10 @@ const signalRRegisterCommands = (store) => {
         store.dispatch({ type: receiveChatMessageType, message: data });
     });
     connection.on('UserJoined', data => {
-        store.dispatch({ type: userJoinedType, message: data });
+        store.dispatch({ type: userJoinedType, person: data });
     });
     connection.on('UserLeft', data => {
-        store.dispatch({ type: userLeftType, message: data });
+        store.dispatch({ type: userLeftType, personId: data });
     });
     connection.start().catch(err => console.error(err.toString()));
 };
@@ -32,7 +32,7 @@ export const signalRMiddleware = (store) => (next) => async (action) => {
     if (connection.connection.connectionState === 1) {
         switch (action.type) {
             case "SIGNALR_SEND_MESSAGE":
-                connection.invoke("SendMessage", action.message);
+                connection.invoke("SendMessage", action.text);
                 break;
             case "SIGNALR_USER_JOINED":
                 connection.invoke("EnteredChannel");

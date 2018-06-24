@@ -14,17 +14,22 @@ namespace Chatalo.Repository.Data
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PersonId { get; set; }
         [Column]
+        [MaxLength(50)]
         public string FirstName { get; set; }
         [Column]
+        [MaxLength(50)]
         public string LastName { get; set; }
         [Required]
         [Column]
+        [MaxLength(450)]
         public string AppUserId { get; set; }
         [ForeignKey("AppUserId")]
         public virtual AppUser AppUser { get; set; }
         [Column]
+        [MaxLength(50)]
         public string City { get; set; }
         [Column]
+        [MaxLength(50)]
         public string State { get; set; }
         [Column]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

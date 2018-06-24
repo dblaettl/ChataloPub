@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import DiscussionListItem from './DiscussionListItem';
 import ForumBreadCrumb from './ForumBreadCrumb';
@@ -6,36 +6,24 @@ import DiscussionDialog from './DiscussionDialog';
 const styles = theme => ({
 });
 
-class DiscussionList extends Component {
-    componentWillMount() {
-        if (!this.props.category.discussions) {
-            this.props.getDiscussionsForCategory(this.props.category.boardCategoryId);
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-
-    }
-
-    render() {
-        return (
-            <div>
-                <DiscussionDialog categoryId={this.props.category.boardCategoryId} addDiscussion={this.props.addDiscussion} />
-                <ForumBreadCrumb boardId={this.props.category.boardId} categoryId={this.props.category.boardCategoryId} />
-                {this.props.category.discussions
-                    && this.props.category.discussions.map((item, index) => {
-                        const discussion = this.props.discussions.byHash[item];
-                        let person;
-                        if (discussion) {
-                            person = this.props.persons.byHash[discussion.createdByPersonId];
-                        }
-                        return <DiscussionListItem key={item} category={this.props.category} person={person} discussion={this.props.discussions.byHash[item]} />;
-                    })
-                }
-            </div>
-        );
-    }
-}
+const DiscussionList = (props) => {
+    return (
+        <div>
+            <DiscussionDialog categoryId={props.category.boardCategoryId} addDiscussion={props.addDiscussion} />
+            <ForumBreadCrumb boardId={props.category.boardId} categoryId={props.category.boardCategoryId} />
+            {props.category.discussions
+                && props.category.discussions.map((item, index) => {
+                    const discussion = props.discussions.byHash[item];
+                    let person;
+                    if (discussion) {
+                        person = props.persons.byHash[discussion.createdByPersonId];
+                    }
+                    return <DiscussionListItem key={item} category={props.category} person={person} discussion={props.discussions.byHash[item]} />;
+                })
+            }
+        </div>
+    );
+};
 
 
 DiscussionList.displayName = 'DiscussionList';

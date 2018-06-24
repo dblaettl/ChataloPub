@@ -116,5 +116,12 @@ namespace Chatalo.Repository
             await _Context.SaveChangesAsync();
             return entity.Entity;
         }
+
+        public async Task<IList<Message>> GetRecentMessagesAsync()
+        {
+            var messages = await _Context.Messages.Include(m => m.Person).OrderByDescending(m => m.DateCreated).Take(25).ToListAsync();
+            messages.Reverse();
+            return messages;
+        }
     }
 }

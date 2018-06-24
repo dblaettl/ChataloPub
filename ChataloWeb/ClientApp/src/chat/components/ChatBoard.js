@@ -1,15 +1,18 @@
 ﻿import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-
+import UserBar from './UserBar';
+import MessageWindow from './MessageWindow';
+import ChatBar from './ChatBar';
 const styles = theme => ({
 
 });
 
 function ChatBoard (props) {
-    const { classes } = props;
     return (
         <div>
-           CHAT BOARD!
+            <UserBar persons={props.persons} />
+            <MessageWindow messages={props.messages} />
+            <ChatBar sendMessage={props.sendMessage} />
         </div>
     );
 }

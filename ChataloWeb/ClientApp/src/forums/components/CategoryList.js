@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import CategoryListItem from './CategoryListItem';
 import ForumBreadCrumb from './ForumBreadCrumb';
@@ -8,40 +8,25 @@ const styles = theme => ({
 
 });
 
-
-class CategoryList extends Component {
-    componentWillMount() {
-        if (!this.props.board.categories) {
-            this.props.getCategoriesForBoard(this.props.board.boardId);
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
- 
-    }
-
-    render() {
-        return (
-            <div>
-                <CategoryDialog
-                    addCategory={this.props.addCategory}
-                    boardId={this.props.board.boardId}
-                />
-                <ForumBreadCrumb boardId={this.props.board.boardId} />
-                {this.props.board.categories
-                    && this.props.board.categories.map((item, index) =>
+const CategoryList = (props) => {
+    return (
+        <div>
+            <CategoryDialog
+                addCategory={props.addCategory}
+                boardId={props.board.boardId}
+            />
+            <ForumBreadCrumb boardId={props.board.boardId} />
+            {props.board.categories
+                && props.board.categories.map((item, index) =>
                     <CategoryListItem
                         key={item}
-                        category={this.props.categories.byHash[item]}
+                        category={props.categories.byHash[item]}
                     />
-                    )
-                }
-               
-            </div>
-        );
-    }
-}
-
+                )
+            }
+        </div>
+    );
+};
 
 CategoryList.displayName = 'CategoryList';
 export default withStyles(styles)(CategoryList);

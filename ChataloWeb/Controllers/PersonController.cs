@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Chatalo.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ChatloWeb.Models;
+using ChataloWeb.Models;
 
 namespace ChatloWeb.Controllers
 {
