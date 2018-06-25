@@ -11,8 +11,8 @@ const styles = theme => ({
         padding: theme.spacing.unit
     },
     list: {
-        overflowY: 'scroll',     
-        height: 600,
+        overflowY: 'scroll',  
+        height: '70vh',
         padding: 0
     },
     listItem: {

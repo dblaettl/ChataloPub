@@ -21,7 +21,7 @@ class ChatIndex extends Component {
 
     render() {
         return (
-             <div>
+            <div>
                 <LoadingIndicator numLoading={this.props.numLoading} />
                 <ChatBoard messages={this.props.messages} persons={this.props.persons} sendMessage={this.props.sendMessage} />
              </div>  
