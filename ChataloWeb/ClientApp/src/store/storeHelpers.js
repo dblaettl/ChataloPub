@@ -14,7 +14,12 @@ export const undefinedIds = (array, itemHash) => {
 
 export const arrayToMap = (array, keyField) =>
     array.reduce((obj, item) => {
-        obj[item[keyField]] = item;
+        let current = obj[item[keyField]];
+        if (current !== undefined) {
+            obj[item[keyField]] = { ...current, ...item };
+        } else {
+            obj[item[keyField]] = item;
+        }
         return obj;
     }, {});
 

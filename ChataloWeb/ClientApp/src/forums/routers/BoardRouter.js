@@ -19,7 +19,7 @@ class BoardRouter extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-
+ 
     }
 
 
@@ -28,11 +28,12 @@ class BoardRouter extends Component {
         return (
             <div>
                 {board &&
-                <CategoryList
-                    categories={this.props.categories}
-                    board={board}
-                    addCategory={this.props.addCategory}
-                /> 
+                    <CategoryList
+                        categories={this.props.categories}
+                        board={board}
+                        addCategory={this.props.addCategory}
+                        getCategoriesForBoard={this.props.getCategoriesForBoard}
+                    />
                 }
             </div>
         );

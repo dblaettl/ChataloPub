@@ -6,7 +6,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { People,Forum } from '@material-ui/icons';
+import { People,Forum, Chat } from '@material-ui/icons';
 import { withStyles, withTheme } from '@material-ui/core/styles';
  
 
@@ -40,12 +40,6 @@ const Nav = (props ) =>
         <div className={props.classes.toolbar} />
         <List>
             <div>
-                <ListItem component={Link} to={'/persons'} classes={{ root: props.location.pathname.startsWith("/persons") ? props.classes.selected : props.classes.unselected }} button dense>
-                    <ListItemIcon>
-                        <People />
-                    </ListItemIcon>
-                    <ListItemText primary="People" />
-                </ListItem>
                 <ListItem component={Link} to={'/forums'} classes={{ root: props.location.pathname.startsWith("/forums") ? props.classes.selected : props.classes.unselected }} button dense>
                     <ListItemIcon>
                         <Forum />
@@ -54,7 +48,7 @@ const Nav = (props ) =>
                 </ListItem>
                 <ListItem component={Link} to={'/chat'} classes={{ root: props.location.pathname.startsWith("/chat") ? props.classes.selected : props.classes.unselected }} button dense>
                     <ListItemIcon>
-                        <Forum />
+                        <Chat />
                     </ListItemIcon>
                     <ListItemText primary="Chat" />
                 </ListItem>

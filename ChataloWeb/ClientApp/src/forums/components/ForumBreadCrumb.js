@@ -1,8 +1,5 @@
 ﻿import React from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../store/Forums';
 import { Link } from 'react-router-dom';
 
 const styles = theme => ({
@@ -76,10 +73,12 @@ const styles = theme => ({
 
 
 const DiscussionBreadCrumb = (props) => {
+    const urlRegex = /^\/forums\/?(\d+)?(?:\/categories\/)?(\d+)?(?:\/discussions\/)?(\d+)?/;
+    var matches = urlRegex.exec(props.url);
     const { classes } = props;
-    const board = props.boards.byHash[props.boardId];
-    const category = props.categories.byHash[props.categoryId];
-    const discussion = props.discussions.byHash[props.discussionId];
+    const board = props.boards.byHash[matches[1]];
+    const category = props.categories.byHash[matches[2]];
+    const discussion = props.discussions.byHash[matches[3]];
     return (
         <div className={classes.breadcrumb}> 
             <ul>
@@ -93,7 +92,4 @@ const DiscussionBreadCrumb = (props) => {
 };
 DiscussionBreadCrumb.displayName = 'DiscussionBreadCrumb';
 
-export default connect(
-    state => state.forums,
-    dispatch => bindActionCreators(actionCreators, dispatch)
-)(withStyles(styles)(DiscussionBreadCrumb));
+export default withStyles(styles)(DiscussionBreadCrumb);

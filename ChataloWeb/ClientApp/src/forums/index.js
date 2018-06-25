@@ -7,7 +7,7 @@ import BoardRouter from './routers/BoardRouter';
 import LoadingIndicator from './components/LoadingIndicator';
 import BoardList from './components/BoardList';
 import DialogFormContext from './../components/DialogFormContext';
-
+import ForumBreadCrumb from './components/ForumBreadCrumb';
 class ForumIndex extends Component {
     componentWillMount() {
         this.props.getBoards();
@@ -17,27 +17,28 @@ class ForumIndex extends Component {
 
     }
 
+ 
 
     render() {
-        const providerValue = { 
+        const providerValue = {
             showDialog: this.props.showDialog,
             setShowDialog: this.props.setShowDialog,
             errorData: this.props.errorData
         };
         return (
-            <DialogFormContext.Provider value={providerValue}>       
+            <DialogFormContext.Provider value={providerValue}>
                 <LoadingIndicator numLoading={this.props.numLoading} />
+                <ForumBreadCrumb url={this.props.location.pathname} boards={this.props.boards} categories={this.props.categories} discussions={this.props.discussions} />
                 <Switch>
                     <Route exact path='/forums' render={() =>
                         <BoardList boards={this.props.boards} addBoard={this.props.addBoard} />}
                     />
                     <Route path='/forums/:boardId' component={BoardRouter} />
-                </Switch>              
+                </Switch>
             </DialogFormContext.Provider>
         );
     }
 }
-
 ForumIndex.displayName = 'ForumIndex';
 export default connect(
     state => state.forums,

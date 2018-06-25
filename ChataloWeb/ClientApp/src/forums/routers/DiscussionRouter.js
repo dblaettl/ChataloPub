@@ -24,7 +24,7 @@ class DiscussionRouter extends Component {
     renderDiscussionForm = () => {
         return (
             <div>
-                BOO
+               NOT IMPLEMENTED
             </div>
         );
     }
@@ -35,8 +35,6 @@ class DiscussionRouter extends Component {
             <div>
                 {discussion &&
                 <DiscussionPage
-                    boardId={this.props.match.params.boardId}
-                    categoryId={this.props.match.params.categoryId}
                     discussion={discussion}
                     persons={this.props.persons}
                     posts={this.props.posts}

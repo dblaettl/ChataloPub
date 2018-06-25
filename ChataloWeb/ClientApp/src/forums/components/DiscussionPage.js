@@ -2,10 +2,10 @@
 import { withStyles } from '@material-ui/core/styles';
 import { Typography, Card, CardContent } from '@material-ui/core';
 import PostListItem from './PostListItem';
-import ForumBreadCrumb from './ForumBreadCrumb';
 import PostDialog from './PostDialog';
 import ProfileCard from './ProfileCard';
 import Moment from 'react-moment';
+
 const styles = theme => ({
     bottomText: {
         position: 'absolute',
@@ -36,11 +36,10 @@ class DiscussionPage extends Component {
     }
 
     render() {
-        const { classes, posts, discussion, persons, boardId, addPost } = this.props;    
+        const { classes, posts, discussion, persons, addPost } = this.props;    
         return (
             <div>
                 <PostDialog addPost={addPost} discussionId={discussion.discussionId} />
-                <ForumBreadCrumb boardId={boardId} categoryId={discussion.boardCategoryId} discussionId={discussion.discussionId} />
                 <Card>
                     <CardContent>
                         <div className={classes.discussionDiv}>
