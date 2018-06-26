@@ -15,12 +15,13 @@ namespace ChataloWeb.Hubs
     [AllowAnonymous]
     public class ChatHub : Hub
     {
+        private static IDictionary<int, Person> _PersonsOnline = new Dictionary<int, Person>();
+
         private IChataloRepository _ChataloRepository;
         public ChatHub(IChataloRepository chataloRepository)
         {
             _ChataloRepository = chataloRepository;
         }
-
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task SendMessage(string text)
@@ -35,6 +36,8 @@ namespace ChataloWeb.Hubs
         public async Task EnteredChannel()
         {
             var person = await _ChataloRepository.GetPersonForClaimsPrincipalAsync(Context.User);
+            await Clients.Caller.SendAsync("CurrentUsers", _PersonsOnline.Values.Select(p => p.ToPersonModel()));
+            _PersonsOnline[person.PersonId] = person;
             await Clients.All.SendAsync("UserJoined", person.ToPersonModel());
         }
 
@@ -42,6 +45,7 @@ namespace ChataloWeb.Hubs
         public async Task LeftChannel()
         {
             var person = await _ChataloRepository.GetPersonForClaimsPrincipalAsync(Context.User);
+            _PersonsOnline.Remove(person.PersonId);
             await Clients.All.SendAsync("UserLeft", person.PersonId );
         }
     }

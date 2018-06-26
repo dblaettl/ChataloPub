@@ -1,9 +1,10 @@
 ﻿import ChataloAPI from './ChataloAPI';
-
+import { arrayToMap } from './storeHelpers';
 export const receiveMessagesType = "RECEIVE_MESSAGES_TYPE";
 export const receiveChatMessageType = "RECEIVE_CHAT_MESSAGE_TYPE";
 export const userJoinedType = "USER_JOINED_TYPE";
 export const userLeftType = "USER_LEFT_TYPE";
+export const personsOnlineType = "PERSONS_ONLINE_TYPE";
 
 const initialState = {
     messages: [],
@@ -53,6 +54,11 @@ export const reducer = (state, action) => {
                     byId: [...state.persons.byId, action.person.personId],
                     byHash: { ...state.persons.byHash, [action.person.personId]: action.person }
                 }
+            };
+        case personsOnlineType:
+            return {
+                ...state,
+                persons: { byId: action.persons.map(b => b.personId), byHash: arrayToMap(action.persons, 'personId') },
             };
         case userLeftType:
             const prunedIds = state.persons.byId.filter(item => { return item !== action.personId; });

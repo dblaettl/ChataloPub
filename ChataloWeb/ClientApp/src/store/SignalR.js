@@ -1,4 +1,4 @@
-﻿import { userJoinedType, userLeftType, receiveChatMessageType } from './Chat';
+﻿import { userJoinedType, userLeftType, receiveChatMessageType, personsOnlineType } from './Chat';
 import * as SignalR from '@aspnet/signalr';
 import axios from 'axios';
 
@@ -17,6 +17,9 @@ const internalConnect = (store) => {
     });
     connection.on('UserJoined', data => {
         store.dispatch({ type: userJoinedType, person: data });
+    });
+    connection.on('CurrentUsers', data => {
+        store.dispatch({ type: personsOnlineType, persons: data });
     });
     connection.on('UserLeft', data => {
         store.dispatch({ type: userLeftType, personId: data });
