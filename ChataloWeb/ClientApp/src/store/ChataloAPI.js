@@ -8,6 +8,13 @@ export function updateTokenData(data) {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.auth_token;
 }
 
+export function removeTokenData() {
+    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('id');
+    window.localStorage.removeItem('refreshToken');
+    delete axios.defaults.headers.common["Authorization"];
+}
+
 export function assureCurrentToken() {
     const token = window.localStorage.getItem('token');
     if (token) {

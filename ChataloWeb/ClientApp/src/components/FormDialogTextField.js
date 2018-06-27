@@ -19,11 +19,13 @@ const getErrorText = (errorData, name) => {
 
 const FormDialogTextField = (props) => {
     const { classes } = props;
+    const fieldType = props.type === undefined ? 'text' : props.type;
     const errorText = getErrorText(props.errorData, props.label);
     return (
         <TextField
             id={props.name}
             label={props.label}
+            type={fieldType}
             className={classes.textField}
             value={props.value}
             error={errorText !== null}

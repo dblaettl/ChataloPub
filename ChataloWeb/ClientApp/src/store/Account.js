@@ -1,4 +1,4 @@
-﻿import ChataloAPI, { updateTokenData, assureCurrentToken } from './ChataloAPI';
+﻿import ChataloAPI, { updateTokenData, assureCurrentToken, removeTokenData } from './ChataloAPI';
 const requestLoginType = 'REQUEST_LOGIN';
 const receiveLoginType = 'RECEIVE_LOGIN';
 const requestUserType = 'REQUEST_USER';
@@ -6,8 +6,9 @@ const receiveUserType = 'RECEIVE_USER';
 const requestRegistrationType = 'REQUEST_REGISTRATION';
 const receiveRegistrationType = 'RECEIVE_REGISTRATION';
 const logoutType = 'LOGOUT';
+const updateErrorDataType = 'UPDATE_ERROR_DATA_TYPE';
 
-const initialState = { user: null, token: null, isLoggedIn: false, isLoading: false };
+const initialState = { user: null, token: null, isLoggedIn: false, isLoading: false, errorData: null };
 
  
 export const actionCreators = {
@@ -29,6 +30,7 @@ export const actionCreators = {
             });
     },
     logout: () => async (dispatch, getState) => {
+        removeTokenData();
         dispatch({ type: logoutType });
     },
     login: (email, password) => async (dispatch, getState) => {
@@ -64,6 +66,12 @@ export const reducer = (state, action) => {
                 isLoggedIn: false,
                 isLoading: true
             };
+        case logoutType:
+            return {
+                ...state,
+                user: null,
+                isLoggedIn: false
+            };
         case receiveLoginType:
             return {
                 ...state,
@@ -87,6 +95,11 @@ export const reducer = (state, action) => {
                 ...state,
                 user: null,
                 isLoading: true
+            };
+        case updateErrorDataType:
+            return {
+                ...state,
+                errorData: action.errorData
             };
         case receiveUserType:
             return {

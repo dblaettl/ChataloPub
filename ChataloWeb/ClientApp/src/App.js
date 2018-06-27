@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router';
 import Loadable from 'react-loadable';
 import Layout from './components/Layout';
 import Home from './components/Home';
+import AuthRoute from './components/AuthRoute';
 
 const Loading = () => <div>Loading...</div>;
 
@@ -16,6 +17,11 @@ const ForumIndex = Loadable({
     loading: Loading,
 });
 
+const AccountIndex = Loadable({
+    loader: () => import('./account'),
+    loading: Loading,
+});
+
 const ChatIndex = Loadable({
     loader: () => import('./chat'),
     loading: Loading,
@@ -25,9 +31,9 @@ const Lay = () =>
     <Layout>
         <Switch>
             <Route exact path='/' component={Home} />
-            <Route path='/persons' component={PersonIndex} />
-            <Route path='/forums' component={ForumIndex} />
+            <AuthRoute path='/forums' component={ForumIndex} />
             <Route path='/chat' component={ChatIndex} />
+            <Route path='/account' component={AccountIndex} />
         </Switch>
     </Layout>;
 Lay.displayName = 'Layout';

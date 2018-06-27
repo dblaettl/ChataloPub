@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { actionCreators } from '../store/Account';
-import LoginOrRegisterForm from './LoginOrRegisterForm';
 import MenuIcon from '@material-ui/icons/Menu';
 
 
@@ -28,22 +27,15 @@ class Header extends Component {
 
     constructor(props) {
         super(props); 
-        this.state = { showDialog: false, anchorEl: null };
+        this.state = {  anchorEl: null };
     }
     componentWillMount() {
-        this.props.attemptReLogin();
+        this.props.attemptReLogin(); // this is actually the only component guaranteed to be called on each page right now
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isLoggedIn && !this.props.isLoggedIn) {
-            this.setState({ showDialog: false });
-        }
-
+ 
     }
-
-    handleCloseLogin = event => {
-        this.setState({ showDialog: false });
-    };
 
     showMenu = event => {
         this.setState({ anchorEl: event.currentTarget });
@@ -53,9 +45,9 @@ class Header extends Component {
         this.setState({ anchorEl: null });
     }
 
-    handleLogin = event => {
-        this.setState({ showDialog: true });
-    };
+    handleLogout = event => {
+        this.props.logout();
+    }
 
     render() {
         const { classes } = this.props;
@@ -86,11 +78,10 @@ class Header extends Component {
                         {this.props.user.firstName} {this.props.user.lastName}
                         </Typography>}
                     {this.props.isLoggedIn
-                        ? <Button color="inherit" onClick={this.handleLogin}>Logout</Button>
-                        : <Button color="inherit" onClick={this.handleLogin}>Login</Button>
+                        ? <Button color="inherit" onClick={this.handleLogout} to='/account/logout'>Logout</Button>
+                        : <Button color="inherit" component={Link} to='/account/login'>Login</Button>
                     }
                 </Toolbar>
-                <LoginOrRegisterForm showDialog={this.state.showDialog} handleClose={this.handleCloseLogin} login={this.props.login} register={this.props.register} />
             </AppBar>
         );
     }

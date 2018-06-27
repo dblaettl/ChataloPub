@@ -37,13 +37,14 @@ namespace ChataloWeb.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Summary", "Invalid input");
                 return BadRequest(ModelState);
             }
 
             var identity = await GetClaimsIdentity(loginRequest.Email, loginRequest.Password);
             if (identity == null)
             {
-                return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
+                return BadRequest(Errors.AddErrorToModelState("Summary", "Invalid username or password.", ModelState));
             }
       
             

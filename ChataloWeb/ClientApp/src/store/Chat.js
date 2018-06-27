@@ -1,5 +1,5 @@
 ﻿import ChataloAPI from './ChataloAPI';
-import { arrayToMap } from './storeHelpers';
+import { arrayToMap, undefinedIds } from './storeHelpers';
 export const receiveMessagesType = "RECEIVE_MESSAGES_TYPE";
 export const receiveChatMessageType = "RECEIVE_CHAT_MESSAGE_TYPE";
 export const userJoinedType = "USER_JOINED_TYPE";
@@ -48,17 +48,19 @@ export const reducer = (state, action) => {
                 messages: state.messages.concat(action.message)
             };
         case userJoinedType:
+            var newJoinedids = undefinedIds([action.person.personId], state.persons.byHash);
             return {
                 ...state,
                 persons: {
-                    byId: [...state.persons.byId, action.person.personId],
+                    byId: [...state.persons.byId, ...newJoinedids],
                     byHash: { ...state.persons.byHash, [action.person.personId]: action.person }
                 }
             };
         case personsOnlineType:
+            var newPersonids = undefinedIds(action.persons.map(p => p.personId), state.persons.byHash);
             return {
                 ...state,
-                persons: { byId: action.persons.map(b => b.personId), byHash: arrayToMap(action.persons, 'personId') },
+                persons: { byId: [...state.persons.byId, ...newPersonids], byHash: arrayToMap(action.persons, 'personId') }
             };
         case userLeftType:
             const prunedIds = state.persons.byId.filter(item => { return item !== action.personId; });
