@@ -1,4 +1,5 @@
-﻿import React, { Component } from 'react';
+﻿/* eslint react/no-multi-comp: 0 */
+import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -6,7 +7,6 @@ import { actionCreators } from '../store/Account';
 
 const AuthRoute = ({ component: ComposedComponent, ...rest }) => {
     class Authentication extends Component {
-
         // redirect if not authenticated; otherwise, return the component imputted into <PrivateRoute />
         handleRender(props) {
             if (!this.props.isLoggedIn) {
@@ -29,7 +29,6 @@ const AuthRoute = ({ component: ComposedComponent, ...rest }) => {
             return <Route {...rest} render={this.handleRender.bind(this)} />;
         }
     }
-
   
     Authentication.displayName = 'Authentication';
     const AuthenticationContainer = connect(
@@ -40,5 +39,4 @@ const AuthRoute = ({ component: ComposedComponent, ...rest }) => {
 };
 
 AuthRoute.displayName = 'AuthRoute';
-
 export default AuthRoute;

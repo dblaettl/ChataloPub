@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { actionCreators } from '../store/Account';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import FormDialogTextField from '../components/FormDialogTextField';
@@ -35,12 +35,6 @@ class LoginForm extends Component {
 
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.isLoggedIn && !this.props.isLoggedIn) {
-            this.props.history.push('/');
-        }
-    }
-
     handleLogin = (event) => {
         this.props.login(this.state.email, this.state.password);
     };
@@ -52,8 +46,15 @@ class LoginForm extends Component {
     };
 
     render() {
-        const { classes } = this.props;
-        return (
+        const { classes, isLoggedIn } = this.props;
+
+        if (isLoggedIn) {
+            let redirectUrl = '/';
+            if (this.props.location && this.props.location.state && this.props.location.state.from) {
+                redirectUrl = this.props.location.state.from;
+            }
+            return <Redirect to={redirectUrl} />;
+        } else return (
             <Card>
                 <CardHeader title='Login' action={<Button component={Link} color='primary' to='/account/register'>Register</Button>} /> 
                 <CardContent>
