@@ -31,8 +31,8 @@ const Lay = () =>
     <Layout>
         <Switch>
             <Route exact path='/' component={Home} />
-            <AuthRoute path='/forums' component={ForumIndex} />
-            <Route path='/chat' component={ChatIndex} />
+            <Route path='/forums' component={ForumIndex} />
+            <AuthRoute path='/chat' component={ChatIndex} />
             <Route path='/account' component={AccountIndex} />
         </Switch>
     </Layout>;

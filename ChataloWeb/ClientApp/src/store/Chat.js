@@ -1,4 +1,6 @@
 ﻿import ChataloAPI from './ChataloAPI';
+import { configuredStore } from './configureStore';
+import { signalRConnect } from './SignalR';
 import { arrayToMap, undefinedIds } from './storeHelpers';
 export const receiveMessagesType = "RECEIVE_MESSAGES_TYPE";
 export const receiveChatMessageType = "RECEIVE_CHAT_MESSAGE_TYPE";
@@ -26,6 +28,7 @@ export const actionCreators = {
             });
     },
     joinChat: () => async (dispatch, getState) => {
+        signalRConnect(configuredStore);
         dispatch({ type: "SIGNALR_USER_JOINED" });
     },
     leaveChat: () => async (dispatch, getState) => {
@@ -49,19 +52,23 @@ export const reducer = (state, action) => {
             };
         case userJoinedType:
             var newJoinedids = undefinedIds([action.person.personId], state.persons.byHash);
-            return {
-                ...state,
-                persons: {
-                    byId: [...state.persons.byId, ...newJoinedids],
-                    byHash: { ...state.persons.byHash, [action.person.personId]: action.person }
-                }
-            };
+            if (newJoinedids.size > 0) {
+                return {
+                    ...state,
+                    persons: {
+                        byId: [...state.persons.byId, ...newJoinedids],
+                        byHash: { ...state.persons.byHash, [action.person.personId]: action.person }
+                    }
+                };
+            } else return state;
         case personsOnlineType:
             var newPersonids = undefinedIds(action.persons.map(p => p.personId), state.persons.byHash);
-            return {
-                ...state,
-                persons: { byId: [...state.persons.byId, ...newPersonids], byHash: arrayToMap(action.persons, 'personId') }
-            };
+            if (newPersonids.size > 0) {
+                return {
+                    ...state,
+                    persons: { byId: [...state.persons.byId, ...newPersonids], byHash: arrayToMap(action.persons, 'personId') }
+                };
+            } else return state;
         case userLeftType:
             const prunedIds = state.persons.byId.filter(item => { return item !== action.personId; });
             delete state.persons.byHash[action.personId];

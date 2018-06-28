@@ -23,6 +23,14 @@ namespace ChataloWeb.Hubs
             _ChataloRepository = chataloRepository;
         }
 
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            var person = await _ChataloRepository.GetPersonForClaimsPrincipalAsync(Context.User);
+            _PersonsOnline.Remove(person.PersonId);
+            await Clients.All.SendAsync("UserLeft", person.PersonId);
+            await base.OnDisconnectedAsync(exception);
+        }
+
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task SendMessage(string text)
         {

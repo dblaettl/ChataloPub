@@ -6,6 +6,7 @@ import * as Persons from './Persons';
 import * as Forums from './Forums';
 import * as Account from './Account';
 import * as Chat from './Chat';
+
 export var configuredStore;
 
 
@@ -35,6 +36,6 @@ export default function configureStore(history, initialState) {
         initialState,
         compose(applyMiddleware(...middleware), ...enhancers)
     );
-    signalRConnect(configuredStore);
+   
     return configuredStore;
 }

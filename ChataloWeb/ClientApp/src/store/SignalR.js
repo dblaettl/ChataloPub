@@ -8,6 +8,9 @@ var connection;
 const internalConnect = (store) => {
     const token = window.localStorage.getItem('token');
     const tokenQuery = token ? "?token=" + token : "";
+    if (connection && connection.connection && connection.connection.connectionState === 1) {
+        connection.stop();
+    }
     connection = new SignalR.HubConnectionBuilder()
         .withUrl("/hubs/chat" + tokenQuery)
         .configureLogging(SignalR.LogLevel.Information)
@@ -42,18 +45,41 @@ export const signalRConnect = (store) => {
     });
 };
 
+// Make the function wait until the connection is made...
+function waitForSocketConnection(connection, callback) {
+    setTimeout(
+        function () {
+            if (connection.connection.connectionState === 1) {
+                console.log("Connection is made");
+                if (callback !== null) {
+                    callback();
+                }
+                return;
+
+            } else {
+                console.log("wait for connection...");
+                waitForSocketConnection(connection, callback);
+            }
+
+        }, 5); // wait 5 milisecond for the connection...
+}
 
 export const signalRMiddleware = (store) => (next) => async (action) => {
-    if (connection.connection.connectionState === 1) {
         switch (action.type) {
             case "SIGNALR_SEND_MESSAGE":
-                connection.invoke("SendMessage", action.text);
+                waitForSocketConnection(connection, function () {
+                    connection.invoke("SendMessage", action.text);
+                });     
                 break;
             case "SIGNALR_USER_JOINED":
-                connection.invoke("EnteredChannel");
+                waitForSocketConnection(connection, function () {
+                    connection.invoke("EnteredChannel");
+                });     
                 break;
             case "SIGNALR_USER_LEFT":
-                connection.invoke("LeftChannel");
+                waitForSocketConnection(connection, function () {
+                    connection.invoke("LeftChannel");
+                });                   
                 break;
             case "SIGNALR_CONNECT":
                 signalRConnect(store);
@@ -61,7 +87,7 @@ export const signalRMiddleware = (store) => (next) => async (action) => {
             default:
                 break;
         }
-    }
+   // }
     return next(action);
 };
 
