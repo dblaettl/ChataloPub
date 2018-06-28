@@ -13,7 +13,7 @@ namespace ChataloWeb.Helpers
         {
             foreach (var e in identityResult.Errors)
             {
-                modelState.TryAddModelError(e.Code, e.Description);
+                modelState.TryAddModelError("Summary", e.Description);
             }
 
             return modelState;

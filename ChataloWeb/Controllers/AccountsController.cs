@@ -57,6 +57,7 @@ namespace ChataloWeb.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Summary", "Registration failed");
                 return BadRequest(ModelState);
             }
 
@@ -81,8 +82,7 @@ namespace ChataloWeb.Controllers
                 string refreshToken = Guid.NewGuid().ToString();
                 await _userManager.SetAuthenticationTokenAsync(userIdentity, "RefreshTokenProvider", "RefreshToken", refreshToken);
                 var identity = _jwtFactory.GenerateClaimsIdentity(userIdentity.Email, userIdentity.Id, refreshToken);
-                var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, userIdentity.Email, _jwtOptions);
-                
+                var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, userIdentity.Email, _jwtOptions);            
                 return new OkObjectResult(jwt);
             } else
             {

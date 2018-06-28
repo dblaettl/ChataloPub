@@ -73,7 +73,7 @@ namespace ChataloWeb.Controllers
             var foundToken = _userManager.GetAuthenticationTokenAsync(userToRefresh, "RefreshTokenProvider", refreshRequest.RefreshToken);
             if (foundToken == null)
             {
-                return BadRequest(Errors.AddErrorToModelState("refresh_failure", "Invalid refresh token.", ModelState));
+                return BadRequest(Errors.AddErrorToModelState("Summary", "Invalid refresh token.", ModelState));
             }
             var identity =  await GetClaimsIdentity(userToRefresh);
             var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, userToRefresh.Email, _jwtOptions);
