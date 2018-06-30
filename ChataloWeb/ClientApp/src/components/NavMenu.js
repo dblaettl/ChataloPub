@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Forum, Chat } from '@material-ui/icons';
-import { withStyles, withTheme } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
  
 
 
@@ -56,4 +56,4 @@ const Nav = (props ) =>
         </List>
     </Drawer>;
 Nav.displayName = 'NavMenu';
-export default withRouter(withStyles(styles)(withTheme()(Nav)));
+export default withRouter(withStyles(styles)(Nav));

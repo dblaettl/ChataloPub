@@ -1,5 +1,5 @@
 ﻿import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import { signalRMiddleware, signalRConnect } from './SignalR';
+import { signalRMiddleware } from './SignalR';
 import thunk from 'redux-thunk';
 import { routerMiddleware, connectRouter } from 'connected-react-router';
 import * as Persons from './Persons';

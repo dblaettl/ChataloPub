@@ -7,11 +7,6 @@ import AuthRoute from './components/AuthRoute';
 
 const Loading = () => <div>Loading...</div>;
 
-const PersonIndex = Loadable({
-    loader: () => import('./persons'),
-    loading: Loading,
-});
-
 const ForumIndex = Loadable({
     loader: () => import('./forums'),
     loading: Loading,
